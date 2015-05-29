@@ -24,7 +24,7 @@ module.exports = generators.Base.extend({
     },
     writing: function () {
         // root files
-        this.fs.copy(this.templatePath('.gitignore'), this.destinationPath('.gitignore'));
+        this.fs.copy(this.templatePath('gitignore'), this.destinationPath('.gitignore'));
 
         this.fs.copyTpl(
             this.templatePath('_bower.json'),
