@@ -1,0 +1,7 @@
+@import "compass/css3";
+@import "shared";
+
+.test {
+    background-image: inline-image("images/image.png");
+    @include background-size(cover);
+}

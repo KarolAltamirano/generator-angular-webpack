@@ -1,0 +1,45 @@
+{
+    "name": "<%= name %>",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "modernizr": "^2.8.3",
+        "jquery": "^2.1.4",
+        "gsap": "^1.17.0",
+        "isMobile": "^0.3.6",
+        "ua-parser-js": "^0.7.7",
+        "angular": "^1.4.0",
+        "angular-ui-router": "^0.2.15",
+        "angular-animate": "^1.4.0",
+        "angular-touch": "^1.4.0",
+        "angular-resource": "^1.4.0",
+        "angular-mocks": "^1.4.0",
+        "angular-sanitize": "^1.4.0",
+        "visionmedia-debug": "^2.2.0",
+        "PreloadJS": "CreateJS/PreloadJS#1c2a857f3a6352789747cfbd916572d68577170f",
+        "SoundJS": "CreateJS/SoundJS#05cab92983458fd38e8f8774ebeccd33891dabb5",
+        "EaselJS": "CreateJS/EaselJS#d5d9e9feec5a02f062d4a803037e8f96b8d39410",
+        "stats.js": "latest",
+        "dat-gui": "^0.5.1"
+    },
+    "overrides": {
+        "modernizr": {
+            "main": "./modernizr.js"
+        },
+        "angular-mocks": {
+            "ignore": true
+        },
+        "dat-gui": {
+            "main": "./build/dat.gui.js"
+        },
+        "PreloadJS": {
+            "main": "./lib/preloadjs-NEXT.combined.js"
+        },
+        "SoundJS": {
+            "main": "./lib/soundjs-NEXT.combined.js"
+        },
+        "EaselJS": {
+            "main": "./lib/easeljs-NEXT.combined.js"
+        }
+    }
+}

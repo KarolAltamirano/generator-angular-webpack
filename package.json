@@ -1,0 +1,24 @@
+{
+  "name": "generator-angular-webpack",
+  "version": "0.1.0",
+  "description": "Yeoman generator for AngularJS with Webpack",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "KarolAltamirano/generator-angular-webpack",
+  "author": {
+    "name": "Karol Altamirano",
+    "email": "karlos.altamirano@gmail.com",
+    "url": "https://github.com/KarolAltamirano"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.20.1",
+    "chalk": "^1.0.0",
+    "yosay": "^1.0.4"
+  }
+}

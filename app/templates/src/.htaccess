@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^.*\.[a-zA-Z0-9]+$
+    RewriteRule ^(.*)$ /index.html [QSA,L,B]
+</IfModule>
