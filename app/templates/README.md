@@ -1,8 +1,9 @@
-#ROOT FOLDERS
+# ROOT FOLDERS
     src             : source code
+    test            : unit and e2e test scripts
     website         : builded page (do not edit files there)
 
-#SRC FOLDER
+# SRC FOLDER
     assets    : add assets to website folder
     data      : json files preloaded with preloadjs
     scripts   : app            - angular app
@@ -19,10 +20,10 @@
                 style     - main style file
     tpls      : html templates
 
-#WEBSITE FOLDER
+# WEBSITE FOLDER
     assets    : media files (images, sprites, video, audio ...)
 
-#GULP TASKS
+# GULP TASKS
     gulp build         : build for development
     gulp watch         : watch for changes and rebuild updated file
     gulp bower         : download and insert js libraries with bower to src/scripts/vendor/
@@ -30,9 +31,14 @@
     gulp build --dist  : build for production
     gulp connect       : create http server for testing production version
 
-#CONFIG FILE config.json
+# CONFIG FILE config.json
     jsHeader : Order of JavaScript libraries loaded in header (use only file names, no global selectors)
     jsLib    : Order of JavaScript libraries
     jsMain   : Main JavaScript file
     css      : Main SCSS files
     root     : List of RootFiles to copy to website folder
+
+# TEST
+## Getting started
+    - run "npm install" inside "test" directory
+    - run unit tests with karma or e2e tests with protractor
