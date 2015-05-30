@@ -16,11 +16,11 @@
         "angular-mocks": "^1.4.0",
         "angular-sanitize": "^1.4.0",
         "visionmedia-debug": "^2.2.0",
-        "PreloadJS": "CreateJS/PreloadJS#1c2a857f3a6352789747cfbd916572d68577170f",
-        "SoundJS": "CreateJS/SoundJS#05cab92983458fd38e8f8774ebeccd33891dabb5",
-        "EaselJS": "CreateJS/EaselJS#d5d9e9feec5a02f062d4a803037e8f96b8d39410",
-        "stats.js": "latest",
-        "dat-gui": "^0.5.1"
+        "PreloadJS": "CreateJS/PreloadJS#1c2a857f3a6352789747cfbd916572d68577170f"<% if (soundjs) { %>,
+        "SoundJS": "CreateJS/SoundJS#05cab92983458fd38e8f8774ebeccd33891dabb5"<% } %><% if (easeljs) { %>,
+        "EaselJS": "CreateJS/EaselJS#d5d9e9feec5a02f062d4a803037e8f96b8d39410"<% } %><% if (statsjs) { %>,
+        "stats.js": "latest"<% } %><% if (datgui) { %>,
+        "dat-gui": "^0.5.1"<% } %>
     },
     "overrides": {
         "modernizr": {
@@ -28,18 +28,18 @@
         },
         "angular-mocks": {
             "ignore": true
-        },
+        }<% if (datgui) { %>,
         "dat-gui": {
             "main": "./build/dat.gui.js"
-        },
+        }<% } %>,
         "PreloadJS": {
             "main": "./lib/preloadjs-NEXT.combined.js"
-        },
+        }<% if (soundjs) { %>,
         "SoundJS": {
             "main": "./lib/soundjs-NEXT.combined.js"
-        },
+        }<% } %><% if (easeljs) { %>,
         "EaselJS": {
             "main": "./lib/easeljs-NEXT.combined.js"
-        }
+        }<% } %>
     }
 }
