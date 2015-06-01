@@ -17,11 +17,10 @@ var loader = (function () {
 
     var createLoader = function () {
         _loader = new createjs.LoadQueue(true);
-
+<% if (soundjs) { %>
         createjs.Sound.alternateExtensions = ['mp3'];
-
         _loader.installPlugin(createjs.Sound);
-
+<% } %>
         _loader.addEventListener('progress', _progressCb);
         _loader.addEventListener('complete', _completeCb);
 
