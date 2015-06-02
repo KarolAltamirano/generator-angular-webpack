@@ -166,34 +166,43 @@ gulp.task('_css-build', ['_clean'], _cssBuild);
 gulp.task('_css-watch-build', _cssBuild);
 
 // build main js loaded in bottom of page
-gulp.task('_js-main-build', function () {
+var _jsMainBuild = function () {
     return gulp.src('webpack.config.js')
         .pipe(webpack.init(webpackConfig))
         .pipe(webpack.props(webpackOptions))
         .pipe(webpack.run())
         .pipe(webpack.format({ verbose: true }))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-});
+};
+
+gulp.task('_js-main-build', ['_clean'], _jsMainBuild);
+gulp.task('_js-main-watch-build', _jsMainBuild);
 
 // build js vendor lib loaded in bottom of page
-gulp.task('_js-lib-build', function () {
+var _jsLibBuild = function () {
     return gulp.src(jsLib)
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('lib.js'))
         .pipe(gulpif(argv.dist, uglify()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-});
+};
+
+gulp.task('_js-lib-build', ['_clean'], _jsLibBuild);
+gulp.task('_js-lib-watch-build', _jsLibBuild);
 
 // build js vendor lib loaded in header of page
-gulp.task('_js-header-build', function () {
+var _jsHeaderBuild = function () {
     return gulp.src(jsHeader)
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('priority.js'))
         .pipe(gulpif(argv.dist, uglify()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-});
+};
+
+gulp.task('_js-header-build', ['_clean'], _jsHeaderBuild);
+gulp.task('_js-header-watch-build', _jsHeaderBuild);
 
 // generate templates
 var _tplsBuild = function () {
@@ -240,17 +249,17 @@ gulp.task('_css-watch', ['_css-watch-build'], function () {
     console.log(chalk.green('... completed ...'));
 });
 
-gulp.task('_js-main-watch', ['_js-main-build'], function () {
+gulp.task('_js-main-watch', ['_js-main-watch-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     console.log(chalk.green('... completed ...'));
 });
 
-gulp.task('_js-lib-watch', ['_js-lib-build'], function () {
+gulp.task('_js-lib-watch', ['_js-lib-watch-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     console.log(chalk.green('... completed ...'));
 });
 
-gulp.task('_js-header-watch', ['_js-header-build'], function () {
+gulp.task('_js-header-watch', ['_js-header-watch-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     console.log(chalk.green('... completed ...'));
 });
