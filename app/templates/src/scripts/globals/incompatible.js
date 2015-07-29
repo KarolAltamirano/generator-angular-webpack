@@ -31,21 +31,22 @@
 
     incompatible.isIncompatibleBrowser = function () {
         var listOfSupported = [
-                { browser: 'Chrome'       , version: 39 },
-                { browser: 'Firefox'      , version: 35 },
+                { browser: 'Chrome'       , version: 43 },
+                { browser: 'Firefox'      , version: 38 },
                 { browser: 'Safari'       , version:  7 },
                 { browser: 'Mobile Safari', version:  7 },
-                { browser: 'IE'           , version:  8 },
+                { browser: 'IE'           , version: 10 },
                 { browser: 'IEMobile'     , version: 11 }
             ],
-            incomp = true;
+            incomp = true,
+            i;
 
-        listOfSupported.forEach(function (elem) {
-            if (elem.browser === incompatible.uaResult.browser.name &&
-                elem.version <= parseInt(incompatible.uaResult.browser.major)) {
+        for (i = 0; i < listOfSupported.length; i++) {
+            if (listOfSupported[i].browser === incompatible.uaResult.browser.name &&
+                listOfSupported[i].version <= parseInt(incompatible.uaResult.browser.major))  {
                 incomp = false;
             }
-        });
+        }
 
         return incomp;
     };
