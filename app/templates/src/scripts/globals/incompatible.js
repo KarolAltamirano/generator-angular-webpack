@@ -35,7 +35,8 @@
                 { browser: 'Firefox'      , version: 35 },
                 { browser: 'Safari'       , version:  7 },
                 { browser: 'Mobile Safari', version:  7 },
-                { browser: 'IE'           , version:  8 }
+                { browser: 'IE'           , version:  8 },
+                { browser: 'IEMobile'     , version: 11 }
             ],
             incomp = true;
 

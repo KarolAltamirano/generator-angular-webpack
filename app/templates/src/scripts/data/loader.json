@@ -1,6 +1,3 @@
 [
-    { "id": "app-data", "src": "data/data.json" },
-    { "id": "assets-css", "src": "css/assets.css" },
-    { "id": "test-id-1", "src": "assets/images/image.png" },
-    { "id": "test-id-2", "src": "assets/images/image@2x.png" }
+    { "id": "app-data", "src": "data/data.json" }
 ]

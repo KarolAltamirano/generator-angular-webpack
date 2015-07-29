@@ -5,7 +5,7 @@ require('./app/mApp');
 var loader = require('./utilities/loader');
 
 function progressCb(e) {
-    var p = Math.abs(100 * e.progress);
+    var p = Math.round(100 * e.progress);
 
     // show progress in loader
     $('.loader').text(p + '%');

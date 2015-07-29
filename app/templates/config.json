@@ -1,21 +1,13 @@
 {
     "jsHeader": [
+                    "bower_components/ua-parser-js/src/ua-parser.js",
+                    "bower_components/modernizr/modernizr.js",
                     "src/scripts/globals/appSettings.js",
-                    "src/scripts/vendor/ua-parser.js",
                     "src/scripts/globals/incompatible.js",
-                    "src/scripts/globals/incompDetect.js",
-                    "src/scripts/vendor/modernizr.js"
+                    "src/scripts/globals/incompDetect.js"
                 ],
 
-    "jsLib"   : [
-                    "src/scripts/vendor/jquery.js",
-                    "src/scripts/vendor/angular.js",
-                    "src/scripts/vendor/*.js",
-                    "!src/scripts/vendor/ua-parser.js",
-                    "!src/scripts/vendor/modernizr.js"
-                ],
+    "css"     : [ "src/scss/style.scss", "src/scss/assets/assets-no-retina.scss", "src/scss/assets/assets-retina.scss" ],
 
-    "css"     : [ "src/scss/style.scss", "src/scss/assets.scss" ],
-
-    "root"    : [ "src/index.html", "src/.htaccess", "src/favicon.ico" ]
+    "root"    : [ "src/.htaccess", "src/favicon.ico" ]
 }

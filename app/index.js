@@ -94,6 +94,7 @@ module.exports = generators.Base.extend({
             this.destinationPath('src/scripts/utilities/loader.js'),
             { soundjs: this.soundjs }
         );
+        this.fs.copy(this.templatePath('src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath('src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
         this.fs.copy(this.templatePath('src/scss/**'), this.destinationPath('src/scss/'));
@@ -119,12 +120,6 @@ module.exports = generators.Base.extend({
 
     },
     install: function () {
-        this.installDependencies({
-            npm: true,
-            bower: false,
-            callback: function () {
-                this.spawnCommand('gulp', ['bower']);
-            }.bind(this)
-        });
+        this.installDependencies();
     }
 });

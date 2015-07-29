@@ -1,0 +1,40 @@
+@import "compass/css3";
+@import "memo";
+@import "breakpoint";
+
+$retina: min-resolution 1.5dppx;
+$tablet: 600px;
+$desktop: 1025px;
+
+@mixin retina-inline-asset($name, $ext: "png") {
+    $image: "images/" + $name + "." + $ext;
+    $image-retina: "images/" + $name + "@2x." + $ext;
+
+    display: block;
+    background-repeat: no-repeat;
+    width: image-width($image);
+    height: image-height($image);
+    @include background-size(image-width($image) image-height($image));
+
+    @if $assets-retina {
+        background-image: inline-image($image-retina);
+    } @else {
+        background-image: inline-image($image);
+    }
+}
+
+@mixin retina-asset($name, $ext: "png") {
+    $image: "images/" + $name + "." + $ext;
+    $image-retina: "images/" + $name + "@2x." + $ext;
+
+    display: block;
+    background-repeat: no-repeat;
+    width: image-width($image);
+    height: image-height($image);
+    @include background-size(image-width($image) image-height($image));
+    background-image: image-url($image);
+
+    @include breakpoint($retina) {
+        background-image: image-url($image-retina);
+    }
+}

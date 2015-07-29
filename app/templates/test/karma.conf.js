@@ -1,5 +1,7 @@
 'use strict';
 
+var bowerFiles = require('main-bower-files');
+
 module.exports = function (config) {
     config.set({
 
@@ -13,13 +15,10 @@ module.exports = function (config) {
 
 
         // list of files / patterns to load in the browser
-        files: [
-            'src/scripts/vendor/jquery.js',
-            'src/scripts/vendor/angular.js',
-            'src/scripts/vendor/*.js',
+        files: bowerFiles('**/*.js', { paths: '../' }).concat(
             'bower_components/angular-mocks/angular-mocks.js',
             'test/unit/*.js'
-        ],
+        ),
 
 
         // list of files to exclude
@@ -33,7 +32,12 @@ module.exports = function (config) {
         },
 
         webpack: {
-            devtool: 'inline-source-map'
+            devtool: 'inline-source-map',
+            module: {
+                loaders: [
+                    { test: /\.json$/, loader: 'json' }
+                ]
+            }
         },
 
 
