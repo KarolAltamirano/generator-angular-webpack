@@ -1,6 +1,6 @@
 'use strict';
 
-var loaderData = require('../data/loader.json');
+var loaderData = require('./loaderData');
 
 var loader = (function () {
     var _progressCb,
