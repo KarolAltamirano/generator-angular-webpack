@@ -322,7 +322,7 @@ gulp.task('watch', ['build', '_connect'], function () {
     gulp.watch('src/tpls/**/*.html', ['_tpls-watch']);
 
     gulp.watch(rootFiles, ['_root-files-watch']);
-    gulp.watch('bower_components/**', ['_index-watch']);
+    gulp.watch(['bower_components/**', 'src/index.html'], ['_index-watch']);
 
     gulp.watch('src/data/**/*.json', ['_data-watch']);
 
