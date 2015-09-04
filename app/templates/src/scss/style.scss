@@ -7,4 +7,5 @@
 @import "modules/animation";
 @import "modules/layout";
 @import "modules/incompatibleBrowser";
-@import "modules/loader"
+@import "modules/loader";<% if (pixijs) { %>
+@import "modules/canvas";<% } %>

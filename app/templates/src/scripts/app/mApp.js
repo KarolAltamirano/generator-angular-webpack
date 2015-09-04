@@ -3,7 +3,9 @@
 require('./animations/_loader');
 require('./controllers/_loader');
 require('./directives/_loader');
-require('./services/_loader');
+require('./services/_loader');<% if (pixijs) { %>
+
+var Canvas = require('../canvas/Canvas');<% } %>
 
 /* register main app */
 angular.module('mApp', ['ngTouch', 'ngSanitize', 'ui.router', 'mAnimations', 'mCtrls'])
@@ -28,4 +30,7 @@ angular.module('mApp', ['ngTouch', 'ngSanitize', 'ui.router', 'mAnimations', 'mC
         $urlRouterProvider.otherwise('/');
 
         $locationProvider.html5Mode(true);
-    });
+    })<% if (pixijs) { %>
+    .run(function () {
+        new Canvas('canvas-elem');
+    });<% } else { %>;<% } %>
