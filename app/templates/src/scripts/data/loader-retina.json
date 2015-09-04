@@ -1,0 +1,4 @@
+[
+    { "id": "app-data", "src": "data/data.json" },
+    { "id": "plane", "src": "assets/images/plane@2x.png" }
+]

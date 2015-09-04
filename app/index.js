@@ -19,15 +19,18 @@ module.exports = generators.Base.extend({
                 default: _.camelCase(this.appname)
             },
             {
+                type: 'list',
+                name: 'canvasLibrarie',
+                message: 'Select canvas library',
+                choices: ['Do not install', 'Pixi.js', 'EaselJS']
+            },
+            {
                 type: 'checkbox',
                 name: 'optionalLibraries',
                 message: 'Select optional libraries to install',
                 choices: [
                     {
                         name: 'SoundJS'
-                    },
-                    {
-                        name: 'EaselJS'
                     },
                     {
                         name: 'stats.js'
@@ -40,14 +43,16 @@ module.exports = generators.Base.extend({
         ];
 
         this.prompt(prompts, function (props) {
-            var installLib = function (name) { return props.optionalLibraries.indexOf(name) !== -1; };
+            var installLib = function (name, input) { return input.indexOf(name) !== -1; };
 
             this.props = props;
 
-            this.soundjs = installLib('SoundJS');
-            this.easeljs = installLib('EaselJS');
-            this.statsjs = installLib('stats.js');
-            this.datgui = installLib('dat-gui');
+            this.pixijs = installLib('Pixi.js', props.canvasLibrarie);
+            this.easeljs = installLib('EaselJS', props.canvasLibrarie);
+
+            this.soundjs = installLib('SoundJS', props.optionalLibraries);
+            this.statsjs = installLib('stats.js', props.optionalLibraries);
+            this.datgui = installLib('dat-gui', props.optionalLibraries);
 
             done();
         }.bind(this));
@@ -61,6 +66,7 @@ module.exports = generators.Base.extend({
             this.destinationPath('bower.json'),
             {
                 name: this.props.name,
+                pixijs: this.pixijs,
                 soundjs: this.soundjs,
                 easeljs: this.easeljs,
                 statsjs: this.statsjs,
@@ -86,7 +92,20 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath('src/assets/**'), this.destinationPath('src/assets/'));
         this.fs.copy(this.templatePath('src/data/**'), this.destinationPath('src/data/'));
 
-        this.fs.copy(this.templatePath('src/scripts/app/**'), this.destinationPath('src/scripts/app/'));
+        this.fs.copy(this.templatePath('src/scripts/app/animations/**'), this.destinationPath('src/scripts/app/animations/'));
+        this.fs.copy(this.templatePath('src/scripts/app/controllers/**'), this.destinationPath('src/scripts/app/controllers/'));
+        this.fs.copy(this.templatePath('src/scripts/app/directives/**'), this.destinationPath('src/scripts/app/directives/'));
+        this.fs.copy(this.templatePath('src/scripts/app/services/**'), this.destinationPath('src/scripts/app/services'));
+        this.fs.copyTpl(
+            this.templatePath('src/scripts/app/mApp.js'),
+            this.destinationPath('src/scripts/app/mApp.js'),
+            { pixijs: this.pixijs }
+        );
+
+        if (this.pixijs) {
+            this.fs.copy(this.templatePath('src/scripts/canvas/**'), this.destinationPath('src/scripts/canvas/'));
+        }
+
         this.fs.copy(this.templatePath('src/scripts/data/**'), this.destinationPath('src/scripts/data/'));
         this.fs.copy(this.templatePath('src/scripts/globals/**'), this.destinationPath('src/scripts/globals/'));
         this.fs.copyTpl(
@@ -97,11 +116,33 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath('src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath('src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
-        this.fs.copy(this.templatePath('src/scss/**'), this.destinationPath('src/scss/'));
+        this.fs.copy(this.templatePath('src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
+
+        this.fs.copy(this.templatePath('src/scss/modules/_animation.scss'), this.destinationPath('src/scss/modules/_animation.scss'));
+        if (this.pixijs) {
+            this.fs.copy(this.templatePath('src/scss/modules/_canvas.scss'), this.destinationPath('src/scss/modules/_canvas.scss'));
+        }
+        this.fs.copy(this.templatePath('src/scss/modules/_incompatibleBrowser.scss'), this.destinationPath('src/scss/modules/_incompatibleBrowser.scss'));
+        this.fs.copy(this.templatePath('src/scss/modules/_layout.scss'), this.destinationPath('src/scss/modules/_layout.scss'));
+        this.fs.copy(this.templatePath('src/scss/modules/_loader.scss'), this.destinationPath('src/scss/modules/_loader.scss'));
+
+        this.fs.copy(this.templatePath('src/scss/_base.scss'), this.destinationPath('src/scss/_base.scss'));
+        this.fs.copy(this.templatePath('src/scss/_fonts.scss'), this.destinationPath('src/scss/_fonts.scss'));
+        this.fs.copy(this.templatePath('src/scss/_shared.scss'), this.destinationPath('src/scss/_shared.scss'));
+        this.fs.copyTpl(
+            this.templatePath('src/scss/style.scss'),
+            this.destinationPath('src/scss/style.scss'),
+            { pixijs: this.pixijs }
+        );
+
         this.fs.copy(this.templatePath('src/tpls/**'), this.destinationPath('src/tpls/'));
         this.fs.copy(this.templatePath('src/.htaccess'), this.destinationPath('src/.htaccess'));
         this.fs.copy(this.templatePath('src/favicon.ico'), this.destinationPath('src/favicon.ico'));
-        this.fs.copy(this.templatePath('src/index.html'), this.destinationPath('src/index.html'));
+        this.fs.copyTpl(
+            this.templatePath('src/index.html'),
+            this.destinationPath('src/index.html'),
+            { pixijs: this.pixijs }
+        );
 
         // test folder
         this.fs.copy(this.templatePath('test/e2e/**'), this.destinationPath('test/e2e/'));
