@@ -1,13 +1,14 @@
-var dataNoRetina = require('../data/loader-no-retina.json'),
+var dataCommon   = require('../data/loader-common.json'),
+    dataNoRetina = require('../data/loader-no-retina.json'),
     dataRetina   = require('../data/loader-retina.json'),
-    isRetina = window.devicePixelRatio > 1,
+    isRetina     = window.devicePixelRatio > 1,
     data;
 
 if (isRetina) {
-    data = dataRetina;
+    data = dataCommon.concat(dataRetina);
     data.push({ id: 'assets-css', src: 'css/assets/assets-retina.css' });
 } else {
-    data = dataNoRetina;
+    data = dataCommon.concat(dataNoRetina);
     data.push({ id: 'assets-css', src: 'css/assets/assets-no-retina.css' });
 }
 
