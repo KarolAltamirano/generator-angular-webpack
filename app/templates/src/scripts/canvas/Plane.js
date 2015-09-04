@@ -6,7 +6,7 @@ function Plane(resolution) {
     var planeImg  = loader.getLoader().getResult('plane'),
         planeBase = new PIXI.BaseTexture(planeImg),
         planeTexture = new PIXI.Texture(planeBase),
-        scale = 1 / resolution;
+        scale = resolution > 1 ? 0.5 : 1;
 
     PIXI.Sprite.call(this, planeTexture);
 
