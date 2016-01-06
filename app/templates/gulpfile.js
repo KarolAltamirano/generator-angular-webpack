@@ -97,15 +97,15 @@ gulp.task('connect', function () {
  *
  */
 
-gulp.task('_clean', function (cb) {
-    del([
+gulp.task('_clean', function () {
+    return del([
         BUILD_DIR + '/css/*.*',
         BUILD_DIR + '/css/assets/*.*',
         BUILD_DIR + '/css/vendor/*.css',
         BUILD_DIR + '/css/vendor/*.map',
         BUILD_DIR + '/tpls/**',
         BUILD_DIR + '/scripts/**'
-    ], { force: true }, cb);
+    ], { force: true });
 });
 
 /**
