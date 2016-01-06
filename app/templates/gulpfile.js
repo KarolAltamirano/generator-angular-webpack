@@ -18,7 +18,7 @@ var del           = require('del'),
     connect       = require('gulp-connect'),
     modRewrite    = require('connect-modrewrite'),
     uglify        = require('gulp-uglify'),
-    minifyCss     = require('gulp-minify-css'),
+    cssnano       = require('gulp-cssnano'),
     bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notifier      = require('node-notifier'),
@@ -142,7 +142,7 @@ gulp.task('_css-vendor-build', function () {
     return gulp.src(bowerFiles('**/*.css'))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
-        .pipe(gulpif(argv.dist, minifyCss()))
+        .pipe(gulpif(argv.dist, cssnano()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'));
 });
