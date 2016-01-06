@@ -1,3 +1,5 @@
+/* eslint strict: [2, "function"] */
+
 (function () {
     'use strict';
 

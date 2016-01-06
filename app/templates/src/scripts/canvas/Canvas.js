@@ -14,7 +14,7 @@ function Canvas(canvas) {
 
     this.container = new PIXI.Container();
 
-    this.renderer = new PIXI.autoDetectRenderer(this.width, this.height, {
+    this.renderer = PIXI.autoDetectRenderer(this.width, this.height, {
         view: canvasElement,
         resolution: scale
     });

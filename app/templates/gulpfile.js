@@ -18,14 +18,17 @@ var del           = require('del'),
     connect       = require('gulp-connect'),
     modRewrite    = require('connect-modrewrite'),
     uglify        = require('gulp-uglify'),
-    minifyCss     = require('gulp-minify-css'),
+    cssnano       = require('gulp-cssnano'),
     bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notifier      = require('node-notifier'),
+    notify        = require('gulp-notify'),
     extend        = require('gulp-extend'),
     minimist      = require('minimist'),
     gulpif        = require('gulp-if'),
     htmlreplace   = require('gulp-html-replace'),
+    runSequence   = require('run-sequence'),
+    eslint        = require('gulp-eslint'),
     webpack       = require('webpack'),
     webpackConfig = require('./webpack.config.js'),
     myConfig      = Object.create(webpackConfig),
@@ -73,26 +76,11 @@ if (argv.dist) {
  *
  */
 
-gulp.task('_connect', ['build'], function () {
-    connect.server({
-        root: [__dirname + '/' + BUILD_DIR],
-        port: 8080,
-        livereload: true,
-        middleware: function () {
-            return [
-                modRewrite([
-                    '^[^\.]*$ /index.html [L]'
-                ])
-            ];
-        }
-    });
-});
-
 gulp.task('connect', function () {
     connect.server({
         root: [__dirname + '/' + BUILD_DIR],
         port: 8080,
-        livereload: false,
+        livereload: true,
         middleware: function () {
             return [
                 modRewrite([
@@ -109,15 +97,15 @@ gulp.task('connect', function () {
  *
  */
 
-gulp.task('_clean', function (cb) {
-    del([
+gulp.task('_clean', function () {
+    return del([
         BUILD_DIR + '/css/*.*',
         BUILD_DIR + '/css/assets/*.*',
         BUILD_DIR + '/css/vendor/*.css',
         BUILD_DIR + '/css/vendor/*.map',
         BUILD_DIR + '/tpls/**',
         BUILD_DIR + '/scripts/**'
-    ], { force: true }, cb);
+    ], { force: true });
 });
 
 /**
@@ -127,29 +115,26 @@ gulp.task('_clean', function (cb) {
  */
 
 // generate css with compass
-var _cssBuild = function () {
+gulp.task('_css-build', function () {
     return gulp.src(cssFiles)
         .pipe(compass({
-            http_path: BUILD_DIR + '/',
+            'http_path': BUILD_DIR + '/',
             css: BUILD_DIR + '/css/',
             sass: 'src/scss/',
             image: BUILD_DIR + '/assets/',
             font: BUILD_DIR + '/assets/fonts/',
             sourcemap: !argv.dist,
             style: (argv.dist ? 'compressed' : 'nested'),
-            import_path: [
+            'import_path': [
                 'bower_components/compass-breakpoint/stylesheets/',
                 'bower_components/sassy-maps/sass/'
             ]
         }))
         .on('error', function () { notifier.notify({ 'title': 'Gulp', 'message': 'CSS Error' }); });
-};
-
-gulp.task('_css-build', ['_clean'], _cssBuild);
-gulp.task('_css-watch-build', _cssBuild);
+});
 
 // build vendor css
-var _cssVendorBuild = function () {
+gulp.task('_css-vendor-build', function () {
     if (bowerFiles('**/*.css').length === 0) {
         return;
     }
@@ -157,13 +142,10 @@ var _cssVendorBuild = function () {
     return gulp.src(bowerFiles('**/*.css'))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
-        .pipe(gulpif(argv.dist, minifyCss()))
+        .pipe(gulpif(argv.dist, cssnano()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'));
-};
-
-gulp.task('_css-vendor-build', ['_clean'], _cssVendorBuild);
-gulp.task('_css-vendor-watch-build', _cssVendorBuild);
+});
 
 // build main js loaded in bottom of page
 var _jsMainBuild = function (cb) {
@@ -176,21 +158,20 @@ var _jsMainBuild = function (cb) {
     });
 };
 
-gulp.task('_js-main-build', ['_clean'], _jsMainBuild);
-gulp.task('_js-main-watch-build', _jsMainBuild);
+gulp.task('_js-main-build', _jsMainBuild);
+gulp.task('_js-main-watch-build', function (cb) {
+    runSequence('_lint', '_js-main-build', cb);
+});
 
 // build js vendor lib loaded in bottom of page
-var _jsLibBuild = function () {
+gulp.task('_js-lib-build', function () {
     return gulp.src(bowerFiles('**/*.js'))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('lib.js'))
         .pipe(gulpif(argv.dist, uglify()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-};
-
-gulp.task('_js-lib-build', ['_clean'], _jsLibBuild);
-gulp.task('_js-lib-watch-build', _jsLibBuild);
+});
 
 // build js vendor lib loaded in header of page
 var _jsHeaderBuild = function () {
@@ -202,17 +183,16 @@ var _jsHeaderBuild = function () {
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
 };
 
-gulp.task('_js-header-build', ['_clean'], _jsHeaderBuild);
-gulp.task('_js-header-watch-build', _jsHeaderBuild);
+gulp.task('_js-header-build', _jsHeaderBuild);
+gulp.task('_js-header-watch-build', function (cb) {
+    runSequence('_lint', '_js-header-build', cb);
+});
 
 // generate templates
-var _tplsBuild = function () {
+gulp.task('_tpls-build', function () {
     return gulp.src('src/tpls/**/*.html')
         .pipe(gulp.dest(BUILD_DIR + '/tpls/'));
-};
-
-gulp.task('_tpls-build', ['_clean'], _tplsBuild);
-gulp.task('_tpls-watch-build', _tplsBuild);
+});
 
 // copy root files
 gulp.task('_root-files-build', function () {
@@ -239,14 +219,40 @@ gulp.task('_data-build', function () {
 
 /**
  *
+ *   ESLint task
+ *
+ */
+
+gulp.task('_lint', function () {
+    return gulp.src(['src/scripts/**/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(notify(function (file) {
+            if (file.eslint.errorCount === 0 && file.eslint.warningCount === 0) {
+                return false;
+            }
+            return 'ESLint error';
+        }));
+});
+
+/**
+ *
  *   Main build task
  *
  */
 
-gulp.task('build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-header-build',
+/* eslint-disable indent */
+
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-header-build',
           '_js-lib-build', '_root-files-build', '_index-build', '_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'Build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
+});
+
+/* eslint-enable indent */
+
+gulp.task('build', function (cb) {
+    runSequence('_lint', '_clean', '_build', cb);
 });
 
 /**
@@ -255,12 +261,12 @@ gulp.task('build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-
  *
  */
 
-gulp.task('_css-watch', ['_css-watch-build'], function () {
+gulp.task('_css-watch', ['_css-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'CSS build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_css-vendor-watch', ['_css-vendor-watch-build'], function () {
+gulp.task('_css-vendor-watch', ['_css-vendor-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'CSS vendor build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -270,7 +276,7 @@ gulp.task('_js-main-watch', ['_js-main-watch-build'], function () {
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_js-lib-watch', ['_js-lib-watch-build'], function () {
+gulp.task('_js-lib-watch', ['_js-lib-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -280,7 +286,7 @@ gulp.task('_js-header-watch', ['_js-header-watch-build'], function () {
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_tpls-watch', ['_tpls-watch-build'], function () {
+gulp.task('_tpls-watch', ['_tpls-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'TEMPLATE build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -311,7 +317,7 @@ gulp.task('_live-reload', function () {
  *
  */
 
-gulp.task('watch', ['build', '_connect'], function () {
+gulp.task('_watch', function () {
     gulp.watch('src/scss/**/*.scss', ['_css-watch']);
     gulp.watch('bower_components/**', ['_css-vendor-watch']);
 
@@ -327,6 +333,10 @@ gulp.task('watch', ['build', '_connect'], function () {
     gulp.watch('src/data/**/*.json', ['_data-watch']);
 
     gulp.watch([BUILD_DIR + '/**', '!' + BUILD_DIR + '/**/*.map', '!' + BUILD_DIR + '/assets/**'], ['_live-reload']);
+});
+
+gulp.task('watch', function (cb) {
+    runSequence('build', '_watch', 'connect', cb);
 });
 
 /**
