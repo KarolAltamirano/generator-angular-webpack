@@ -1,3 +1,5 @@
+/* eslint strict: [2, "function"], key-spacing: 0, comma-spacing: 0 */
+
 (function () {
     'use strict';
 
