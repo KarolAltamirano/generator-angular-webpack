@@ -1,3 +1,5 @@
+'use strict';
+
 var dataCommon   = require('../data/loader-common.json'),
     dataNoRetina = require('../data/loader-no-retina.json'),
     dataRetina   = require('../data/loader-retina.json'),
