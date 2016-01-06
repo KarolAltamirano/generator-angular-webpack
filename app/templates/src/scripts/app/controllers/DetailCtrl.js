@@ -2,6 +2,6 @@
 
 require('./_mCtrls');
 
-angular.module('mCtrls').controller('DetailCtrl', function ($scope) {
+angular.module('mCtrls').controller('DetailCtrl', function () {
 
 });
