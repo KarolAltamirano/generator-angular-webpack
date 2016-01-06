@@ -41,7 +41,7 @@ var loader = (function () {
     return {
         setProgressCb: setProgressCb,
         setCompleteCb: setCompleteCb,
-        createLoader:  createLoader,
+        createLoader: createLoader,
         getLoader: getLoader,
         createSpyLoader: createSpyLoader
     };
