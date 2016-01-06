@@ -88,6 +88,8 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath('webpack.config.js'), this.destinationPath('webpack.config.js'));
 
+        this.fs.copy(this.templatePath('.eslintrc'), this.destinationPath('.eslintrc'));
+
         // src folder
         this.fs.copy(this.templatePath('src/assets/**'), this.destinationPath('src/assets/'));
         this.fs.copy(this.templatePath('src/data/**'), this.destinationPath('src/data/'));
