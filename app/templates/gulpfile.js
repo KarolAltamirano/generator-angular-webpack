@@ -7,6 +7,9 @@
  *      gulp              - default task [watch]
  *      gulp build --dist - build for production
  *      gulp connect      - create http server for testing production version
+ *      gulp bump --major - bump major version
+ *      gulp bump --minor - bump minor version
+ *      gulp bump --patch - bump patch version
  *
  */
 
