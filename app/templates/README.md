@@ -40,7 +40,7 @@
     root     : List of RootFiles to copy to website folder
 
 # BUILD VERSION ELEMENT
-To hide build version info set `app.renderVersionInfo` to `false` inside `src/scripts/globals/appSettings.js` file
+To hide build version info set `app.renderVersionInfo` to `false` inside `src/scripts/globals/appSettings.js` file.
 To bump version use gulp task `gulp bump --major | --minor | --patch`
 
 # TEST
