@@ -129,7 +129,7 @@ gulp.task('bump', ['_version-timestamp'], function () {
 
 gulp.task('_version-timestamp', function () {
     return gulp.src('./src/scripts/data/version.json')
-        .pipe(jeditor({ 'time': moment().format('DD.MM.YYYY HH:mm:SS (ZZ)') }))
+        .pipe(jeditor({ 'time': moment().format('DD.MM.YYYY HH:mm:ss (ZZ)') }))
         .pipe(gulp.dest('./src/scripts/data/'));
 });
 
