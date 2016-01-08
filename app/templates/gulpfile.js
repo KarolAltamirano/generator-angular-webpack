@@ -31,6 +31,9 @@ var del           = require('del'),
     eslint        = require('gulp-eslint'),
     webpack       = require('webpack'),
     webpackConfig = require('./webpack.config.js'),
+    bump          = require('gulp-bump'),
+    jeditor       = require('gulp-json-editor'),
+    moment        = require('moment'),
     myConfig      = Object.create(webpackConfig),
 
     // get load order of js and css files and list of root files to load
@@ -40,7 +43,7 @@ var del           = require('del'),
     rootFiles     = config.root,
 
     // parse parameters
-    argv          = minimist(process.argv.slice(2), { boolean: 'dist' });
+    argv          = minimist(process.argv.slice(2), { boolean: true });
 
 /**
  *
@@ -89,6 +92,42 @@ gulp.task('connect', function () {
             ];
         }
     });
+});
+
+/**
+ *
+ *   Bump version
+ *
+ */
+
+gulp.task('bump', ['_version-timestamp'], function () {
+    var bumpType;
+
+    if (argv.major) {
+        bumpType = 'major';
+    } else if (argv.minor) {
+        bumpType = 'minor';
+    } else if (argv.patch) {
+        bumpType = 'patch';
+    } else {
+        gutil.log(gutil.colors.blue('Specify valid semver version type to bump!'));
+        return;
+    }
+
+    gulp.src([
+        './bower.json',
+        './package.json',
+        './test/package.json',
+        './src/scripts/data/version.json'
+    ], { base: './' })
+        .pipe(bump({ type: bumpType }))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('_version-timestamp', function () {
+    return gulp.src('./src/scripts/data/version.json')
+        .pipe(jeditor({ 'time': moment().format('DD.MM.YYYY HH:mm:SS (ZZ)') }))
+        .pipe(gulp.dest('./src/scripts/data/'));
 });
 
 /**
