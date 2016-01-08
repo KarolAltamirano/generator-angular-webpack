@@ -2,8 +2,13 @@
 
 require('./app/mApp');
 
-var loader = require('./utilities/loader');
+var loader = require('./utilities/loader'),
+    version = require('./utilities/version');
 
+// render build version if enabled
+version();
+
+// set loader callbacks
 function progressCb(e) {
     var p = Math.round(100 * e.progress);
 

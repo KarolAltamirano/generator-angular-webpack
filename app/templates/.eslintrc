@@ -111,6 +111,8 @@
         "ga": false,
         "isMobile": false,
         "UAParser": false,
-        "moment": false
+        "moment": false,
+
+        "app": true
     }
 }

@@ -30,11 +30,18 @@
     gulp               : default task runs 'gulp watch'
     gulp build --dist  : build for production
     gulp connect       : create http server for testing production version
+    gulp bump --major - bump major version
+    gulp bump --minor - bump minor version
+    gulp bump --patch - bump patch version
 
 # CONFIG FILE config.json
     jsHeader : Order of JavaScript libraries loaded in header
     css      : Main SCSS files
     root     : List of RootFiles to copy to website folder
+
+# BUILD VERSION ELEMENT
+To hide build version info set `app.renderVersionInfo` to `false` inside `src/scripts/globals/appSettings.js` file.
+To bump version use gulp task `gulp bump --major | --minor | --patch`
 
 # TEST
 ## Getting started

@@ -116,6 +116,7 @@ module.exports = generators.Base.extend({
             { soundjs: this.soundjs }
         );
         this.fs.copy(this.templatePath('src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
+        this.fs.copy(this.templatePath('src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
         this.fs.copy(this.templatePath('src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
         this.fs.copy(this.templatePath('src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
@@ -127,6 +128,7 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath('src/scss/modules/_incompatibleBrowser.scss'), this.destinationPath('src/scss/modules/_incompatibleBrowser.scss'));
         this.fs.copy(this.templatePath('src/scss/modules/_layout.scss'), this.destinationPath('src/scss/modules/_layout.scss'));
         this.fs.copy(this.templatePath('src/scss/modules/_loader.scss'), this.destinationPath('src/scss/modules/_loader.scss'));
+        this.fs.copy(this.templatePath('src/scss/modules/_version.scss'), this.destinationPath('src/scss/modules/_version.scss'));
 
         this.fs.copy(this.templatePath('src/scss/_base.scss'), this.destinationPath('src/scss/_base.scss'));
         this.fs.copy(this.templatePath('src/scss/_fonts.scss'), this.destinationPath('src/scss/_fonts.scss'));

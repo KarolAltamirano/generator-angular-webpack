@@ -26,4 +26,6 @@
         return !app.isProduction();
     };
 
+    app.renderVersionInfo = true;
+
 })();
