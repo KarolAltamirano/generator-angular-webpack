@@ -10,6 +10,7 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/README.md) to see the readme file of generated project.
 
 ## Release History
+* 2016-01-07 v0.2.5 Add build version info
 * 2016-01-07 v0.2.4 Added ESLint, updated build process, update to newest npm packages
 * 2015-09-04 v0.2.3 Added pixi.js, fix watching index.html file
 * 2015-07-29 v0.2.2 Fix: incompatible browser detection, support of old browsers
