@@ -4,7 +4,8 @@ var Plane = require('./Plane');
 
 function Canvas(canvas) {
     var scale = window.devicePixelRatio || 1,
-        canvasElement = document.getElementById(canvas);
+        canvasElement = document.getElementById(canvas),
+        _this = this;
 
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -27,11 +28,18 @@ function Canvas(canvas) {
     this.onResize();
 
     // run animation
-    requestAnimationFrame(this.animate.bind(this));
+    requestAnimationFrame(function () {
+        _this.animate();
+    });
 }
 
 Canvas.prototype.animate = function () {
-    requestAnimationFrame(this.animate.bind(this));
+    var _this = this;
+
+    requestAnimationFrame(function () {
+        _this.animate();
+    });
+
     this.renderer.render(this.container);
 };
 
