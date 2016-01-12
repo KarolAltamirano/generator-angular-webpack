@@ -35,6 +35,7 @@ module.exports = function (config) {
             devtool: 'inline-source-map',
             module: {
                 loaders: [
+                    { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'ng-annotate!babel?presets[]=es2015' },
                     { test: /\.json$/, loader: 'json' }
                 ]
             }
