@@ -35,7 +35,8 @@
     gulp bump --patch - bump patch version
 
 # CONFIG FILE config.json
-    jsHeader : Order of JavaScript libraries loaded in header
+    jsHeader : Order of JavaScript files loaded in header
+               (if using ES2015 version of SCAFFOLD, write these files in ES5)
     css      : Main SCSS files
     root     : List of RootFiles to copy to website folder
 
