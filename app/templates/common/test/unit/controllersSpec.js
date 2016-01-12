@@ -2,8 +2,6 @@
 
 require('../../src/scripts/app/controllers/_loader');
 
-var loader = require('../../src/scripts/utilities/loader');
-
 describe('Controllers', function () {
 
     describe('RootCtrl', function () {
@@ -12,8 +10,6 @@ describe('Controllers', function () {
         beforeEach(angular.mock.module('mCtrls'));
 
         beforeEach(inject(function ($rootScope, $controller) {
-            loader.createSpyLoader('return value');
-
             $scope = $rootScope.$new();
             $controller('RootCtrl', { $scope: $scope });
         }));

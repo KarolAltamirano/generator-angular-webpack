@@ -34,7 +34,5 @@ angular.element(document).ready(function () {
     $('.loader').text('0%').show();
 
     // start loader
-    loader.setProgressCb(progressCb);
-    loader.setCompleteCb(completeCb);
-    loader.createLoader();
+    loader.createLoader(progressCb, completeCb);
 });

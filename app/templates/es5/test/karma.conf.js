@@ -35,6 +35,7 @@ module.exports = function (config) {
             devtool: 'inline-source-map',
             module: {
                 loaders: [
+                    { test: /\.js$/,   loader: 'ng-annotate' },
                     { test: /\.json$/, loader: 'json' }
                 ]
             }
