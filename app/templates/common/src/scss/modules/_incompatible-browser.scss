@@ -1,20 +1,20 @@
 /* browser is compatible */
-.incompatibleBrowser {
+.incompatible-browser {
     display: none;
 }
 
 /* runtime error - modernizr.js fails (show incompatible browser page) */
-.no-js .incompatibleBrowser {
+.no-js .incompatible-browser {
     display: block;
 }
 
 /* incompatible browser detected (show incompatible browser page) */
-.incompatible .incompatibleBrowser {
+.incompatible .incompatible-browser {
     display: block;
 }
 
 /* incompatible browser page style */
-.incompatibleBrowser {
+.incompatible-browser {
     position: relative;
     width: 100%;
     text-align: center;

@@ -146,7 +146,7 @@ module.exports = generators.Base.extend({
         if (this.pixijs) {
             this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_canvas.scss'), this.destinationPath('src/scss/modules/_canvas.scss'));
         }
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_incompatibleBrowser.scss'), this.destinationPath('src/scss/modules/_incompatibleBrowser.scss'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_incompatible-browser.scss'), this.destinationPath('src/scss/modules/_incompatible-browser.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_layout.scss'), this.destinationPath('src/scss/modules/_layout.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_loader.scss'), this.destinationPath('src/scss/modules/_loader.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_version.scss'), this.destinationPath('src/scss/modules/_version.scss'));
