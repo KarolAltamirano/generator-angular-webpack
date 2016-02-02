@@ -17,6 +17,7 @@
     "angular-sanitize": "^1.4.8",
     "visionmedia-debug": "^2.2.0",
     "compass-breakpoint": "^2.6.1",
+    "susy": "^2.2.12",
     "babel-polyfill": "./node_modules/babel-polyfill/dist/",
     "PreloadJS": "^0.6.2"<% if (pixijs) { %>,
     "pixi": "^3.0.9"<% } %><% if (soundjs) { %>,

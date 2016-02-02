@@ -169,7 +169,8 @@ gulp.task('_css-build', function () {
             style: (argv.dist ? 'compressed' : 'nested'),
             'import_path': [
                 'bower_components/compass-breakpoint/stylesheets/',
-                'bower_components/sassy-maps/sass/'
+                'bower_components/sassy-maps/sass/',
+                'bower_components/susy/sass/'
             ]
         }))
         .on('error', function () { notifier.notify({ 'title': 'Gulp', 'message': 'CSS Error' }); });
