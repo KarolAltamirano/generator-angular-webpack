@@ -1,7 +1,10 @@
 'use strict';
 
 module.exports = {
-    entry: './src/scripts/main.js',
+    entry: {
+        header: './src/scripts/header.js',
+        main: './src/scripts/main.js'
+    },
     module: {
         loaders: [
             { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'ng-annotate' },

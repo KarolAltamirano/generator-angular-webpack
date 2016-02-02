@@ -3,7 +3,8 @@
 require('./app/mApp');
 
 var loader = require('./utilities/loader'),
-    version = require('./utilities/version');
+    version = require('./utilities/version'),
+    incompatible = require('./utilities/incompatible');
 
 // render build version if enabled
 version();
@@ -26,7 +27,7 @@ function completeCb() {
 
 /* bootstrap application */
 angular.element(document).ready(function () {
-    if (window.app.incompatible.isIncompatibleBrowser()) {
+    if (incompatible.isIncompatibleBrowser()) {
         return;
     }
 

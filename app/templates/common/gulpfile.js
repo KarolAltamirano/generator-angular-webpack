@@ -41,8 +41,7 @@ var del           = require('del'),
 
     // get load order of js and css files and list of root files to load
     config        = require('./config.json'),
-    jsHeader      = config.jsHeader,
-    cssFiles      = config.css,
+    jsLibHeader   = config.jsLibHeader,
     rootFiles     = config.root,
 
     // parse parameters
@@ -63,8 +62,9 @@ var BUILD_DIR = 'website';
  */
 
 myConfig.output = {
-    filename: BUILD_DIR + '/scripts/main.js',
-    sourceMapFilename: BUILD_DIR + '/scripts/maps/main.js.map'
+    path: BUILD_DIR + '/scripts',
+    filename: '[name].js',
+    sourceMapFilename: 'maps/[file].map'
 };
 
 if (argv.dist) {
@@ -158,7 +158,7 @@ gulp.task('_clean', function () {
 
 // generate css with compass
 gulp.task('_css-build', function () {
-    return gulp.src(cssFiles)
+    return gulp.src('src/scss/**/*.scss')
         .pipe(compass({
             'http_path': BUILD_DIR + '/',
             css: BUILD_DIR + '/css/',
@@ -217,18 +217,13 @@ gulp.task('_js-lib-build', function () {
 });
 
 // build js vendor lib loaded in header of page
-var _jsHeaderBuild = function () {
-    return gulp.src(jsHeader)
+gulp.task('_js-lib-header-build', function () {
+    return gulp.src(jsLibHeader)
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
-        .pipe(concat('priority.js'))
+        .pipe(concat('lib-header.js'))
         .pipe(gulpif(argv.dist, uglify()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-};
-
-gulp.task('_js-header-build', _jsHeaderBuild);
-gulp.task('_js-header-watch-build', function (cb) {
-    runSequence('_lint', '_js-header-build', cb);
 });
 
 // generate templates
@@ -286,7 +281,7 @@ gulp.task('_lint', function () {
 
 /* eslint-disable indent */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-header-build',
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-lib-header-build',
           '_js-lib-build', '_root-files-build', '_index-build', '_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'Build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
@@ -324,7 +319,7 @@ gulp.task('_js-lib-watch', ['_js-lib-build'], function () {
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_js-header-watch', ['_js-header-watch-build'], function () {
+gulp.task('_js-lib-header-watch', ['_js-lib-header-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -366,7 +361,7 @@ gulp.task('_watch', function () {
 
     gulp.watch('src/scripts/**', ['_js-main-watch']);
     gulp.watch('bower_components/**', ['_js-lib-watch']);
-    gulp.watch(jsHeader, ['_js-header-watch']);
+    gulp.watch(jsLibHeader, ['_js-lib-header-watch']);
 
     gulp.watch('src/tpls/**/*.html', ['_tpls-watch']);
 

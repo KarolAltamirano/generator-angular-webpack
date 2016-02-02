@@ -1,9 +1,10 @@
 'use strict';
 
-var versionJson = require('../data/version.json');
+var versionJson = require('../data/version.json'),
+    appSettings = require('./appSettings');
 
 var version = function () {
-    if (!app.renderVersionInfo) {
+    if (!appSettings.renderVersionInfo) {
         return;
     }
 

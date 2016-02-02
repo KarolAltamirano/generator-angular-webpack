@@ -130,7 +130,9 @@ module.exports = generators.Base.extend({
         }
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/data/**'), this.destinationPath('src/scripts/data/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/globals/**'), this.destinationPath('src/scripts/globals/'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/appSettings.js'), this.destinationPath('src/scripts/utilities/appSettings.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompatible.js'), this.destinationPath('src/scripts/utilities/incompatible.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompDetect.js'), this.destinationPath('src/scripts/utilities/incompDetect.js'));
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loader.js'),
             this.destinationPath('src/scripts/utilities/loader.js'),
@@ -138,6 +140,7 @@ module.exports = generators.Base.extend({
         );
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/header.js'), this.destinationPath('src/scripts/header.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
