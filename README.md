@@ -1,4 +1,6 @@
-# Angular Webpack generator - ES2015 (Babel) or ES5
+# Angular Webpack generator
+## ES2015 (Babel) or ES5
+<br>
 [![Build Status](https://travis-ci.org/KarolAltamirano/generator-angular-webpack.svg?branch=master)](https://travis-ci.org/KarolAltamirano/generator-angular-webpack)
 
 ## Getting Started
