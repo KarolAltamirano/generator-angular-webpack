@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "connect-modrewrite": "^0.8.2",
+    "connect-modrewrite": "^0.8.5",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-bump": "^1.0.0",
@@ -23,10 +23,10 @@
     "json-loader": "^0.5.4",
     "main-bower-files": "^2.11.1",
     "minimist": "^1.2.0",
-    "moment": "^2.11.0",
+    "moment": "^2.11.1",
     "ng-annotate-loader": "^0.0.10",
     "node-notifier": "^4.4.0",
     "run-sequence": "^1.1.5",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.12"
   }
 }
