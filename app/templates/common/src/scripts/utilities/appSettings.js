@@ -12,7 +12,7 @@ var appSettings = {};
 appSettings.isProduction = function () {
     var host = window.location.hostname;
 
-    if (host === 'localhost') { // localhost
+    if (host === 'localhost') {
         return false;
     }
 

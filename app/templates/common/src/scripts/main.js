@@ -4,7 +4,8 @@ require('./app/mApp');
 
 var loader = require('./utilities/loader'),
     version = require('./utilities/version'),
-    incompatible = require('./utilities/incompatible');
+    incompatible = require('./utilities/incompatible'),
+    appCopy = require('./data/appCopy.json');
 
 // render build version if enabled
 version();
@@ -14,7 +15,7 @@ function progressCb(e) {
     var p = Math.round(100 * e.progress);
 
     // show progress in loader
-    $('.loader').text(p + '%');
+    $('.loader').text(p + appCopy.loader.progress);
 }
 
 function completeCb() {
@@ -32,7 +33,7 @@ angular.element(document).ready(function () {
     }
 
     // show loader
-    $('.loader').text('0%').show();
+    $('.loader').text(appCopy.loader.start).show();
 
     // start loader
     loader.createLoader(progressCb, completeCb);

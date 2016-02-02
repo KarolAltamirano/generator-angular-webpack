@@ -1,6 +1,7 @@
 'use strict';
 
 var loaderData = require('./loaderData'),
+    appCopy = require('../data/appCopy.json'),
     _loader;
 
 // create spy loader for tests
@@ -24,8 +25,8 @@ var createLoader = function (progressCb, completeCb) {
 
 var getLoader = function () {
     if (!_loader) {
-        console.log('Loader was not created. Using spy loader instead.');
-        return _createSpyLoader('spy-data-string');
+        console.log(appCopy.loader.spy);
+        return _createSpyLoader(appCopy.loader.spyValue);
     }
     return _loader;
 };
