@@ -1,17 +1,17 @@
 .version {
+    @include opacity(.95);
     position: fixed;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     max-width: 100%;
+    padding: .5em;
+    background: $color-1;
+    color: $font-color-1;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5em;
-    color: #666;
-    background: #EEE;
-    padding: 0.5em;
-    opacity: 0.95;
     z-index: 9999;
 
     span {
-        color: #AAA;
+        color: $color-2;
     }
 }

@@ -2,5 +2,8 @@ linters:
     Indentation:
         width: 4
 
+    PropertySortOrder:
+        order: smacss
+
     Compass::*:
         enabled: true

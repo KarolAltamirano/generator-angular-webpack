@@ -1,15 +1,26 @@
-@import "compass/css3";
-@import "memo";
-@import "breakpoint";
-@import "susy";
+@import 'compass/css3';
+@import 'memo';
+@import 'breakpoint';
+@import 'susy';
+
+// variables
+
+$font-color-1: #666;
+$font-color-2: #009;
+$font-color-3: #006;
+
+$color-1: #eee;
+$color-2: #aaa;
 
 $retina: min-resolution 1.5dppx;
 $tablet: 600px;
 $desktop: 1025px;
 
-@mixin retina-inline-asset($name, $ext: "png") {
-    $image: "images/" + $name + "." + $ext;
-    $image-retina: "images/" + $name + "@2x." + $ext;
+// mixins
+
+@mixin retina-inline-asset($name, $ext: 'png') {
+    $image: 'images/' + $name + '.' + $ext;
+    $image-retina: 'images/' + $name + '@2x.' + $ext;
 
     display: block;
     background-repeat: no-repeat;
@@ -24,9 +35,9 @@ $desktop: 1025px;
     }
 }
 
-@mixin retina-asset($name, $ext: "png") {
-    $image: "images/" + $name + "." + $ext;
-    $image-retina: "images/" + $name + "@2x." + $ext;
+@mixin retina-asset($name, $ext: 'png') {
+    $image: 'images/' + $name + '.' + $ext;
+    $image-retina: 'images/' + $name + '@2x.' + $ext;
 
     display: block;
     background-repeat: no-repeat;
