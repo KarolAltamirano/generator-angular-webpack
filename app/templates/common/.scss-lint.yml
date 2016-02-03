@@ -1,0 +1,6 @@
+linters:
+    Indentation:
+        width: 4
+
+    Compass::*:
+        enabled: true

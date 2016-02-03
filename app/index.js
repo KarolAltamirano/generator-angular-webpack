@@ -80,7 +80,20 @@ module.exports = generators.Base.extend({
         }
 
         // root files
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.scss-lint.yml'), this.destinationPath('.scss-lint.yml'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/Gemfile'), this.destinationPath('Gemfile'));
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
 
         this.fs.copyTpl(
             this.templatePath(VERSION_FOLDER + '/_bower.json'),
@@ -95,21 +108,13 @@ module.exports = generators.Base.extend({
             }
         );
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
-
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
-
         this.fs.copyTpl(
             this.templatePath(VERSION_FOLDER + '/_package.json'),
             this.destinationPath('package.json'),
             { name: this.props.name }
         );
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
-
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/webpack.config.js'), this.destinationPath('webpack.config.js'));
-
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
         // src folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/assets/**'), this.destinationPath('src/assets/'));
