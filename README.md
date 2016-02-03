@@ -11,7 +11,7 @@
 * Run: `gulp` to build for development and watch for file changes or `gulp build --dist` to build for production
 
 ## More informations can be found in readme file of generated project.
-[Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file of generated project.
+[Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
 * 2016-01-12 v0.3.1 Fix readme
