@@ -32,7 +32,6 @@ var del           = require('del'),
     extend        = require('gulp-extend'),
     minimist      = require('minimist'),
     gulpif        = require('gulp-if'),
-    htmlreplace   = require('gulp-html-replace'),
     runSequence   = require('run-sequence'),
     eslint        = require('gulp-eslint'),
     webpack       = require('webpack'),
@@ -189,6 +188,9 @@ gulp.task('_css-vendor-build', function () {
     return gulp.src(['node_modules/normalize.css/normalize.css'].concat(bowerFiles('**/*.css')))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
+        .pipe(gulpif(!argv.dist, postcss([
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES })
+        ])))
         .pipe(gulpif(argv.dist, postcss([
             autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
             cssnano
@@ -245,16 +247,6 @@ gulp.task('_root-files-build', function () {
         .pipe(gulp.dest(BUILD_DIR + '/'));
 });
 
-// build index
-gulp.task('_index-build', function () {
-    var hasVendorCss = bowerFiles('**/*.css').length !== 0 ? true : false;
-
-    return gulp.src('src/index.html')
-        .pipe(gulpif(hasVendorCss, htmlreplace({ vendorCss: 'css/vendor/vendor.css' })))
-        .pipe(gulpif(!hasVendorCss, htmlreplace({ vendorCss: '' })))
-        .pipe(gulp.dest(BUILD_DIR));
-});
-
 // data build
 gulp.task('_data-build', function () {
     return gulp.src('src/data/**/*.json')
@@ -288,8 +280,8 @@ gulp.task('_lint', function () {
 
 /* eslint-disable indent */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-lib-header-build',
-          '_js-lib-build', '_root-files-build', '_index-build', '_data-build'], function () {
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build',
+          '_js-lib-header-build', '_js-lib-build', '_root-files-build', '_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'Build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -341,11 +333,6 @@ gulp.task('_root-files-watch', ['_root-files-build'], function () {
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_index-watch', ['_index-build'], function () {
-    notifier.notify({ 'title': 'Gulp', 'message': 'INDEX FILE build completed.' });
-    gutil.log(gutil.colors.green('... completed ...'));
-});
-
 gulp.task('_data-watch', ['_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'DATA build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
@@ -373,7 +360,6 @@ gulp.task('_watch', function () {
     gulp.watch('src/tpls/**/*.html', ['_tpls-watch']);
 
     gulp.watch(rootFiles, ['_root-files-watch']);
-    gulp.watch(['bower_components/**', 'src/index.html'], ['_index-watch']);
 
     gulp.watch('src/data/**/*.json', ['_data-watch']);
 
