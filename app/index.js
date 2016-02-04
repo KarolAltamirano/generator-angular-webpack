@@ -87,8 +87,6 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/Gemfile'), this.destinationPath('Gemfile'));
-
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
