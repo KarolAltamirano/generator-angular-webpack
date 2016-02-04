@@ -16,12 +16,15 @@
 var del           = require('del'),
     gulp          = require('gulp'),
     gutil         = require('gulp-util'),
-    compass       = require('gulp-compass'),
     concat        = require('gulp-concat'),
     connect       = require('gulp-connect'),
     modRewrite    = require('connect-modrewrite'),
     uglify        = require('gulp-uglify'),
-    cssnano       = require('gulp-cssnano'),
+    sass          = require('gulp-sass'),
+    postcss       = require('gulp-postcss'),
+    assets        = require('postcss-assets'),
+    autoprefixer  = require('autoprefixer'),
+    cssnano       = require('cssnano'),
     bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notifier      = require('node-notifier'),
@@ -53,7 +56,8 @@ var del           = require('del'),
  *
  */
 
-var BUILD_DIR = 'website';
+var BUILD_DIR = 'website',
+    AUTO_PREFIXER_RULES = ['last 2 versions'];
 
 /**
  *
@@ -165,16 +169,25 @@ gulp.task('_css-normalize-build', function () {
 // build main css files
 gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
-        .pipe(compass({
-            'http_path': BUILD_DIR + '/',
-            css: BUILD_DIR + '/css/',
-            sass: 'src/scss/',
-            image: BUILD_DIR + '/assets/',
-            font: BUILD_DIR + '/assets/fonts/',
-            sourcemap: !argv.dist,
-            style: (argv.dist ? 'compressed' : 'nested')
-        }))
-        .on('error', function () { notifier.notify({ 'title': 'Gulp', 'message': 'CSS Error' }); });
+        .pipe(gulpif(!argv.dist, sourcemaps.init()))
+        .pipe(sass({
+            includePaths: [
+                'node_modules/bourbon/app/assets/stylesheets',
+                'node_modules/bourbon-neat/app/assets/stylesheets'
+            ]
+        })
+        .on('error', sass.logError))
+        .pipe(gulpif(!argv.dist, postcss([
+            assets({ basePath: BUILD_DIR }),
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES })
+        ])))
+        .pipe(gulpif(argv.dist, postcss([
+            assets({ basePath: BUILD_DIR }),
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
+            cssnano
+        ])))
+        .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
+        .pipe(gulp.dest(BUILD_DIR + '/css/'));
 });
 
 // build vendor css
@@ -186,7 +199,10 @@ gulp.task('_css-vendor-build', function () {
     return gulp.src(bowerFiles('**/*.css'))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
-        .pipe(gulpif(argv.dist, cssnano()))
+        .pipe(gulpif(argv.dist, postcss([
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
+            cssnano
+        ])))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'));
 });
