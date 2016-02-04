@@ -97,8 +97,6 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.scss-lint.yml'), this.destinationPath('.scss-lint.yml'));
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
-
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
@@ -110,6 +108,8 @@ module.exports = generators.Base.extend({
             this.destinationPath('package.json'),
             { name: this.props.name }
         );
+
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/config.json'), this.destinationPath('config.json'));
 
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/webpack.config.js'), this.destinationPath('webpack.config.js'));
 

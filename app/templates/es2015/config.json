@@ -1,0 +1,8 @@
+{
+    "jsLibHeader": [
+                    "bower_components/ua-parser-js/src/ua-parser.js",
+                    "bower_components/modernizr/modernizr.js",
+                    "node_modules/babel-polyfill/dist/polyfill.js"
+                ],
+    "root"    : [ "src/.htaccess", "src/favicon.ico" ]
+}
