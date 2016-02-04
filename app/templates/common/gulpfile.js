@@ -166,12 +166,7 @@ gulp.task('_css-build', function () {
             image: BUILD_DIR + '/assets/',
             font: BUILD_DIR + '/assets/fonts/',
             sourcemap: !argv.dist,
-            style: (argv.dist ? 'compressed' : 'nested'),
-            'import_path': [
-                'bower_components/compass-breakpoint/stylesheets/',
-                'bower_components/sassy-maps/sass/',
-                'bower_components/susy/sass/'
-            ]
+            style: (argv.dist ? 'compressed' : 'nested')
         }))
         .on('error', function () { notifier.notify({ 'title': 'Gulp', 'message': 'CSS Error' }); });
 });

@@ -63,25 +63,6 @@ run unit tests with karma or e2e tests with protractor
 
 # SASS
 
-## Susy
-Documentation: [Click here](http://susydocs.oddbird.net/en/latest/)
-
-## Breakpoint
-Helper mixin for creating media queries. Example in `/src/scss/modules/_layout.scss`
-
-Documentation: [Click here](https://github.com/at-import/breakpoint/wiki)
-
-Example:
-```
-@include breakpoint($tablet) {
-    font-size: 1.5em;
-}
-
-@include breakpoint($desktop) {
-    font-size: 1.7em;
-}
-```
-
 ## Assets mixins
 ```
 @include retina-inline-asset($name, $ext: "png")

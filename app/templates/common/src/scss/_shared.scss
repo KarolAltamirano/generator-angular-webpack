@@ -1,8 +1,3 @@
-@import 'compass/css3';
-@import 'memo';
-@import 'breakpoint';
-@import 'susy';
-
 // variables
 
 $font-color-1: #666;
@@ -12,9 +7,10 @@ $font-color-3: #006;
 $color-1: #eee;
 $color-2: #aaa;
 
-$retina: min-resolution 1.5dppx;
+$retina: 1.5;
 $tablet: 600px;
 $desktop: 1025px;
+
 
 // mixins
 
