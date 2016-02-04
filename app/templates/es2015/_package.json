@@ -33,6 +33,7 @@
     "webpack": "^1.12.12"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14"
+    "babel-polyfill": "^6.3.14",
+    "normalize.css": "^3.0.3"
   }
 }
