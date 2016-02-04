@@ -1,5 +1,4 @@
 .version {
-    @include opacity(.95);
     position: fixed;
     right: 0;
     bottom: 0;
@@ -9,6 +8,7 @@
     color: $font-color-1;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5em;
+    opacity: .9;
     z-index: 9999;
 
     span {

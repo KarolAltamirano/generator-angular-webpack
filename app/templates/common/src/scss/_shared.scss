@@ -15,34 +15,34 @@ $desktop: 1025px;
 // mixins
 
 @mixin retina-inline-asset($name, $ext: 'png') {
-    $image: 'images/' + $name + '.' + $ext;
-    $image-retina: 'images/' + $name + '@2x.' + $ext;
+    $image: 'assets/images/' + $name + '.' + $ext;
+    $image-retina: 'assets/images/' + $name + '@2x.' + $ext;
 
     display: block;
+    width: width($image);
+    height: height($image);
     background-repeat: no-repeat;
-    width: image-width($image);
-    height: image-height($image);
-    @include background-size(image-width($image) image-height($image));
+    background-size: size($image);
 
     @if $assets-retina {
-        background-image: inline-image($image-retina);
+        background-image: inline($image-retina);
     } @else {
-        background-image: inline-image($image);
+        background-image: inline($image);
     }
 }
 
 @mixin retina-asset($name, $ext: 'png') {
-    $image: 'images/' + $name + '.' + $ext;
-    $image-retina: 'images/' + $name + '@2x.' + $ext;
+    $image: 'assets/images/' + $name + '.' + $ext;
+    $image-retina: 'assets/images/' + $name + '@2x.' + $ext;
 
     display: block;
+    width: width($image);
+    height: height($image);
     background-repeat: no-repeat;
-    width: image-width($image);
-    height: image-height($image);
-    @include background-size(image-width($image) image-height($image));
-    background-image: image-url($image);
+    background-size: size($image);
+    background-image: $image;
 
-    @include breakpoint($retina) {
-        background-image: image-url($image-retina);
+    @include hidpi($retina) {
+        background-image: $image-retina;
     }
 }
