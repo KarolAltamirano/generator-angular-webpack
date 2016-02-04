@@ -160,12 +160,6 @@ gulp.task('_clean', function () {
  *
  */
 
-// build normalize.css
-gulp.task('_css-normalize-build', function () {
-    return gulp.src('node_modules/normalize.css/normalize.css')
-        .pipe(gulp.dest(BUILD_DIR + '/css/'));
-});
-
 // build main css files
 gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
@@ -192,11 +186,7 @@ gulp.task('_css-build', function () {
 
 // build vendor css
 gulp.task('_css-vendor-build', function () {
-    if (bowerFiles('**/*.css').length === 0) {
-        return;
-    }
-
-    return gulp.src(bowerFiles('**/*.css'))
+    return gulp.src(['node_modules/normalize.css/normalize.css'].concat(bowerFiles('**/*.css')))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
         .pipe(gulpif(argv.dist, postcss([
@@ -298,9 +288,8 @@ gulp.task('_lint', function () {
 
 /* eslint-disable indent */
 
-gulp.task('_build', ['_css-normalize-build', '_css-build', '_css-vendor-build', '_tpls-build',
-          '_js-main-build', '_js-lib-header-build', '_js-lib-build', '_root-files-build',
-          '_index-build', '_data-build'], function () {
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-lib-header-build',
+          '_js-lib-build', '_root-files-build', '_index-build', '_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'Build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -316,11 +305,6 @@ gulp.task('build', function (cb) {
  *   Watch tasks with notification
  *
  */
-
-gulp.task('_css-normalize-watch', ['_css-normalize-build'], function () {
-    notifier.notify({ 'title': 'Gulp', 'message': 'CSS normalize build completed.' });
-    gutil.log(gutil.colors.green('... completed ...'));
-});
 
 gulp.task('_css-watch', ['_css-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'CSS build completed.' });
@@ -379,9 +363,8 @@ gulp.task('_live-reload', function () {
  */
 
 gulp.task('_watch', function () {
-    gulp.watch('node_modules/normalize.css/normalize.css', ['_css-normalize-watch']);
     gulp.watch('src/scss/**/*.scss', ['_css-watch']);
-    gulp.watch('bower_components/**', ['_css-vendor-watch']);
+    gulp.watch(['node_modules/normalize.css/normalize.css', 'bower_components/**'], ['_css-vendor-watch']);
 
     gulp.watch('src/scripts/**', ['_js-main-watch']);
     gulp.watch('bower_components/**', ['_js-lib-watch']);
