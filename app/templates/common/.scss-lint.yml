@@ -4,6 +4,3 @@ linters:
 
     PropertySortOrder:
         order: smacss
-
-    Compass::*:
-        enabled: true
