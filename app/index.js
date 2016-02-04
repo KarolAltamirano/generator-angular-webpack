@@ -80,6 +80,18 @@ module.exports = generators.Base.extend({
         }
 
         // root files
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/_bower.json'),
+            this.destinationPath('bower.json'),
+            {
+                name: this.props.name,
+                pixijs: this.pixijs,
+                soundjs: this.soundjs,
+                easeljs: this.easeljs,
+                statsjs: this.statsjs,
+                datgui: this.datgui
+            }
+        );
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
@@ -92,19 +104,6 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
-
-        this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/_bower.json'),
-            this.destinationPath('bower.json'),
-            {
-                name: this.props.name,
-                pixijs: this.pixijs,
-                soundjs: this.soundjs,
-                easeljs: this.easeljs,
-                statsjs: this.statsjs,
-                datgui: this.datgui
-            }
-        );
 
         this.fs.copyTpl(
             this.templatePath(VERSION_FOLDER + '/_package.json'),
