@@ -4,5 +4,5 @@
                     "bower_components/modernizr/modernizr.js",
                     "node_modules/babel-polyfill/dist/polyfill.js"
                 ],
-    "root"    : [ "src/.htaccess", "src/favicon.ico" ]
+    "root"    : [ "src/index.html", "src/.htaccess", "src/favicon.ico" ]
 }
