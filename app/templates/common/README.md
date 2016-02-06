@@ -61,10 +61,15 @@ run "npm install" inside "test" directory
 run unit tests with karma or e2e tests with protractor
 ```
 
-# Static Code Analysis
+# Linting
 ## JavaScript
+.eslintrc
 
 ## SCSS
+.scss-lint.yml
+
+## HTML
+.htmlhintrc
 
 # SCSS
 ## Bourbon
