@@ -1,7 +1,6 @@
 {
     "jsLibHeader": [
-                    "bower_components/ua-parser-js/src/ua-parser.js",
-                    "bower_components/modernizr/modernizr.js"
+                    "bower_components/ua-parser-js/src/ua-parser.js"
                 ],
     "root"    : [ "src/index.html", "src/.htaccess", "src/favicon.ico" ]
 }

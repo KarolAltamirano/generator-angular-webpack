@@ -25,6 +25,8 @@ var del           = require('del'),
     assets        = require('postcss-assets'),
     autoprefixer  = require('autoprefixer'),
     cssnano       = require('cssnano'),
+    file          = require('gulp-file'),
+    modernizr     = require('modernizr'),
     bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notifier      = require('node-notifier'),
@@ -39,6 +41,7 @@ var del           = require('del'),
     bump          = require('gulp-bump'),
     jeditor       = require('gulp-json-editor'),
     moment        = require('moment'),
+    modernConfig  = require('./modernizr-config.json'),
     myConfig      = Object.create(webpackConfig),
 
     // get load order of js and css files and list of root files to load
@@ -199,7 +202,7 @@ gulp.task('_css-vendor-build', function () {
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'));
 });
 
-// build main js loaded in bottom of page
+// build main and header js files
 var _jsMainBuild = function (cb) {
     webpack(myConfig, function (err, stats) {
         if (err) {
@@ -226,8 +229,18 @@ gulp.task('_js-lib-build', function () {
 });
 
 // build js vendor lib loaded in header of page
-gulp.task('_js-lib-header-build', function () {
+var MODERNIZR_LIB;
+
+gulp.task('_modernizr-build', function (cb) {
+    modernizr.build(modernConfig, function (result) {
+        MODERNIZR_LIB = result;
+        cb();
+    });
+});
+
+gulp.task('_js-lib-header-build', ['_modernizr-build'], function () {
     return gulp.src(jsLibHeader)
+        .pipe(file('modernizr.js', MODERNIZR_LIB))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('lib-header.js'))
         .pipe(gulpif(argv.dist, uglify()))
@@ -264,8 +277,8 @@ gulp.task('_lint', function () {
     return gulp.src(['src/scripts/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(notify(function (file) {
-            if (file.eslint.errorCount === 0 && file.eslint.warningCount === 0) {
+        .pipe(notify(function (f) {
+            if (f.eslint.errorCount === 0 && f.eslint.warningCount === 0) {
                 return false;
             }
             return 'ESLint error';

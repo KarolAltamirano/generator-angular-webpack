@@ -103,6 +103,8 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
 
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/modernizr-config.json'), this.destinationPath('modernizr-config.json'));
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
 
         this.fs.copyTpl(
