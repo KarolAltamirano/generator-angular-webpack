@@ -7,13 +7,13 @@
     "gsap": "^1.18.2",
     "isMobile": "^0.3.9",
     "ua-parser-js": "^0.7.10",
-    "angular": "^1.4.9",
+    "angular": "^1.5.0",
+    "angular-animate": "^1.5.0",
+    "angular-touch": "^1.5.0",
+    "angular-resource": "^1.5.0",
+    "angular-mocks": "^1.5.0",
+    "angular-sanitize": "^1.5.0",
     "angular-ui-router": "^0.2.17",
-    "angular-animate": "^1.4.9",
-    "angular-touch": "^1.4.9",
-    "angular-resource": "^1.4.9",
-    "angular-mocks": "^1.4.9",
-    "angular-sanitize": "^1.4.9",
     "visionmedia-debug": "^2.2.0",
     "PreloadJS": "^0.6.2"<% if (pixijs) { %>,
     "pixi": "^3.0.9"<% } %><% if (soundjs) { %>,
@@ -28,9 +28,6 @@
     },
     "angular-mocks": {
       "ignore": true
-    }<% if (datgui) { %>,
-    "dat-gui": {
-      "main": "./build/dat.gui.js"
-    }<% } %>
+    }
   }
 }
