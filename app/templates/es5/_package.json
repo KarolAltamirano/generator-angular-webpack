@@ -17,8 +17,8 @@
     "gulp-if": "^2.0.0",
     "gulp-json-editor": "^2.2.1",
     "gulp-notify": "^2.2.0",
-    "gulp-postcss": "^6.0.1",
-    "gulp-sass": "^2.1.1",
+    "gulp-postcss": "^6.1.0",
+    "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
@@ -27,11 +27,11 @@
     "minimist": "^1.2.0",
     "modernizr": "^3.3.1",
     "moment": "^2.11.1",
-    "ng-annotate-loader": "^0.0.10",
+    "ng-annotate-loader": "^0.1.0",
     "node-notifier": "^4.4.0",
     "postcss-assets": "^4.0.1",
     "run-sequence": "^1.1.5",
-    "webpack": "^1.12.12"
+    "webpack": "^1.12.13"
   },
   "dependencies": {
     "bourbon": "^4.2.6",
