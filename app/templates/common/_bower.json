@@ -19,8 +19,8 @@
     "pixi": "^3.0.9"<% } %><% if (soundjs) { %>,
     "SoundJS": "^0.6.2"<% } %><% if (easeljs) { %>,
     "EaselJS": "^0.8.2"<% } %><% if (statsjs) { %>,
-    "stats.js": "latest"<% } %><% if (datgui) { %>,
-    "dat-gui": "^0.5.0"<% } %>
+    "stats.js": "master"<% } %><% if (datgui) { %>,
+    "dat-gui": "master"<% } %>
   },
   "overrides": {
     "ua-parser-js": {
