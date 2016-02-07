@@ -45,12 +45,14 @@ var del           = require('del'),
     myConfig      = Object.create(webpackConfig),
 
     // get load order of js and css files and list of root files to load
-    config        = require('./config.json'),
-    jsLibHeader   = config.jsLibHeader,
-    rootFiles     = config.root,
+    config           = require('./config.json'),
+    jsLibHeader      = config.jsLibHeader,
+    rootFiles        = config.root,
+    scssIncludePaths = config.scssIncludePaths,
+    cssVendorExtend  = config.cssVendorExtend,
 
     // parse parameters
-    argv          = minimist(process.argv.slice(2), { boolean: true });
+    argv = minimist(process.argv.slice(2), { boolean: true });
 
 /**
  *
@@ -166,12 +168,7 @@ gulp.task('_clean', function () {
 gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
-        .pipe(sass({
-            includePaths: [
-                'node_modules/bourbon/app/assets/stylesheets',
-                'node_modules/bourbon-neat/app/assets/stylesheets'
-            ]
-        })
+        .pipe(sass({ includePaths: scssIncludePaths })
         .on('error', sass.logError))
         .pipe(gulpif(!argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
@@ -188,7 +185,7 @@ gulp.task('_css-build', function () {
 
 // build vendor css
 gulp.task('_css-vendor-build', function () {
-    return gulp.src(['node_modules/normalize.css/normalize.css'].concat(bowerFiles('**/*.css')))
+    return gulp.src(cssVendorExtend.concat(bowerFiles('**/*.css')))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
         .pipe(gulpif(!argv.dist, postcss([
@@ -364,7 +361,7 @@ gulp.task('_live-reload', function () {
 
 gulp.task('_watch', function () {
     gulp.watch('src/scss/**/*.scss', ['_css-watch']);
-    gulp.watch(['node_modules/normalize.css/normalize.css', 'bower_components/**'], ['_css-vendor-watch']);
+    gulp.watch(cssVendorExtend.concat(['bower_components/**']), ['_css-vendor-watch']);
 
     gulp.watch('src/scripts/**', ['_js-main-watch']);
     gulp.watch('bower_components/**', ['_js-lib-watch']);
