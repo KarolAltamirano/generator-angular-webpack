@@ -5,12 +5,17 @@
 [![Dependency Status](https://david-dm.org/KarolAltamirano/generator-angular-webpack.svg)](https://david-dm.org/KarolAltamirano/generator-angular-webpack)
 
 ## Getting Started
+### Requirements
+- NodeJS v4.0 or newer
+- npm v3.3 or newer
+- yo, gulp and bower (to insall run `npm install -g yo gulp bower`)
 
-* Install: `npm install -g generator-angular-webpack`
-* Run: `yo angular-webpack`
-* Run: `gulp` to build for development and watch for file changes or `gulp build --dist` to build for production
+### Installation
+- Install: `npm install -g generator-angular-webpack`
+- Run: `yo angular-webpack`
+- Run: `gulp` to build for development and watch for file changes or `gulp build --dist` to build for production
 
-## More informations can be found in readme file of generated project.
+## More details can be found inside readme file of generated project.
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History

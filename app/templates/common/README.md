@@ -2,7 +2,7 @@
 ```
 src     : source code
 test    : unit and e2e test scripts
-website : builded page (do not edit files there)
+website : built page (do not edit files there)
 ```
 
 # 'src' folder
@@ -11,12 +11,12 @@ assets  : don't place assets here. Add assets to /website/assets/ folder.
 data    : json files preloaded with preloadjs
 scripts : app       - angular app
           data      - json files required with webpack
-          utilities - utilities scripts
+          utilities - app classes and objects
           header.js - app file loaded in header
           main.js   - main app file
-scss    : assets    - scss styles preloaded with preloadjs
-                        (for inline images), edit _assets.scss, use just
-                        for a small icons, no big images
+scss    : assets    - styles preloaded with preloadjs (for inline images)
+                      edit _assets.scss
+                      use just for a small icons (no big images)
           modules   - scss modules
           _base     - default styling
           _fonts    - page fonts
@@ -36,7 +36,7 @@ gulp build        : build for development
 gulp watch        : watch for changes and rebuild updated file
 gulp              : default task runs 'gulp watch'
 gulp build --dist : build for production
-gulp connect      : create http server for testing production version
+gulp connect      : create http server for testing
 gulp bump --major : bump major version
 gulp bump --minor : bump minor version
 gulp bump --patch : bump patch version
@@ -57,40 +57,67 @@ To bump version use gulp task `gulp bump --major | --minor | --patch`
 # Test
 ## Getting started
 ```
-run "npm install" inside "test" directory
-run unit tests with karma or e2e tests with protractor
+run `npm install` inside `test` directory
+run unit tests with `karma` or e2e tests with `protractor`
 ```
 
 # Linting
+Use linter in your text editor for JavaScript, SCSS and HTML.
+
 ## JavaScript
-.eslintrc
+- For JavaScript use [ESLint](http://eslint.org/). The project contains ESLint configuration file `.eslintrc`
+- ESLint for Atom - [show](https://github.com/AtomLinter/linter-eslint)
+- ESLint for Sublime Text - [show](https://github.com/roadhump/SublimeLinter-eslint)
 
 ## SCSS
-.scss-lint.yml
+- For SCSS use [SCSS-Lint](https://github.com/brigade/scss-lint). The project contains SCSS-Lint configuration file `.scss-lint.yml`
+- SCSS-Lint for Atom - [show](https://github.com/AtomLinter/linter-scss-lint)
+- SCSS-Lint for Sublime Text - [show](https://github.com/attenzione/SublimeLinter-scss-lint)
 
 ## HTML
-.htmlhintrc
+- For HTML use [HTMLHint](https://github.com/yaniswang/HTMLHint). The project contains HTMLHint configuration file `.htmlhintrc`
+- HTMLHint for Atom - [show](https://github.com/AtomLinter/linter-htmlhint)
+- HTMLHint for Sublime Text - [show](https://github.com/mmaday/SublimeLinter-contrib-htmlhint)
+
 
 # SCSS
 ## Bourbon
+Mixin library for Sass. Check Bourbon [homepage](http://bourbon.io/) for more details and documentation.
+**Do not use Bourbon mixins for Vendor Prefixes!** SCSS build uses `autoprefixer` for them.
+
+Examples:
+```
+HiDPI Media Query:
+
+@include hidpi(1.5) {
+    width: 20em;
+}
+
+Font Face:
+
+@include font-face('generica', '../assets/fonts/generica', $file-formats: eot woff ttf svg);
+```
 
 ## Neat
+Grid framework for Sass and Bourbon. Check Neat [homepage](http://neat.bourbon.io/) for more details and documentation.
+
+Examples: [here](http://neat.bourbon.io/examples/)
 
 ## Assets mixins
 ```
-@include retina-inline-asset($name, $ext: "png")
+@include retina-inline-asset($name, $ext: 'png')
 
 Mixin for generating stile with background image encoded in base64 for non-retina and retina screens.
 Use this mixin only in `/src/scss/assets/_assets.scss` and only for small icons and logos.
 ```
 
 ```
-@include retina-asset($name, $ext: "png")
+@include retina-asset($name, $ext: 'png')
 
 Mixin for generating stile with background image for non-retina and retina screens.
 Use this mixin only in `/src/scss/modules/*.scss`
 ```
 
 ## CSS assets for bower packages
-css file from bower package will be built automatically but assets have to be
+Css files from bower packages will be built automatically but assets have to be
 copied manually into `/website/css/vendor/`
