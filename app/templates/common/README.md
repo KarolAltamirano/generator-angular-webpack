@@ -51,17 +51,13 @@ cssVendorExtend  : Array of css libraries installed with npm
 ```
 
 # Build version
-```
 To hide build version info set `renderVersionInfo` to `false` inside `src/scripts/utilities/appSettings.js` file.
 To bump version use gulp task `gulp bump --major | --minor | --patch`
-```
 
 # Test
 ## Getting started
-```
-run `npm install` inside `test` directory
-run unit tests with `karma` or e2e tests with `protractor`
-```
+Run `npm install` inside `test` directory and
+run unit tests with `karma start` or e2e tests with `protractor`
 
 # Linting
 Use linter in your text editor for JavaScript, SCSS and HTML.

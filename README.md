@@ -3,6 +3,7 @@
 <br>
 [![Build Status](https://travis-ci.org/KarolAltamirano/generator-angular-webpack.svg?branch=master)](https://travis-ci.org/KarolAltamirano/generator-angular-webpack)
 [![Dependency Status](https://david-dm.org/KarolAltamirano/generator-angular-webpack.svg)](https://david-dm.org/KarolAltamirano/generator-angular-webpack)
+[![npm version](https://badge.fury.io/js/generator-angular-webpack.svg)](https://badge.fury.io/js/generator-angular-webpack)
 
 ## Getting Started
 ### Requirements
