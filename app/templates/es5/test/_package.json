@@ -10,8 +10,8 @@
     "karma-spec-reporter": "^0.0.23",
     "karma-webpack": "^1.7.0",
     "main-bower-files": "^2.11.1",
-    "ng-annotate-loader": "^0.0.10",
-    "webpack": "^1.12.12",
+    "ng-annotate-loader": "^0.1.0",
+    "webpack": "^1.12.13",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4"
   }
