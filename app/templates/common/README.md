@@ -44,8 +44,10 @@ gulp bump --patch : bump patch version
 
 # Config file 'config.json'
 ```
-jsLibHeader : Order of JavaScript libraries loaded in header               
-root        : List of RootFiles to copy to website folder
+jsLibHeader      : Order of JavaScript libraries loaded in header               
+root             : List of files to copy to website root folder
+scssIncludePaths : Array of sass libraries
+cssVendorExtend  : Array of css libraries installed with npm
 ```
 
 # Build version
