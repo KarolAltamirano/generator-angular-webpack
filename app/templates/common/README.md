@@ -117,5 +117,5 @@ Use this mixin only in `/src/scss/modules/*.scss`
 ```
 
 ## CSS assets for bower packages
-Css files from bower packages will be built automatically but assets have to be
+CSS files from bower packages will be built automatically but assets have to be
 copied manually into `/website/css/vendor/`
