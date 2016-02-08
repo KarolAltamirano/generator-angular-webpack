@@ -1,0 +1,17 @@
+// browser is compatible
+.incompatible-browser {
+    display: none;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+// runtime error - modernizr.js fails (show incompatible browser page)
+.no-js .incompatible-browser {
+    display: block;
+}
+
+// incompatible browser detected (show incompatible browser page)
+.incompatible .incompatible-browser {
+    display: block;
+}

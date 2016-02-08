@@ -16,12 +16,17 @@
 var del           = require('del'),
     gulp          = require('gulp'),
     gutil         = require('gulp-util'),
-    compass       = require('gulp-compass'),
     concat        = require('gulp-concat'),
     connect       = require('gulp-connect'),
     modRewrite    = require('connect-modrewrite'),
     uglify        = require('gulp-uglify'),
-    cssnano       = require('gulp-cssnano'),
+    sass          = require('gulp-sass'),
+    postcss       = require('gulp-postcss'),
+    assets        = require('postcss-assets'),
+    autoprefixer  = require('autoprefixer'),
+    cssnano       = require('cssnano'),
+    file          = require('gulp-file'),
+    modernizr     = require('modernizr'),
     bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notifier      = require('node-notifier'),
@@ -29,7 +34,6 @@ var del           = require('del'),
     extend        = require('gulp-extend'),
     minimist      = require('minimist'),
     gulpif        = require('gulp-if'),
-    htmlreplace   = require('gulp-html-replace'),
     runSequence   = require('run-sequence'),
     eslint        = require('gulp-eslint'),
     webpack       = require('webpack'),
@@ -37,16 +41,18 @@ var del           = require('del'),
     bump          = require('gulp-bump'),
     jeditor       = require('gulp-json-editor'),
     moment        = require('moment'),
+    modernConfig  = require('./modernizr-config.json'),
     myConfig      = Object.create(webpackConfig),
 
     // get load order of js and css files and list of root files to load
-    config        = require('./config.json'),
-    jsHeader      = config.jsHeader,
-    cssFiles      = config.css,
-    rootFiles     = config.root,
+    config           = require('./config.json'),
+    jsLibHeader      = config.jsLibHeader,
+    rootFiles        = config.root,
+    scssIncludePaths = config.scssIncludePaths,
+    cssVendorExtend  = config.cssVendorExtend,
 
     // parse parameters
-    argv          = minimist(process.argv.slice(2), { boolean: true });
+    argv = minimist(process.argv.slice(2), { boolean: true });
 
 /**
  *
@@ -54,7 +60,8 @@ var del           = require('del'),
  *
  */
 
-var BUILD_DIR = 'website';
+var BUILD_DIR = 'website',
+    AUTO_PREFIXER_RULES = ['last 2 versions'];
 
 /**
  *
@@ -63,8 +70,9 @@ var BUILD_DIR = 'website';
  */
 
 myConfig.output = {
-    filename: BUILD_DIR + '/scripts/main.js',
-    sourceMapFilename: BUILD_DIR + '/scripts/maps/main.js.map'
+    path: BUILD_DIR + '/scripts',
+    filename: '[name].js',
+    sourceMapFilename: 'maps/[file].map'
 };
 
 if (argv.dist) {
@@ -156,40 +164,42 @@ gulp.task('_clean', function () {
  *
  */
 
-// generate css with compass
+// build main css files
 gulp.task('_css-build', function () {
-    return gulp.src(cssFiles)
-        .pipe(compass({
-            'http_path': BUILD_DIR + '/',
-            css: BUILD_DIR + '/css/',
-            sass: 'src/scss/',
-            image: BUILD_DIR + '/assets/',
-            font: BUILD_DIR + '/assets/fonts/',
-            sourcemap: !argv.dist,
-            style: (argv.dist ? 'compressed' : 'nested'),
-            'import_path': [
-                'bower_components/compass-breakpoint/stylesheets/',
-                'bower_components/sassy-maps/sass/'
-            ]
-        }))
-        .on('error', function () { notifier.notify({ 'title': 'Gulp', 'message': 'CSS Error' }); });
+    return gulp.src('src/scss/**/*.scss')
+        .pipe(gulpif(!argv.dist, sourcemaps.init()))
+        .pipe(sass({ includePaths: scssIncludePaths })
+        .on('error', sass.logError))
+        .pipe(gulpif(!argv.dist, postcss([
+            assets({ basePath: BUILD_DIR }),
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES })
+        ])))
+        .pipe(gulpif(argv.dist, postcss([
+            assets({ basePath: BUILD_DIR }),
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
+            cssnano
+        ])))
+        .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
+        .pipe(gulp.dest(BUILD_DIR + '/css/'));
 });
 
 // build vendor css
 gulp.task('_css-vendor-build', function () {
-    if (bowerFiles('**/*.css').length === 0) {
-        return;
-    }
-
-    return gulp.src(bowerFiles('**/*.css'))
+    return gulp.src(cssVendorExtend.concat(bowerFiles('**/*.css')))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
-        .pipe(gulpif(argv.dist, cssnano()))
+        .pipe(gulpif(!argv.dist, postcss([
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES })
+        ])))
+        .pipe(gulpif(argv.dist, postcss([
+            autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
+            cssnano
+        ])))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'));
 });
 
-// build main js loaded in bottom of page
+// build main and header js files
 var _jsMainBuild = function (cb) {
     webpack(myConfig, function (err, stats) {
         if (err) {
@@ -216,18 +226,23 @@ gulp.task('_js-lib-build', function () {
 });
 
 // build js vendor lib loaded in header of page
-var _jsHeaderBuild = function () {
-    return gulp.src(jsHeader)
+var MODERNIZR_LIB;
+
+gulp.task('_modernizr-build', function (cb) {
+    modernizr.build(modernConfig, function (result) {
+        MODERNIZR_LIB = result;
+        cb();
+    });
+});
+
+gulp.task('_js-lib-header-build', ['_modernizr-build'], function () {
+    return gulp.src(jsLibHeader)
+        .pipe(file('modernizr.js', MODERNIZR_LIB))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
-        .pipe(concat('priority.js'))
+        .pipe(concat('lib-header.js'))
         .pipe(gulpif(argv.dist, uglify()))
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
-};
-
-gulp.task('_js-header-build', _jsHeaderBuild);
-gulp.task('_js-header-watch-build', function (cb) {
-    runSequence('_lint', '_js-header-build', cb);
 });
 
 // generate templates
@@ -240,16 +255,6 @@ gulp.task('_tpls-build', function () {
 gulp.task('_root-files-build', function () {
     return gulp.src(rootFiles)
         .pipe(gulp.dest(BUILD_DIR + '/'));
-});
-
-// build index
-gulp.task('_index-build', function () {
-    var hasVendorCss = bowerFiles('**/*.css').length !== 0 ? true : false;
-
-    return gulp.src('src/index.html')
-        .pipe(gulpif(hasVendorCss, htmlreplace({ vendorCss: 'css/vendor/vendor.css' })))
-        .pipe(gulpif(!hasVendorCss, htmlreplace({ vendorCss: '' })))
-        .pipe(gulp.dest(BUILD_DIR));
 });
 
 // data build
@@ -269,8 +274,8 @@ gulp.task('_lint', function () {
     return gulp.src(['src/scripts/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(notify(function (file) {
-            if (file.eslint.errorCount === 0 && file.eslint.warningCount === 0) {
+        .pipe(notify(function (f) {
+            if (f.eslint.errorCount === 0 && f.eslint.warningCount === 0) {
                 return false;
             }
             return 'ESLint error';
@@ -285,8 +290,8 @@ gulp.task('_lint', function () {
 
 /* eslint-disable indent */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build', '_js-header-build',
-          '_js-lib-build', '_root-files-build', '_index-build', '_data-build'], function () {
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build',
+          '_js-lib-header-build', '_js-lib-build', '_root-files-build', '_data-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'Build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -323,7 +328,7 @@ gulp.task('_js-lib-watch', ['_js-lib-build'], function () {
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
-gulp.task('_js-header-watch', ['_js-header-watch-build'], function () {
+gulp.task('_js-lib-header-watch', ['_js-lib-header-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'JS build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
@@ -335,11 +340,6 @@ gulp.task('_tpls-watch', ['_tpls-build'], function () {
 
 gulp.task('_root-files-watch', ['_root-files-build'], function () {
     notifier.notify({ 'title': 'Gulp', 'message': 'ROOT FILES build completed.' });
-    gutil.log(gutil.colors.green('... completed ...'));
-});
-
-gulp.task('_index-watch', ['_index-build'], function () {
-    notifier.notify({ 'title': 'Gulp', 'message': 'INDEX FILE build completed.' });
     gutil.log(gutil.colors.green('... completed ...'));
 });
 
@@ -361,16 +361,15 @@ gulp.task('_live-reload', function () {
 
 gulp.task('_watch', function () {
     gulp.watch('src/scss/**/*.scss', ['_css-watch']);
-    gulp.watch('bower_components/**', ['_css-vendor-watch']);
+    gulp.watch(cssVendorExtend.concat(['bower_components/**']), ['_css-vendor-watch']);
 
     gulp.watch('src/scripts/**', ['_js-main-watch']);
     gulp.watch('bower_components/**', ['_js-lib-watch']);
-    gulp.watch(jsHeader, ['_js-header-watch']);
+    gulp.watch(jsLibHeader, ['_js-lib-header-watch']);
 
     gulp.watch('src/tpls/**/*.html', ['_tpls-watch']);
 
     gulp.watch(rootFiles, ['_root-files-watch']);
-    gulp.watch(['bower_components/**', 'src/index.html'], ['_index-watch']);
 
     gulp.watch('src/data/**/*.json', ['_data-watch']);
 

@@ -1,8 +1,9 @@
-@import "../shared";
+@import '../shared';
 
 .asset-img-1 {
-    @include retina-inline-asset("IMG-1", "jpg");
+    @include retina-inline-asset('IMG-1', 'jpg');
 }
+
 .asset-img-2 {
-    @include retina-inline-asset("IMG-2", "jpg");
+    @include retina-inline-asset('IMG-2', 'jpg');
 }

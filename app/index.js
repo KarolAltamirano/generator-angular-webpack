@@ -80,10 +80,8 @@ module.exports = generators.Base.extend({
         }
 
         // root files
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
-
         this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/_bower.json'),
+            this.templatePath(COMMON_FOLDER + '/_bower.json'),
             this.destinationPath('bower.json'),
             {
                 name: this.props.name,
@@ -95,9 +93,19 @@ module.exports = generators.Base.extend({
             }
         );
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.htmlhintrc'), this.destinationPath('.htmlhintrc'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.scss-lint.yml'), this.destinationPath('.scss-lint.yml'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/modernizr-config.json'), this.destinationPath('modernizr-config.json'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
 
         this.fs.copyTpl(
             this.templatePath(VERSION_FOLDER + '/_package.json'),
@@ -105,11 +113,9 @@ module.exports = generators.Base.extend({
             { name: this.props.name }
         );
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/config.json'), this.destinationPath('config.json'));
 
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/webpack.config.js'), this.destinationPath('webpack.config.js'));
-
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
         // src folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/assets/**'), this.destinationPath('src/assets/'));
@@ -130,7 +136,9 @@ module.exports = generators.Base.extend({
         }
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/data/**'), this.destinationPath('src/scripts/data/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/globals/**'), this.destinationPath('src/scripts/globals/'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/appSettings.js'), this.destinationPath('src/scripts/utilities/appSettings.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompatible.js'), this.destinationPath('src/scripts/utilities/incompatible.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompDetect.js'), this.destinationPath('src/scripts/utilities/incompDetect.js'));
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loader.js'),
             this.destinationPath('src/scripts/utilities/loader.js'),
@@ -138,6 +146,7 @@ module.exports = generators.Base.extend({
         );
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/header.js'), this.destinationPath('src/scripts/header.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
@@ -146,7 +155,7 @@ module.exports = generators.Base.extend({
         if (this.pixijs) {
             this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_canvas.scss'), this.destinationPath('src/scss/modules/_canvas.scss'));
         }
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_incompatibleBrowser.scss'), this.destinationPath('src/scss/modules/_incompatibleBrowser.scss'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_incompatible-browser.scss'), this.destinationPath('src/scss/modules/_incompatible-browser.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_layout.scss'), this.destinationPath('src/scss/modules/_layout.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_loader.scss'), this.destinationPath('src/scss/modules/_loader.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_version.scss'), this.destinationPath('src/scss/modules/_version.scss'));

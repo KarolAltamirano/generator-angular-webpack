@@ -1,12 +1,13 @@
-@import "compass/reset";
+@import 'bourbon';
+@import 'neat';
 
-@import "shared";
-@import "base";
-@import "fonts";
+@import 'shared';
+@import 'base';
+@import 'fonts';
 
-@import "modules/animation";
-@import "modules/layout";
-@import "modules/incompatibleBrowser";
-@import "modules/version";
-@import "modules/loader";<% if (pixijs) { %>
-@import "modules/canvas";<% } %>
+@import 'modules/animation';
+@import 'modules/layout';
+@import 'modules/incompatible-browser';
+@import 'modules/version';
+@import 'modules/loader';<% if (pixijs) { %>
+@import 'modules/canvas';<% } %>

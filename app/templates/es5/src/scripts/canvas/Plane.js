@@ -3,7 +3,7 @@
 var  loader = require('../utilities/loader');
 
 function Plane(resolution) {
-    var planeImg  = loader.getLoader().getResult('plane'),
+    var planeImg = loader.getLoader().getResult('plane'),
         planeBase = new PIXI.BaseTexture(planeImg),
         planeTexture = new PIXI.Texture(planeBase),
         scale = resolution > 1 ? 0.5 : 1;

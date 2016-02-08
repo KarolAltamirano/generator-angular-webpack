@@ -1,40 +1,48 @@
-@import "compass/css3";
-@import "memo";
-@import "breakpoint";
+// variables
 
-$retina: min-resolution 1.5dppx;
+$font-color-1: #666;
+$font-color-2: #009;
+$font-color-3: #006;
+
+$color-1: #eee;
+$color-2: #aaa;
+
+$retina: 1.5;
 $tablet: 600px;
 $desktop: 1025px;
 
-@mixin retina-inline-asset($name, $ext: "png") {
-    $image: "images/" + $name + "." + $ext;
-    $image-retina: "images/" + $name + "@2x." + $ext;
+
+// mixins
+
+@mixin retina-inline-asset($name, $ext: 'png') {
+    $image: 'assets/images/' + $name + '.' + $ext;
+    $image-retina: 'assets/images/' + $name + '@2x.' + $ext;
 
     display: block;
+    width: width($image);
+    height: height($image);
     background-repeat: no-repeat;
-    width: image-width($image);
-    height: image-height($image);
-    @include background-size(image-width($image) image-height($image));
+    background-size: size($image);
 
     @if $assets-retina {
-        background-image: inline-image($image-retina);
+        background-image: inline($image-retina);
     } @else {
-        background-image: inline-image($image);
+        background-image: inline($image);
     }
 }
 
-@mixin retina-asset($name, $ext: "png") {
-    $image: "images/" + $name + "." + $ext;
-    $image-retina: "images/" + $name + "@2x." + $ext;
+@mixin retina-asset($name, $ext: 'png') {
+    $image: 'assets/images/' + $name + '.' + $ext;
+    $image-retina: 'assets/images/' + $name + '@2x.' + $ext;
 
     display: block;
+    width: width($image);
+    height: height($image);
     background-repeat: no-repeat;
-    width: image-width($image);
-    height: image-height($image);
-    @include background-size(image-width($image) image-height($image));
-    background-image: image-url($image);
+    background-size: size($image);
+    background-image: $image;
 
-    @include breakpoint($retina) {
-        background-image: image-url($image-retina);
+    @include hidpi($retina) {
+        background-image: $image-retina;
     }
 }
