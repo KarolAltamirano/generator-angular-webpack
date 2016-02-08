@@ -1,6 +1,6 @@
 # Angular Webpack generator
 ## ES2015 (Babel) or ES5
-<br>
+
 [![Build Status](https://travis-ci.org/KarolAltamirano/generator-angular-webpack.svg?branch=master)](https://travis-ci.org/KarolAltamirano/generator-angular-webpack)
 [![Dependency Status](https://david-dm.org/KarolAltamirano/generator-angular-webpack.svg)](https://david-dm.org/KarolAltamirano/generator-angular-webpack)
 [![GitHub version](https://badge.fury.io/gh/KarolAltamirano%2Fgenerator-angular-webpack.svg)](https://badge.fury.io/gh/KarolAltamirano%2Fgenerator-angular-webpack)
@@ -21,6 +21,7 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
+* 2016-02-08 v0.4.1 Fix readme file
 * 2016-02-08 v0.4.0 JavaScript in header is built with Webpack, SCSS is built with libSass and PostCSS,
   Added SCSS-Lint and HTMLHint configuration files, Added SCSS libraries Bourbon and Neat,
   Added normalize.css, Updated all dependencies to newest versions
