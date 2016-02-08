@@ -21,6 +21,7 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
+* 2016-02-08 v0.4.1 Fix readme file
 * 2016-02-08 v0.4.0 JavaScript in header is built with Webpack, SCSS is built with libSass and PostCSS,
   Added SCSS-Lint and HTMLHint configuration files, Added SCSS libraries Bourbon and Neat,
   Added normalize.css, Updated all dependencies to newest versions
