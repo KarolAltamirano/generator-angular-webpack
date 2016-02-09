@@ -80,6 +80,7 @@ var TASK_NOTIFICATION = false,
 
 myConfig.output = {
     path: BUILD_DIR + '/scripts',
+    publicPath: 'scripts/',
     filename: '[name].js',
     sourceMapFilename: 'maps/[file].map'
 };
