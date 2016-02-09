@@ -60,8 +60,15 @@ var del           = require('del'),
  */
 
 var BUILD_DIR = 'website',
-    AUTO_PREFIXER_RULES = ['last 2 versions'],
-    TASK_NOTIFICATION = false,
+    AUTO_PREFIXER_RULES = ['last 2 versions'];
+
+/**
+ *
+ *   Helper variables
+ *
+ */
+
+var TASK_NOTIFICATION = false,
     LIVE_RELOAD = false,
     MODERNIZR_LIB;
 
