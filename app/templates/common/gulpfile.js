@@ -202,7 +202,7 @@ gulp.task('_css-vendor-build', function () {
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'CSS vendor build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Vendor CSS build completed.', onLast: true })));
 });
 
 // build main and header js files
@@ -215,7 +215,7 @@ var _jsMainBuild = function (cb) {
 
         file('noop.js', '', { src: true })
             .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-            .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JS build completed.', onLast: true })));
+            .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
 
         cb();
     });
@@ -235,7 +235,7 @@ gulp.task('_js-lib-build', function () {
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JS build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
 });
 
 // build js vendor lib loaded in header of page
@@ -255,7 +255,7 @@ gulp.task('_js-lib-header-build', ['_modernizr-build'], function () {
         .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
         .pipe(gulp.dest(BUILD_DIR + '/scripts/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JS build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
 });
 
 // generate templates
@@ -263,7 +263,7 @@ gulp.task('_tpls-build', function () {
     return gulp.src('src/tpls/**/*.html')
         .pipe(gulp.dest(BUILD_DIR + '/tpls/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'TEMPLATE build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Template build completed.', onLast: true })));
 });
 
 // copy root files
@@ -271,7 +271,7 @@ gulp.task('_root-files-build', function () {
     return gulp.src(rootFiles)
         .pipe(gulp.dest(BUILD_DIR + '/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'ROOT FILES build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Root files build completed.', onLast: true })));
 });
 
 // data build
@@ -280,7 +280,7 @@ gulp.task('_data-build', function () {
         .pipe(extend('data.json'))
         .pipe(gulp.dest(BUILD_DIR + '/data/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'DATA build completed.', onLast: true })));
+        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Data build completed.', onLast: true })));
 });
 
 /**
