@@ -3,7 +3,6 @@
 
 [![Build Status](https://travis-ci.org/KarolAltamirano/generator-angular-webpack.svg?branch=master)](https://travis-ci.org/KarolAltamirano/generator-angular-webpack)
 [![Dependency Status](https://david-dm.org/KarolAltamirano/generator-angular-webpack.svg)](https://david-dm.org/KarolAltamirano/generator-angular-webpack)
-[![GitHub version](https://badge.fury.io/gh/KarolAltamirano%2Fgenerator-angular-webpack.svg)](https://badge.fury.io/gh/KarolAltamirano%2Fgenerator-angular-webpack)
 [![npm version](https://badge.fury.io/js/generator-angular-webpack.svg)](https://badge.fury.io/js/generator-angular-webpack)
 
 ## Getting Started
@@ -23,6 +22,7 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
+* 2016-02-09 v0.4.3 Fix webpack build to run multiple entry points on one page
 * 2016-02-09 v0.4.2 Changes in html and scss linter configuration files, changed build notifications logic,
   removed retina-asset mixin in favor of Bourbon retina-image mixin, renamed retina template images
   for consistency with Bourbon

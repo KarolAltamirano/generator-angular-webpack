@@ -41,7 +41,7 @@
         "no-lone-blocks": 2,
         "no-redeclare": 2,
         "no-with": 2,
-        "global-require": 2,
+        "global-require": 0,
         "comma-style": [2, "last"],
         "computed-property-spacing": [2, "never"],
         "key-spacing": 2,
