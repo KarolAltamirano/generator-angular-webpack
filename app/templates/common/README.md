@@ -87,13 +87,23 @@ Examples:
 ```
 HiDPI Media Query:
 
-@include hidpi(1.5) {
-    width: 20em;
-}
+    @include hidpi(1.5) {
+        width: 20em;
+    }
 
 Font Face:
 
-@include font-face('generica', '../assets/fonts/generica', $file-formats: eot woff ttf svg);
+    @include font-face('generica', '../assets/fonts/generica', $file-formats: eot woff ttf svg);
+
+Retina Image:
+
+    @retina-image($filename, $background-size, $extension*, $retina-filename*, $retina-suffix*, $asset-pipeline*)
+
+    Argument Defaults:
+        $extension: png
+        $retina-filename: null
+        $retina-suffix: _2x
+        $asset-pipeline: false
 ```
 
 ## Neat
@@ -101,19 +111,12 @@ Grid framework for Sass and Bourbon. Check Neat [homepage](http://neat.bourbon.i
 
 Examples: [here](http://neat.bourbon.io/examples/)
 
-## Assets mixins
+## Assets mixin
 ```
 @include retina-inline-asset($name, $ext: 'png')
 
-Mixin for generating stile with background image encoded in base64 for non-retina and retina screens.
+Mixin for generating css with background image encoded in base64 for non-retina and retina screens.
 Use this mixin only in `/src/scss/assets/_assets.scss` and only for small icons and logos.
-```
-
-```
-@include retina-asset($name, $ext: 'png')
-
-Mixin for generating stile with background image for non-retina and retina screens.
-Use this mixin only in `/src/scss/modules/*.scss`
 ```
 
 ## CSS assets for bower packages
