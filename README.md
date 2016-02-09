@@ -10,7 +10,9 @@
 ### Requirements
 - NodeJS v4.0 or newer
 - npm v3.3 or newer
-- yo, gulp and bower (to insall run `npm install -g yo gulp bower`)
+- yo (to install run `npm install -g yo`)
+- bower (to install run `npm install -g bower`)
+- gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
 
 ### Installation
 - Install: `npm install -g generator-angular-webpack`
@@ -21,6 +23,9 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
+* 2016-02-09 v0.4.2 Changes in html and scss linter configuration files, changed build notifications logic,
+  removed retina-asset mixin in favor of Bourbon retina-image mixin, renamed retina template images
+  for consistency with Bourbon
 * 2016-02-08 v0.4.1 Fix readme file
 * 2016-02-08 v0.4.0 JavaScript in header is built with Webpack, SCSS is built with libSass and PostCSS,
   Added SCSS-Lint and HTMLHint configuration files, Added SCSS libraries Bourbon and Neat,

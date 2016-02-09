@@ -4,3 +4,6 @@ linters:
 
     PropertySortOrder:
         order: smacss
+
+    NestingDepth:
+        enabled: false
