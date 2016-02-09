@@ -10,7 +10,9 @@
 ### Requirements
 - NodeJS v4.0 or newer
 - npm v3.3 or newer
-- yo, gulp and bower (to insall run `npm install -g yo gulp bower`)
+- yo (to install run `npm install -g yo`)
+- bower (to install run `npm install -g bower`)
+- gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
 
 ### Installation
 - Install: `npm install -g generator-angular-webpack`

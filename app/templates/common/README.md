@@ -55,7 +55,6 @@ To hide build version info set `renderVersionInfo` to `false` inside `src/script
 To bump version use gulp task `gulp bump --major | --minor | --patch`
 
 # Test
-## Getting started
 Run `npm install` inside `test` directory and
 run unit tests with `karma start` or e2e tests with `protractor`
 
