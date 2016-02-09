@@ -85,10 +85,14 @@ myConfig.output = {
     sourceMapFilename: 'maps/[file].map'
 };
 
+myConfig.plugins = [
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'header'
+    })
+];
+
 if (argv.dist) {
-    myConfig.plugins = [
-        new webpack.optimize.UglifyJsPlugin()
-    ];
+    myConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
 } else {
     myConfig.debug = true;
     myConfig.devtool = '#source-map';
