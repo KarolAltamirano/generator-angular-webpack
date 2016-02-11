@@ -2,11 +2,11 @@
 
 var loaderData = require('./loaderData');
 
+var app = global.app || (global.app = {});
+
+app.loader = app.loader || (app.loader = {});
+
 var createLoader = function (id, progressCb, completeCb) {
-    var app = global.app || (global.app = {});
-
-    app.loader = global.app.loader || (global.app.loader = {});
-
     if (app.loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
     }
@@ -23,10 +23,6 @@ var createLoader = function (id, progressCb, completeCb) {
 };
 
 var createSpyLoader = function (id, value) {
-    var app = global.app || (global.app = {});
-
-    app.loader = global.app.loader || (global.app.loader = {});
-
     if (app.loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
     }
@@ -37,10 +33,6 @@ var createSpyLoader = function (id, value) {
 };
 
 var getLoader = function (id) {
-    var app = global.app || (global.app = {});
-
-    app.loader = global.app.loader || (global.app.loader = {});
-
     if (app.loader[id] == null) {
         throw new Error('Loader with id: ' + id + ' does not exist.');
     }
