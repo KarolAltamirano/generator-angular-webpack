@@ -1,37 +1,47 @@
 'use strict';
 
-var loaderData = require('./loaderData'),
-    appCopy = require('../data/appCopy.json'),
-    _loader;
+var loaderData = require('./loaderData');
 
-// create spy loader for tests
-var _createSpyLoader = function (value) {
+var createLoader = function (id, progressCb, completeCb) {
+    var app = global.app || (global.app = {});
+
+    app.loader = global.app.loader || (global.app.loader = {});
+
+    if (app.loader[id] != null) {
+        throw new Error('Loader with id: ' + id + ' already exists.');
+    }
+
+    app.loader[id] = new createjs.LoadQueue(true);
+<% if (soundjs) { %>
+    createjs.Sound.alternateExtensions = ['mp3'];
+    app.loader[id].installPlugin(createjs.Sound);
+<% } %>
+    app.loader[id].addEventListener('progress', progressCb);
+    app.loader[id].addEventListener('complete', completeCb);
+
+    app.loader[id].loadManifest(loaderData);
+};
+
+var createSpyLoader = function (value) {
     return {
         getResult: function () { return value; }
     };
 };
 
-var createLoader = function (progressCb, completeCb) {
-    _loader = new createjs.LoadQueue(true);
-<% if (soundjs) { %>
-    createjs.Sound.alternateExtensions = ['mp3'];
-    _loader.installPlugin(createjs.Sound);
-<% } %>
-    _loader.addEventListener('progress', progressCb);
-    _loader.addEventListener('complete', completeCb);
+var getLoader = function (id) {
+    var app = global.app || (global.app = {});
 
-    _loader.loadManifest(loaderData);
-};
+    app.loader = global.app.loader || (global.app.loader = {});
 
-var getLoader = function () {
-    if (!_loader) {
-        console.log(appCopy.loader.spy);
-        return _createSpyLoader(appCopy.loader.spyValue);
+    if (app.loader[id] == null) {
+        throw new Error('Loader with id: ' + id + ' does not exist.');
     }
-    return _loader;
+
+    return app.loader[id];
 };
 
 module.exports = {
     createLoader: createLoader,
+    createSpyLoader: createSpyLoader,
     getLoader: getLoader
 };
