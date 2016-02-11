@@ -2,7 +2,11 @@
 
 require('../../src/scripts/app/controllers/_loader');
 
+var loader = require('../../src/scripts/utilities/loader');
+
 describe('Controllers', function () {
+
+    loader.createSpyLoader('main', 'spy loader data');
 
     describe('RootCtrl', function () {
         var $scope;
