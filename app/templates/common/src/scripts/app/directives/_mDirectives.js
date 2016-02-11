@@ -4,4 +4,8 @@
  * Create directives module
  */
 
-angular.module('mDirectives', []);
+var getModuleInstance = require('../utilities/getModuleInstance');
+
+var mDirectives = getModuleInstance('mDirectives');
+
+module.exports = mDirectives;

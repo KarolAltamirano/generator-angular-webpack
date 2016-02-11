@@ -4,4 +4,8 @@
  * Create services module
  */
 
-angular.module('mServices', []);
+var getModuleInstance = require('../utilities/getModuleInstance');
+
+var mServices = getModuleInstance('mServices');
+
+module.exports = mServices;

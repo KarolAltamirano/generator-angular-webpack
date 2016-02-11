@@ -4,4 +4,8 @@
  * Create animations module
  */
 
-angular.module('mAnimations', ['ngAnimate']);
+var getModuleInstance = require('../utilities/getModuleInstance');
+
+var mAnimations = getModuleInstance('mAnimations', ['ngAnimate']);
+
+module.exports = mAnimations;
