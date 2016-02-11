@@ -1,4 +1,6 @@
 # Angular with Webpack
+Project was generated with Yeoman generator
+[generator-angular-webpack](https://www.npmjs.com/package/generator-angular-webpack)
 
 # Requirements
 - NodeJS v4.0 or newer
@@ -6,6 +8,11 @@
 - yo (to install run `npm install -g yo`)
 - bower (to install run `npm install -g bower`)
 - gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
+
+# Webpack
+## Singletons
+To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
+singleton state in `global.app` object instead of closure of a module.
 
 # Root folders
 ```
@@ -38,11 +45,6 @@ tpls    : html templates
 ```
 assets : media files (images, sprites, video, audio ...)
 ```
-
-# Webpack
-## Singletons
-To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
-singleton state in `global.app` object instead of closure of a module.
 
 # Gulp tasks
 ```
