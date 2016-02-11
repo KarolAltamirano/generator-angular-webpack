@@ -22,8 +22,16 @@ var createLoader = function (id, progressCb, completeCb) {
     app.loader[id].loadManifest(loaderData);
 };
 
-var createSpyLoader = function (value) {
-    return {
+var createSpyLoader = function (id, value) {
+    var app = global.app || (global.app = {});
+
+    app.loader = global.app.loader || (global.app.loader = {});
+
+    if (app.loader[id] != null) {
+        throw new Error('Loader with id: ' + id + ' already exists.');
+    }
+
+    app.loader[id] = {
         getResult: function () { return value; }
     };
 };
