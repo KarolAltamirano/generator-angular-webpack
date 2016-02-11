@@ -39,6 +39,11 @@ tpls    : html templates
 assets : media files (images, sprites, video, audio ...)
 ```
 
+# Webpack
+## Singletons
+To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
+singleton state in `global` object instead of closure of a module.
+
 # Gulp tasks
 ```
 gulp build        : build for development
