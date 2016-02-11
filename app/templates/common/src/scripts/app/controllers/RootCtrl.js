@@ -8,5 +8,5 @@ var log = window.debug('Ctrls'),
 angular.module('mCtrls').controller('RootCtrl', function ($scope) {
     log('ahoj');
     $scope.test = 'ahoj';
-    console.log(loader.getLoader().getResult('app-data'));
+    console.log(loader.getLoader('main').getResult('app-data'));
 });

@@ -1,3 +1,12 @@
+# Angular with Webpack
+
+# Requirements
+- NodeJS v4.0 or newer
+- npm v3.3 or newer
+- yo (to install run `npm install -g yo`)
+- bower (to install run `npm install -g bower`)
+- gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
+
 # Root folders
 ```
 src     : source code
@@ -29,6 +38,11 @@ tpls    : html templates
 ```
 assets : media files (images, sprites, video, audio ...)
 ```
+
+# Webpack
+## Singletons
+To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
+singleton state in `global.app` object instead of closure of a module.
 
 # Gulp tasks
 ```

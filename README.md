@@ -22,6 +22,7 @@
 [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
 
 ## Release History
+* 2016-02-11 v0.4.4 Change singleton pattern for webpack modules to use global object
 * 2016-02-09 v0.4.3 Fix webpack build to run multiple entry points on one page
 * 2016-02-09 v0.4.2 Changes in html and scss linter configuration files, changed build notifications logic,
   removed retina-asset mixin in favor of Bourbon retina-image mixin, renamed retina template images

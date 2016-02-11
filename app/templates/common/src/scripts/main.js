@@ -36,5 +36,5 @@ angular.element(document).ready(function () {
     $('.loader').text(appCopy.loader.start).show();
 
     // start loader
-    loader.createLoader(progressCb, completeCb);
+    loader.createLoader('main', progressCb, completeCb);
 });

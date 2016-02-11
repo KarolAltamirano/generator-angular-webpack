@@ -43,7 +43,7 @@ var del           = require('del'),
     modernConfig  = require('./modernizr-config.json'),
     myConfig      = Object.create(webpackConfig),
 
-    // get load order of js and css files and list of root files to load
+    // get configuration
     config           = require('./config.json'),
     jsLibHeader      = config.jsLibHeader,
     rootFiles        = config.root,
@@ -100,7 +100,7 @@ if (argv.dist) {
 
 /**
  *
- *   Http and livereaload server for development
+ *   Http and livereaload server
  *
  */
 
@@ -178,7 +178,7 @@ gulp.task('_clean', function () {
  *
  */
 
-// build main css files
+// Build main css
 gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
@@ -199,7 +199,7 @@ gulp.task('_css-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'CSS build completed.', onLast: true })));
 });
 
-// build vendor css
+// Build vendor css
 gulp.task('_css-vendor-build', function () {
     return gulp.src(cssVendorExtend.concat(bowerFiles('**/*.css')))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
@@ -217,7 +217,7 @@ gulp.task('_css-vendor-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Vendor CSS build completed.', onLast: true })));
 });
 
-// build main and header js files
+// Build main and header js files
 var _jsMainBuild = function (cb) {
     webpack(myConfig, function (err, stats) {
         if (err) {
@@ -238,7 +238,7 @@ gulp.task('_js-main-watch-build', function (cb) {
     runSequence('_lint', '_js-main-build', cb);
 });
 
-// build js vendor lib loaded in bottom of page
+// Build js vendor loaded in bottom of page
 gulp.task('_js-lib-build', function () {
     return gulp.src(bowerFiles('**/*.js'))
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
@@ -250,7 +250,7 @@ gulp.task('_js-lib-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
 });
 
-// build js vendor lib loaded in header of page
+// Build js vendor loaded in header of page
 gulp.task('_modernizr-build', function (cb) {
     modernizr.build(modernConfig, function (result) {
         MODERNIZR_LIB = result;
@@ -270,7 +270,7 @@ gulp.task('_js-lib-header-build', ['_modernizr-build'], function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
 });
 
-// generate templates
+// Copy templates
 gulp.task('_tpls-build', function () {
     return gulp.src('src/tpls/**/*.html')
         .pipe(gulp.dest(BUILD_DIR + '/tpls/'))
@@ -278,7 +278,7 @@ gulp.task('_tpls-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Template build completed.', onLast: true })));
 });
 
-// copy root files
+// Copy root files
 gulp.task('_root-files-build', function () {
     return gulp.src(rootFiles)
         .pipe(gulp.dest(BUILD_DIR + '/'))
@@ -286,7 +286,7 @@ gulp.task('_root-files-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Root files build completed.', onLast: true })));
 });
 
-// data build
+// Build data
 gulp.task('_data-build', function () {
     return gulp.src('src/data/**/*.json')
         .pipe(extend('data.json'))

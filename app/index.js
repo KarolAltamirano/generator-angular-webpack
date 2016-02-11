@@ -125,6 +125,7 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/controllers/**'), this.destinationPath('src/scripts/app/controllers/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/directives/**'), this.destinationPath('src/scripts/app/directives/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/services/**'), this.destinationPath('src/scripts/app/services'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/utilities/**'), this.destinationPath('src/scripts/app/utilities'));
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/src/scripts/app/mApp.js'),
             this.destinationPath('src/scripts/app/mApp.js'),
