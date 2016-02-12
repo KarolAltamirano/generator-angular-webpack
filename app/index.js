@@ -184,7 +184,17 @@ module.exports = generators.Base.extend({
         // test folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/e2e/**'), this.destinationPath('test/e2e/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
-        this.fs.copy(this.templatePath(VERSION_FOLDER + '/test/karma.conf.js'), this.destinationPath('test/karma.conf.js'));
+
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/test/karma.conf.js'),
+            this.destinationPath('test/karma.conf.js'),
+            {
+                es2015: this.es2015,
+                soundjs: this.soundjs,
+                easeljs: this.easeljs
+            }
+        );
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/protractor.conf.js'), this.destinationPath('test/protractor.conf.js'));
 
         this.fs.copyTpl(

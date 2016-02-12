@@ -1,7 +1,5 @@
 'use strict';
 
-var bowerFiles = require('main-bower-files');
-
 module.exports = function (config) {
     config.set({
 
@@ -15,10 +13,9 @@ module.exports = function (config) {
 
 
         // list of files / patterns to load in the browser
-        files: bowerFiles('**/*.js', { paths: '../' }).concat(
-            'bower_components/angular-mocks/angular-mocks.js',
+        files: [
             'test/unit/*.js'
-        ),
+        ],
 
 
         // list of files to exclude
@@ -33,10 +30,22 @@ module.exports = function (config) {
 
         webpack: {
             devtool: 'inline-source-map',
+            resolve: {
+                alias: {
+                    createjs: 'PreloadJS/lib/preloadjs-0.6.2.combined.js'<% if (soundjs) { %>,
+                    SoundJS: 'SoundJS/lib/soundjs-0.6.2.combined.js'<% } %><% if (easeljs) { %>,
+                    EaselJS: 'EaselJS/lib/easeljs-0.8.2.combined.js'<% } %>
+                }
+            },
             module: {
-                loaders: [
-                    { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'ng-annotate!babel?presets[]=es2015' },
-                    { test: /\.json$/, loader: 'json' }
+                loaders: [<% if (es2015) { %>
+                    { test: /\.js$/, exclude: /(node_modules)/, loader: 'ng-annotate!babel?presets[]=es2015' }<% } else { %>
+                    { test: /\.js$/, exclude: /(node_modules)/, loader: 'ng-annotate' }<% } %>,
+                    { test: /\.json$/, loader: 'json' },
+                    { test: /.*gsap.*/, loader: 'imports?gs=>window.GreenSockGlobals={}!exports?gs' },
+                    { test: /.*PreloadJS.*/, loader: 'imports?this=>global!exports?window.createjs' }<% if (soundjs) { %>,
+                    { test: /.*SoundJS.*/, loader: 'imports?this=>global!exports?window.createjs' }<% } %><% if (easeljs) { %>,
+                    { test: /.*EaselJS.*/, loader: 'imports?this=>global!exports?window.createjs' }<% } %>
                 ]
             }
         },
