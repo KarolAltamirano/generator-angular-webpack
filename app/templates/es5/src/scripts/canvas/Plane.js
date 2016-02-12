@@ -1,6 +1,7 @@
 'use strict';
 
-var  loader = require('../utilities/loader');
+var PIXI = require('pixi.js'),
+    loader = require('../utilities/loader');
 
 function Plane(resolution) {
     var planeImg = loader.getLoader('main').getResult('plane'),

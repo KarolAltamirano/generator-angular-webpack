@@ -1,6 +1,7 @@
 'use strict';
 
-var Plane = require('./Plane');
+var PIXI = require('pixi.js'),
+    Plane = require('./Plane');
 
 function Canvas(canvas) {
     var scale = window.devicePixelRatio || 1,

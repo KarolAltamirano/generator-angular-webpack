@@ -2,7 +2,9 @@
 
 require('./app/mApp');
 
-var loader = require('./utilities/loader'),
+var $ = require('jquery'),
+    angular = require('angular'),
+    loader = require('./utilities/loader'),
     version = require('./utilities/version'),
     incompatible = require('./utilities/incompatible'),
     appCopy = require('./data/appCopy.json');

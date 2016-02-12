@@ -1,6 +1,7 @@
 'use strict';
 
-var loaderData = require('./loaderData');
+var createjs = require('createjs'),
+    loaderData = require('./loaderData');
 
 var app = global.app || (global.app = {});
 

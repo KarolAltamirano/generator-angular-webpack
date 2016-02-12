@@ -1,7 +1,7 @@
 'use strict';
 
-require('./_mCtrls');
+var mCtrls = require('./_mCtrls');
 
-angular.module('mCtrls').controller('MyCtrl', function () {
+mCtrls.controller('MyCtrl', function () {
 
 });

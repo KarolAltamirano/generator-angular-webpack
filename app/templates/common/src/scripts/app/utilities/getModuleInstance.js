@@ -1,6 +1,7 @@
 'use strict';
 
-var app = global.app || (global.app = {});
+var angular = require('angular'),
+    app = global.app || (global.app = {});
 
 app.angular = app.angular || (app.angular = {});
 

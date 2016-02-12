@@ -2,7 +2,8 @@
 
 'use strict';
 
-var uaParser = new UAParser(),
+var UAParser = require('ua-parser-js'),
+    uaParser = new UAParser(),
     incompatible = {};
 
 incompatible.uaResult = uaParser.getResult();

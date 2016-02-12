@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 require('./animations/_loader');
 require('./controllers/_loader');
 require('./directives/_loader');

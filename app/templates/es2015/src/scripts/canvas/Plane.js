@@ -1,6 +1,7 @@
 'use strict';
 
-var  loader = require('../utilities/loader');
+var PIXI = require('pixi.js'),
+    loader = require('../utilities/loader');
 
 class Plane extends PIXI.Sprite {
     constructor(resolution) {

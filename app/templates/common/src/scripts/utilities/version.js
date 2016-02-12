@@ -1,6 +1,7 @@
 'use strict';
 
-var versionJson = require('../data/version.json'),
+var $ = require('jquery'),
+    versionJson = require('../data/version.json'),
     appSettings = require('./appSettings');
 
 var version = function () {

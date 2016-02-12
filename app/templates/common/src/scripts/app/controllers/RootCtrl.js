@@ -2,10 +2,12 @@
 
 require('./_mCtrls');
 
-var log = window.debug('Ctrls'),
+var mCtrls = require('./_mCtrls'),
+    debug = require('debug'),
+    log = debug('Ctrls'),
     loader = require('../../utilities/loader');
 
-angular.module('mCtrls').controller('RootCtrl', function ($scope) {
+mCtrls.controller('RootCtrl', function ($scope) {
     log('test');
     $scope.test = 'test';
     console.log(loader.getLoader('main').getResult('app-data'));
