@@ -1,3 +1,5 @@
+/* eslint-env protractor */
+
 'use strict';
 
 describe('HOME PAGE', function () {

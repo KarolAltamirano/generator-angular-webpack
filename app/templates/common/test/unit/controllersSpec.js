@@ -1,4 +1,10 @@
+/* globals inject */
+
 'use strict';
+
+var angular = require('angular');
+
+require('angular-mocks');
 
 require('../../src/scripts/app/controllers/_loader');
 
@@ -19,7 +25,7 @@ describe('Controllers', function () {
         }));
 
         it('Placeholder', function () {
-            expect($scope.test).toBe('ahoj');
+            expect($scope.test).toBe('test');
         });
 
     });
