@@ -60,11 +60,7 @@ module.exports = generators.Base.extend({
             this.statsjs = selectedPrompt('stats.js', props.optionalLibraries);
             this.datgui = selectedPrompt('dat-gui', props.optionalLibraries);
 
-            if (selectedPrompt('ECMAScript 5', props.jsVersion)) {
-                this.jsVersion = 'ES5';
-            } else {
-                this.jsVersion = 'ES2015';
-            }
+            this.es2015 = selectedPrompt('ECMAScript 2015 (with Babel compiler)', props.jsVersion);
 
             done();
         }.bind(this));
@@ -73,26 +69,13 @@ module.exports = generators.Base.extend({
         var COMMON_FOLDER = 'common',
             VERSION_FOLDER;
 
-        if (this.jsVersion === 'ES5') {
-            VERSION_FOLDER = 'es5';
-        } else {
+        if (this.es2015) {
             VERSION_FOLDER = 'es2015';
+        } else {
+            VERSION_FOLDER = 'es5';
         }
 
         // root files
-        this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/_bower.json'),
-            this.destinationPath('bower.json'),
-            {
-                name: this.props.name,
-                pixijs: this.pixijs,
-                soundjs: this.soundjs,
-                easeljs: this.easeljs,
-                statsjs: this.statsjs,
-                datgui: this.datgui
-            }
-        );
-
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.htmlhintrc'), this.destinationPath('.htmlhintrc'));
@@ -115,7 +98,18 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/config.json'), this.destinationPath('config.json'));
 
-        this.fs.copy(this.templatePath(VERSION_FOLDER + '/webpack.config.js'), this.destinationPath('webpack.config.js'));
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/webpack.config.js'),
+            this.destinationPath('webpack.config.js'),
+            {
+                es2015: this.es2015,
+                pixijs: this.pixijs,
+                soundjs: this.soundjs,
+                easeljs: this.easeljs,
+                statsjs: this.statsjs,
+                datgui: this.datgui
+            }
+        );
 
         // src folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/assets/**'), this.destinationPath('src/assets/'));
@@ -196,6 +190,6 @@ module.exports = generators.Base.extend({
 
     },
     install: function () {
-        this.installDependencies();
+        // this.installDependencies();
     }
 });
