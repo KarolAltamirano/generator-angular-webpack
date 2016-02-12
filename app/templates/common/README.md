@@ -6,7 +6,6 @@ Project was generated with Yeoman generator
 - NodeJS v4.0 or newer
 - npm v3.3 or newer
 - yo (to install run `npm install -g yo`)
-- bower (to install run `npm install -g bower`)
 - gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
 
 # Webpack
@@ -59,11 +58,10 @@ gulp bump --patch : bump patch version
 ```
 
 # Config file 'config.json'
-```
-jsLibHeader      : Order of JavaScript libraries loaded in header               
+```        
 root             : List of files to copy to website root folder
 scssIncludePaths : Array of sass libraries
-cssVendorExtend  : Array of css libraries installed with npm
+cssVendor        : Array of css libraries installed with npm
 ```
 
 # Build version
@@ -134,6 +132,5 @@ Mixin for generating css with background image encoded in base64 for non-retina 
 Use this mixin only in `/src/scss/assets/_assets.scss` and only for small icons and logos.
 ```
 
-## CSS assets for bower packages
-CSS files from bower packages will be built automatically but assets have to be
-copied manually into `/website/css/vendor/`
+# Installing JavaScript libraries with broken module style or not published in npm
+...
