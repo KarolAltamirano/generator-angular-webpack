@@ -27,7 +27,6 @@ var del           = require('del'),
     cssnano       = require('cssnano'),
     file          = require('gulp-file'),
     modernizr     = require('modernizr'),
-    bowerFiles    = require('main-bower-files'),
     sourcemaps    = require('gulp-sourcemaps'),
     notify        = require('gulp-notify'),
     extend        = require('gulp-extend'),
@@ -36,19 +35,18 @@ var del           = require('del'),
     runSequence   = require('run-sequence'),
     eslint        = require('gulp-eslint'),
     webpack       = require('webpack'),
-    webpackConfig = require('./webpack.config.js'),
     bump          = require('gulp-bump'),
     jeditor       = require('gulp-json-editor'),
     moment        = require('moment'),
     modernConfig  = require('./modernizr-config.json'),
+    webpackConfig = require('./webpack.config.js'),
     myConfig      = Object.create(webpackConfig),
 
     // get configuration
     config           = require('./config.json'),
-    jsLibHeader      = config.jsLibHeader,
     rootFiles        = config.root,
     scssIncludePaths = config.scssIncludePaths,
-    cssVendorExtend  = config.cssVendorExtend,
+    cssVendor        = config.cssVendor,
 
     // parse parameters
     argv = minimist(process.argv.slice(2), { boolean: true });
@@ -87,7 +85,8 @@ myConfig.output = {
 
 myConfig.plugins = [
     new webpack.optimize.CommonsChunkPlugin({
-        name: 'header'
+        names: ['vendor', 'vendorheader'],
+        minChunks: Infinity
     })
 ];
 
@@ -95,7 +94,7 @@ if (argv.dist) {
     myConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
 } else {
     myConfig.debug = true;
-    myConfig.devtool = '#source-map';
+    myConfig.devtool = '#cheap-module-source-map';
 }
 
 /**
@@ -201,7 +200,7 @@ gulp.task('_css-build', function () {
 
 // Build vendor css
 gulp.task('_css-vendor-build', function () {
-    return gulp.src(cssVendorExtend.concat(bowerFiles('**/*.css')))
+    return gulp.src(cssVendor)
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(concat('vendor.css'))
         .pipe(gulpif(!argv.dist, postcss([
@@ -217,13 +216,15 @@ gulp.task('_css-vendor-build', function () {
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Vendor CSS build completed.', onLast: true })));
 });
 
-// Build main and header js files
-var _jsMainBuild = function (cb) {
-    webpack(myConfig, function (err, stats) {
+// Build js files
+var compiler = webpack(myConfig);
+
+var _jsBuild = function (cb) {
+    compiler.run(function (err, stats) {
         if (err) {
-            throw new gutil.PluginError('_jsMainBuild', err);
+            throw new gutil.PluginError('_js-build', err);
         }
-        gutil.log('_jsMainBuild', stats.toString({ colors: true }));
+        gutil.log('[_js-build]', stats.toString({ colors: true }));
 
         file('noop.js', '', { src: true })
             .pipe(gulpif(LIVE_RELOAD, connect.reload()))
@@ -233,41 +234,23 @@ var _jsMainBuild = function (cb) {
     });
 };
 
-gulp.task('_js-main-build', _jsMainBuild);
-gulp.task('_js-main-watch-build', function (cb) {
-    runSequence('_lint', '_js-main-build', cb);
+gulp.task('_js-build', _jsBuild);
+gulp.task('_js-watch', function (cb) {
+    runSequence('_lint', '_js-build', cb);
 });
 
-// Build js vendor loaded in bottom of page
-gulp.task('_js-lib-build', function () {
-    return gulp.src(bowerFiles('**/*.js'))
-        .pipe(gulpif(!argv.dist, sourcemaps.init()))
-        .pipe(concat('lib.js'))
-        .pipe(gulpif(argv.dist, uglify()))
-        .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
-        .pipe(gulp.dest(BUILD_DIR + '/scripts/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
-});
-
-// Build js vendor loaded in header of page
-gulp.task('_modernizr-build', function (cb) {
+// Build modernizr js
+gulp.task('_modernizr-generate', function (cb) {
     modernizr.build(modernConfig, function (result) {
         MODERNIZR_LIB = result;
         cb();
     });
 });
 
-gulp.task('_js-lib-header-build', ['_modernizr-build'], function () {
-    return gulp.src(jsLibHeader)
-        .pipe(file('modernizr.js', MODERNIZR_LIB))
-        .pipe(gulpif(!argv.dist, sourcemaps.init()))
-        .pipe(concat('lib-header.js'))
+gulp.task('_modernizr-build', ['_modernizr-generate'], function () {
+    return file('modernizr.js', MODERNIZR_LIB, { src: true })
         .pipe(gulpif(argv.dist, uglify()))
-        .pipe(gulpif(!argv.dist, sourcemaps.write('maps/')))
-        .pipe(gulp.dest(BUILD_DIR + '/scripts/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-        .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
+        .pipe(gulp.dest(BUILD_DIR + '/scripts/'));
 });
 
 // Copy templates
@@ -319,8 +302,8 @@ gulp.task('_lint', function () {
  *
  */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-main-build',
-'_js-lib-header-build', '_js-lib-build', '_root-files-build', '_data-build'], function () {
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-build', '_modernizr-build',
+'_root-files-build', '_data-build'], function () {
     file('noop.js', '', { src: true }).pipe(notify('Build completed.'));
 });
 
@@ -340,11 +323,8 @@ gulp.task('build', function (cb) {
 
 gulp.task('_watch', function () {
     gulp.watch('src/scss/**/*.scss', ['_css-build']);
-    gulp.watch(cssVendorExtend.concat(['bower_components/**']), ['_css-vendor-build']);
 
-    gulp.watch('src/scripts/**', ['_js-main-watch-build']);
-    gulp.watch('bower_components/**', ['_js-lib-build']);
-    gulp.watch(jsLibHeader, ['_js-lib-header-build']);
+    gulp.watch('src/scripts/**', ['_js-watch']);
 
     gulp.watch('src/tpls/**/*.html', ['_tpls-build']);
 
