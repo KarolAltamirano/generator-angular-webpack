@@ -12,7 +12,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "^0.0.23",
     "karma-webpack": "^1.7.0",
-    "main-bower-files": "^2.11.1",
     "ng-annotate-loader": "^0.1.0",
     "webpack": "^1.12.13",
     "jasmine-core": "^2.4.1",
