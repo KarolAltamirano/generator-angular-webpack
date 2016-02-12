@@ -2,7 +2,10 @@
   "name": "<%= name %>-test",
   "version": "0.0.0",
   "private": true,
-  "devDependencies": {
+  "devDependencies": {<% if (es2015) { %>
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.3.13",<% } %>
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.7",

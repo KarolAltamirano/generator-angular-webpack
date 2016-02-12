@@ -186,6 +186,15 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
 
         this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/test/_package.json'),
+            this.destinationPath('test/package.json'),
+            {
+                name: this.props.name,
+                es2015: this.es2015
+            }
+        );
+
+        this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/test/karma.conf.js'),
             this.destinationPath('test/karma.conf.js'),
             {
@@ -196,12 +205,6 @@ module.exports = generators.Base.extend({
         );
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/protractor.conf.js'), this.destinationPath('test/protractor.conf.js'));
-
-        this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/test/_package.json'),
-            this.destinationPath('test/package.json'),
-            { name: this.props.name }
-        );
 
         // website folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/website/**'), this.destinationPath('website/'));
