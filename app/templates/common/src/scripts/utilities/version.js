@@ -11,10 +11,11 @@ var version = function () {
 
     if (console && console.log) {
         console.log(
-            '%cv' + versionJson.version + '%c | %c' + versionJson.time,
-            'color: #ffffff; background: #00aa00; padding: 0 5px;',
-            'color: #666666; background: #ffffff;',
-            'color: #ffffff; background: #00aa00; padding: 0 5px;'
+            '\n%cv' + versionJson.version + '%c %c' + versionJson.time + '%c\n\n',
+            'color: #ffffff; background: #00aa00; padding: 1px 5px;',
+            'color: #ffffff; background: #d1eeee; padding: 1px 5px;',
+            'color: #ffffff; background: #00aa00; padding: 1px 5px;',
+            'background: #ffffff;'
         );
     }
 
