@@ -76,6 +76,20 @@ module.exports = generators.Base.extend({
         }
 
         // root files
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/_package.json'),
+            this.destinationPath('package.json'),
+            {
+                name: this.props.name,
+                es2015: this.es2015,
+                pixijs: this.pixijs,
+                soundjs: this.soundjs,
+                easeljs: this.easeljs,
+                statsjs: this.statsjs,
+                datgui: this.datgui
+            }
+        );
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.htmlhintrc'), this.destinationPath('.htmlhintrc'));
@@ -89,12 +103,6 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/modernizr-config.json'), this.destinationPath('modernizr-config.json'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
-
-        this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/_package.json'),
-            this.destinationPath('package.json'),
-            { name: this.props.name }
-        );
 
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/config.json'), this.destinationPath('config.json'));
 

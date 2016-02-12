@@ -11,7 +11,6 @@ module.exports = {
         vendor: [
             'angular',
             'angular-animate',
-            'angular-mocks',
             'angular-resource',
             'angular-sanitize',
             'angular-touch',
@@ -23,7 +22,6 @@ module.exports = {
             'jquery'<% if (pixijs) { %>,
             'pixi.js'<% } %><% if (statsjs) { %>,
             'stats.js'<% } %>,
-            'ua-parser-js',
             'createjs'<% if (soundjs) { %>,
             'SoundJS'<% } %><% if (easeljs) { %>,
             'EaselJS'<% } %>
