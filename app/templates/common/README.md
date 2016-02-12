@@ -132,5 +132,14 @@ Mixin for generating css with background image encoded in base64 for non-retina 
 Use this mixin only in `/src/scss/assets/_assets.scss` and only for small icons and logos.
 ```
 
+# Modernizr configuration
+
+# CSS compatibility configuration
+
+# Installing vendor libraries
+## JavaScript
+
+## CSS
+
 # Installing JavaScript libraries with broken module style or not published in npm
 ...
