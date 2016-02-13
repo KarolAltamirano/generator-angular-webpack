@@ -7,8 +7,9 @@ app.angular = app.angular || (app.angular = {});
 
 /**
  * Get instance of angular module. If module doesn't exist create one.
- * @param  {string} moduleId name of the module
- * @return {object}          angular module
+ *
+ * @param  {string} moduleId - name of the module
+ * @return {object}          - angular module
  */
 var getModuleInstance = function (moduleId, dependencies) {
     if (typeof moduleId !== 'string') {

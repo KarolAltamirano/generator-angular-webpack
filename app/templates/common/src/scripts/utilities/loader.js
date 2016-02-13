@@ -7,6 +7,13 @@ var app = global.app || (global.app = {});
 
 app.loader = app.loader || (app.loader = {});
 
+/**
+ * Create loader
+ *
+ * @param  {string}   id         - id of new loader
+ * @param  {function} progressCb - callback function during loading
+ * @param  {function} completeCb - callback function when loading is completed
+ */
 var createLoader = function (id, progressCb, completeCb) {
     if (app.loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
@@ -23,6 +30,12 @@ var createLoader = function (id, progressCb, completeCb) {
     app.loader[id].loadManifest(loaderData);
 };
 
+/**
+ * Create spy loader for unit tests
+ *
+ * @param  {string} id    - id of a loaderData
+ * @param  {string} value - return value of the new loaderData
+ */
 var createSpyLoader = function (id, value) {
     if (app.loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
@@ -33,6 +46,11 @@ var createSpyLoader = function (id, value) {
     };
 };
 
+/**
+ * Get loader by its id
+ *
+ * @param  {string} id - id of a loaderData
+ */
 var getLoader = function (id) {
     if (app.loader[id] == null) {
         throw new Error('Loader with id: ' + id + ' does not exist.');

@@ -8,6 +8,11 @@ var UAParser = require('ua-parser-js'),
 
 incompatible.uaResult = uaParser.getResult();
 
+/**
+ * Check browser compatibility
+ *
+ * @return {Boolean} - for uncompatible browser return 'true', otherwise 'false'
+ */
 incompatible.isIncompatibleBrowser = function () {
     var listOfSupported = [
             { browser: 'Chrome'       , version: 43 },

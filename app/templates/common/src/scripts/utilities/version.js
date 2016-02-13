@@ -4,11 +4,15 @@ var $ = require('jquery'),
     versionJson = require('../data/version.json'),
     appSettings = require('./appSettings');
 
+/**
+ * Print version info
+ */
 var version = function () {
     if (!appSettings.renderVersionInfo) {
         return;
     }
 
+    // print version to console
     if (console && console.log) {
         console.log(
             '\n%cv' + versionJson.version + '%c %c' + versionJson.time + '%c\n\n',
@@ -19,6 +23,7 @@ var version = function () {
         );
     }
 
+    // print version to page
     $('body').append(
         '<div class="version">' +
             'v' + versionJson.version + ' <span>| ' + versionJson.time + '</span>' +

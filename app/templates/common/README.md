@@ -62,14 +62,14 @@ To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpa
 singleton state in `global.app` object instead of closure of a module.
 
 ## Installing vendor JavaScript libraries
-- Install vendor library with npm
+- Install vendor library with npm.
 - Add library name to a list of libraries inside `webpack.config.js`. If the new library is used inside
   `src/scripts/header.js` or inside one of its required files add the new library to `vendorheader` array
   inside `webpack.config.js`. Otherwise add the library to `vendor` array inside `webpack.config.js`.
 
 ## Installing JavaScript libraries with broken module style
 - If new installed library doesn't work properly with webpack read more about shimming modules
-  [here](http://webpack.github.io/docs/shimming-modules.html)
+  [here](http://webpack.github.io/docs/shimming-modules.html).
 
 ## Installing JavaScript libraries not published in npm
 - If you want to install library not published in npm but with `package.json` inside git repository
@@ -78,7 +78,9 @@ singleton state in `global.app` object instead of closure of a module.
 - If you want to install library not published in npm and without `package.json` you can install it
   from git repository with [`napa`](https://github.com/shama/napa).
 - To install new library add it to `package.json` file to `napa` variable and run `npm install`.
-  More details how to use `napa` can be found [here](https://github.com/shama/napa)
+  More details how to use `napa` can be found [here](https://github.com/shama/napa).
+- Probably you will need to set `resolve.alias` and `loaders` inside `webpack.config.js` for
+  libraries not published in npm.
 
 # Modernizr configuration
 - To configure modernizr change its settings inside `modernizr-config.json`.
@@ -87,7 +89,7 @@ singleton state in `global.app` object instead of closure of a module.
 
 # CSS compatibility configuration
 - To set autoprefixer for CSS set `AUTO_PREFIXER_RULES` variable inside `gulpfile.js`.
-- Default value: `['last 2 versions']`
+- Default value: `['last 2 versions']`.
 - List of available values: [show](https://github.com/ai/browserslist#queries)
 
 # Config file 'config.json'
