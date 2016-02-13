@@ -10,7 +10,6 @@
 - NodeJS v4.0 or newer
 - npm v3.3 or newer
 - yo (to install run `npm install -g yo`)
-- bower (to install run `npm install -g bower`)
 - gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
 
 ### Installation
@@ -19,4 +18,5 @@
 - Run: `gulp` to build for development and watch for file changes or `gulp build --dist` to build for production
 
 ## More details can be found inside readme file of generated project.
-[Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md) to see the readme file.
+[Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md)
+to see the readme file.
