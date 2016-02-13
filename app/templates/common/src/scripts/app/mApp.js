@@ -9,7 +9,9 @@ require('./services/_loader');<% if (pixijs) { %>
 
 var Canvas = require('../canvas/Canvas');<% } %>
 
-/* register main app */
+/**
+ * Register main angular app
+ */
 angular.module('mApp', ['ngTouch', 'ngSanitize', 'ui.router', 'mAnimations', 'mCtrls'])
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         $stateProvider

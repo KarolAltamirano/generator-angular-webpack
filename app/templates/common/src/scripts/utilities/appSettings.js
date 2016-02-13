@@ -33,6 +33,11 @@ appSettings.isNotProduction = function () {
     return !appSettings.isProduction();
 };
 
+/**
+ * Print version info on the page
+ *
+ * @type {Boolean}
+ */
 appSettings.renderVersionInfo = true;
 
 module.exports = appSettings;
