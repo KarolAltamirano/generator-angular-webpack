@@ -3,6 +3,11 @@
 var PIXI = require('pixi.js'),
     loader = require('../utilities/loader');
 
+/**
+ * Plane class - Create plane object
+ *
+ * @param  {number} resolution - Device Pixel Ratio
+ */
 function Plane(resolution) {
     var planeImg = loader.getLoader('main').getResult('plane'),
         planeBase = new PIXI.BaseTexture(planeImg),
