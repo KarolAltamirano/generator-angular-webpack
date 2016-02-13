@@ -19,4 +19,4 @@
 
 ### More details inside a project readme file
 - To see the readme file
-  [Click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md)
+  [click here](https://github.com/KarolAltamirano/generator-angular-webpack/blob/master/app/templates/common/README.md)
