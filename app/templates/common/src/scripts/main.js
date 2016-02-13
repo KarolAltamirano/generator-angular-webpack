@@ -7,7 +7,7 @@ var $ = require('jquery'),
     loader = require('./utilities/loader'),
     version = require('./utilities/version'),
     incompatible = require('./utilities/incompatible'),
-    appCopy = require('./data/appCopy.json');
+    appCopy = require('./data/app-copy.json');
 
 // render build version if enabled
 version();
