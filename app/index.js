@@ -1,3 +1,10 @@
+/**
+ * @file        Main file of Yeoman generator for AngularJS with Webpack
+ * @author      Karol Altamirano <karlos.altamirano@gmail.com>
+ * @copyright   2015-2016 Karol Altamirano
+ * @license     MIT
+ */
+
 'use strict';
 
 var generators = require('yeoman-generator'),
