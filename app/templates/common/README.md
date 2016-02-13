@@ -5,13 +5,12 @@ Project was generated with Yeoman generator
 # Requirements
 - NodeJS v4.0 or newer
 - npm v3.3 or newer
-- yo (to install run `npm install -g yo`)
 - gulp (read [Getting Started guide](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md))
 
-# Webpack
-## Singletons
-To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
-singleton state in `global.app` object instead of closure of a module.
+# Install all npm dependencies for development
+- Skip this step if you have generated the project with Yeoman. Yeoman install all dependencies for you.
+- To install all development dependencies of existing project run `npm install` inside the root
+  directory of the project.
 
 # Root folders
 ```
@@ -57,6 +56,40 @@ gulp bump --minor : bump minor version
 gulp bump --patch : bump patch version
 ```
 
+# Webpack
+## Singletons (Read!)
+To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
+singleton state in `global.app` object instead of closure of a module.
+
+## Installing vendor JavaScript libraries
+- Install vendor library with npm
+- Add library name to a list of libraries inside `webpack.config.js`. If the new library is used inside
+  `src/scripts/header.js` or inside one of its required files add the new library to `vendorheader` array
+  inside `webpack.config.js`. Otherwise add the library to `vendor` array inside `webpack.config.js`.
+
+## Installing JavaScript libraries with broken module style
+- If new installed library doesn't work properly with webpack read more about shimming modules
+  [here](http://webpack.github.io/docs/shimming-modules.html)
+
+## Installing JavaScript libraries not published in npm
+- If you want to install library not published in npm but with `package.json` inside git repository
+  you can install package from git repository. Read [here](https://docs.npmjs.com/cli/install) how to
+  install it.
+- If you want to install library not published in npm and without `package.json` you can install it
+  from git repository with [`napa`](https://github.com/shama/napa).
+- To install new library add it to `package.json` file to `napa` variable and run `npm install`.
+  More details how to use `napa` can be found [here](https://github.com/shama/napa)
+
+# Modernizr configuration
+- To configure modernizr change its settings inside `modernizr-config.json`.
+- List of all available settings:
+  [show](https://github.com/Modernizr/Modernizr/blob/master/lib/config-all.json)
+
+# CSS compatibility configuration
+- To set autoprefixer for CSS set `AUTO_PREFIXER_RULES` variable inside `gulpfile.js`.
+- Default value: `['last 2 versions']`
+- List of available values: [show](https://github.com/ai/browserslist#queries)
+
 # Config file 'config.json'
 ```        
 root             : List of files to copy to website root folder
@@ -76,20 +109,23 @@ run unit tests with `karma start` or e2e tests with `protractor`
 Use linter in your text editor for JavaScript, SCSS and HTML.
 
 ## JavaScript
-- For JavaScript use [ESLint](http://eslint.org/). The project contains ESLint configuration file `.eslintrc`
+- For JavaScript use [ESLint](http://eslint.org/). The project contains ESLint configuration
+  file `.eslintrc`
+- Use ESLint version 2.x.x
 - ESLint for Atom - [show](https://github.com/AtomLinter/linter-eslint)
 - ESLint for Sublime Text - [show](https://github.com/roadhump/SublimeLinter-eslint)
 
 ## SCSS
-- For SCSS use [SCSS-Lint](https://github.com/brigade/scss-lint). The project contains SCSS-Lint configuration file `.scss-lint.yml`
+- For SCSS use [SCSS-Lint](https://github.com/brigade/scss-lint). The project contains SCSS-Lint
+  configuration file `.scss-lint.yml`
 - SCSS-Lint for Atom - [show](https://github.com/AtomLinter/linter-scss-lint)
 - SCSS-Lint for Sublime Text - [show](https://github.com/attenzione/SublimeLinter-scss-lint)
 
 ## HTML
-- For HTML use [HTMLHint](https://github.com/yaniswang/HTMLHint). The project contains HTMLHint configuration file `.htmlhintrc`
+- For HTML use [HTMLHint](https://github.com/yaniswang/HTMLHint). The project contains HTMLHint
+  configuration file `.htmlhintrc`
 - HTMLHint for Atom - [show](https://github.com/AtomLinter/linter-htmlhint)
 - HTMLHint for Sublime Text - [show](https://github.com/mmaday/SublimeLinter-contrib-htmlhint)
-
 
 # SCSS
 ## Bourbon
@@ -120,7 +156,8 @@ Retina Image:
 ```
 
 ## Neat
-Grid framework for Sass and Bourbon. Check Neat [homepage](http://neat.bourbon.io/) for more details and documentation.
+Grid framework for Sass and Bourbon. Check Neat [homepage](http://neat.bourbon.io/) for
+more details and documentation.
 
 Examples: [here](http://neat.bourbon.io/examples/)
 
@@ -131,15 +168,3 @@ Examples: [here](http://neat.bourbon.io/examples/)
 Mixin for generating css with background image encoded in base64 for non-retina and retina screens.
 Use this mixin only in `/src/scss/assets/_assets.scss` and only for small icons and logos.
 ```
-
-# Modernizr configuration
-
-# CSS compatibility configuration
-
-# Installing vendor libraries
-## JavaScript
-
-## CSS
-
-# Installing JavaScript libraries with broken module style or not published in npm
-...
