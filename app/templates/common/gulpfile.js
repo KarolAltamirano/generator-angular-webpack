@@ -30,6 +30,7 @@ var del           = require('del'),
     sourcemaps    = require('gulp-sourcemaps'),
     notify        = require('gulp-notify'),
     extend        = require('gulp-extend'),
+    jsonlint      = require('gulp-jsonlint'),
     minimist      = require('minimist'),
     gulpif        = require('gulp-if'),
     runSequence   = require('run-sequence'),
@@ -281,6 +282,10 @@ gulp.task('_root-files-build', function () {
 // Build data
 gulp.task('_data-build', function () {
     return gulp.src('src/data/**/*.json')
+        .pipe(jsonlint())
+        .pipe(jsonlint.reporter())
+        .pipe(jsonlint.failOnError())
+        .on('error', notify.onError('JSON data build error.'))
         .pipe(extend('data.json'))
         .pipe(gulp.dest(BUILD_DIR + '/data/'))
         .pipe(gulpif(LIVE_RELOAD, connect.reload()))
