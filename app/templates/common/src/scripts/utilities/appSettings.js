@@ -1,10 +1,10 @@
 'use strict';
 
 /**
+ * How to enable / disable logs in console logged with debug.js
  *
- * enable  logs -> debug.enable('*');
- * disable logs -> debug.disable();
- *
+ * enable  - run in console -> debug.enable('*');
+ * disable - run in console -> debug.disable();
  */
 
 var appSettings = {};

@@ -1,32 +1,7 @@
 'use strict';
 
 module.exports = {
-    entry: {
-        header: './src/scripts/header.js',
-        main: './src/scripts/main.js',
-        vendorheader: [
-            'ua-parser-js'<% if (es2015) { %>,
-            'babel-polyfill'<% } %>
-        ],
-        vendor: [
-            'angular',
-            'angular-animate',
-            'angular-resource',
-            'angular-sanitize',
-            'angular-touch',
-            'angular-ui-router'<% if (datgui) { %>,
-            'dat-gui'<% } %>,
-            'debug',
-            'gsap',
-            'ismobilejs',
-            'jquery'<% if (pixijs) { %>,
-            'pixi.js'<% } %><% if (statsjs) { %>,
-            'stats.js'<% } %>,
-            'createjs'<% if (soundjs) { %>,
-            'SoundJS'<% } %><% if (easeljs) { %>,
-            'EaselJS'<% } %>
-        ]
-    },
+    entry: './src/scripts/main.js',
     resolve: {
         alias: {
             createjs: 'PreloadJS/lib/preloadjs-0.6.2.combined.js'<% if (soundjs) { %>,

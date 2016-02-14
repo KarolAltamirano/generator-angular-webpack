@@ -35,6 +35,7 @@
     "ng-annotate-loader": "^0.1.0",
     "postcss-assets": "^4.0.1",
     "run-sequence": "^1.1.5",
+    "through": "^2.3.8",
     "webpack": "^1.12.13"
   },
   "dependencies": {

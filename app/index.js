@@ -152,12 +152,15 @@ module.exports = generators.Base.extend({
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loader.js'),
             this.destinationPath('src/scripts/utilities/loader.js'),
-            { soundjs: this.soundjs }
+            { soundjs: this.soundjs, easeljs: this.easeljs }
         );
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/header.js'), this.destinationPath('src/scripts/header.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'),
+            this.destinationPath('src/scripts/main.js'),
+            { es2015: this.es2015 }
+        );
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
 

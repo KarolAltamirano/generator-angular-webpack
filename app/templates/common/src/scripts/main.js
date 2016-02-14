@@ -1,13 +1,16 @@
 'use strict';
-
-require('./app/mApp');
-
+<% if (es2015) { %>
+require('babel-polyfill');
+<% } %>
 var $ = require('jquery'),
-    angular = require('angular'),
     loader = require('./utilities/loader'),
     version = require('./utilities/version'),
+    incompDetect = require('./utilities/incompDetect'),
     incompatible = require('./utilities/incompatible'),
     appCopy = require('./data/app-copy.json');
+
+// run browser detection
+incompDetect();
 
 // render build version if enabled
 version();
@@ -21,15 +24,21 @@ function progressCb(e) {
 }
 
 function completeCb() {
-    // hide loader
-    $('.loader').hide();
+    require.ensure([], function (require) {
+        var angular = require('angular');
 
-    // run app
-    angular.bootstrap(document, ['mApp']);
+        require('./app/mApp');
+
+        // hide loader
+        $('.loader').hide();
+
+        // run app
+        angular.bootstrap(document, ['mApp']);
+    });
 }
 
-/* bootstrap application */
-angular.element(document).ready(function () {
+// bootstrap application
+$(document).ready(function () {
     if (incompatible.isIncompatibleBrowser()) {
         return;
     }

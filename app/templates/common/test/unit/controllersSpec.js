@@ -2,13 +2,11 @@
 
 'use strict';
 
-var angular = require('angular');
+var angular = require('angular'),
+    mCtrls = require('../../src/scripts/app/controllers/_loader'),
+    loader = require('../../src/scripts/utilities/loader');
 
 require('angular-mocks');
-
-require('../../src/scripts/app/controllers/_loader');
-
-var loader = require('../../src/scripts/utilities/loader');
 
 describe('Controllers', function () {
 
@@ -17,7 +15,7 @@ describe('Controllers', function () {
     describe('RootCtrl', function () {
         var $scope;
 
-        beforeEach(angular.mock.module('mCtrls'));
+        beforeEach(angular.mock.module(mCtrls));
 
         beforeEach(inject(function ($rootScope, $controller) {
             $scope = $rootScope.$new();

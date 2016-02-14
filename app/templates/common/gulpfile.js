@@ -38,6 +38,7 @@ var del           = require('del'),
     bump          = require('gulp-bump'),
     jeditor       = require('gulp-json-editor'),
     moment        = require('moment'),
+    through       = require('through'),
     modernConfig  = require('./modernizr-config.json'),
     webpackConfig = require('./webpack.config.js'),
     myConfig      = Object.create(webpackConfig),
@@ -83,15 +84,8 @@ myConfig.output = {
     sourceMapFilename: 'maps/[file].map'
 };
 
-myConfig.plugins = [
-    new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'vendorheader'],
-        minChunks: Infinity
-    })
-];
-
 if (argv.dist) {
-    myConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    myConfig.plugins = [new webpack.optimize.UglifyJsPlugin()];
 } else {
     myConfig.debug = true;
     myConfig.devtool = '#cheap-module-source-map';
@@ -182,7 +176,7 @@ gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(sass({ includePaths: scssIncludePaths })
-        .on('error', sass.logError))
+        .on('error', notify.onError('Error: <%= error.message %>')))
         .pipe(gulpif(!argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
             autoprefixer({ browsers: AUTO_PREFIXER_RULES })
@@ -224,11 +218,26 @@ var _jsBuild = function (cb) {
         if (err) {
             throw new gutil.PluginError('_js-build', err);
         }
+
         gutil.log('[_js-build]', stats.toString({ colors: true }));
 
-        file('noop.js', '', { src: true })
-            .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-            .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'JavaScript build completed.', onLast: true })));
+        if (stats.hasErrors()) {
+            if (!TASK_NOTIFICATION) {
+                throw new gutil.PluginError('_js-build', new Error('JavaScript build error.'));
+            } else {
+                file('noop.js', '', { src: true })
+                    .pipe(through(function () {
+                        this.emit('error', new Error()); // eslint-disable-line no-invalid-this
+                    }))
+                    .on('error', notify.onError('JavaScript build error.'));
+            }
+        } else {
+            file('noop.js', '', { src: true })
+                .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+                .pipe(gulpif(TASK_NOTIFICATION, notify({
+                    message: 'JavaScript build completed.', onLast: true
+                })));
+        }
 
         cb();
     });
@@ -303,8 +312,13 @@ gulp.task('_lint', function () {
  */
 
 gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-build', '_modernizr-build',
-'_root-files-build', '_data-build'], function () {
-    file('noop.js', '', { src: true }).pipe(notify('Build completed.'));
+'_root-files-build', '_data-build'], function (cb) {
+    // HACK: Webpack watch build doesn't work on first file change
+    // Run the build again to solve the issue
+    runSequence('_js-build', function () {
+        file('noop.js', '', { src: true }).pipe(notify('Build completed.'));
+        cb();
+    });
 });
 
 gulp.task('build', function (cb) {

@@ -1,12 +1,18 @@
 'use strict';
 
 var createjs = require('createjs'),
-    loaderData = require('./loaderData');
+    loaderData = require('./loaderData'),
+    app = global.app || (global.app = {});
 
-var app = global.app || (global.app = {});
-
+// get loader object
 app.loader = app.loader || (app.loader = {});
-
+<% if (soundjs) { %>
+// initialize SoundJS - use 'createjs' object to work with 'SoundJS'
+require('SoundJS');
+<% } %><% if (easeljs) { %>
+// initialize EaselJS - use 'createjs' object to work with 'EaselJS'
+require('EaselJS');
+<% } %>
 /**
  * Create loader
  *
