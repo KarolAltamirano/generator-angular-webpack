@@ -26,7 +26,6 @@ data    : json files preloaded with preloadjs
 scripts : app       - angular app
           data      - json files required with webpack
           utilities - app classes and objects
-          header.js - app file loaded in header
           main.js   - main app file
 scss    : assets    - styles preloaded with preloadjs (for inline images)
                       edit _assets.scss
