@@ -62,9 +62,6 @@ singleton state in `global.app` object instead of closure of a module.
 
 ## Installing vendor JavaScript libraries
 - Install vendor library with npm.
-- Add library name to a list of libraries inside `webpack.config.js`. If the new library is used inside
-  `src/scripts/header.js` or inside one of its required files add the new library to `vendorheader` array
-  inside `webpack.config.js`. Otherwise add the library to `vendor` array inside `webpack.config.js`.
 
 ## Installing JavaScript libraries with broken module style
 - If new installed library doesn't work properly with webpack read more about shimming modules
