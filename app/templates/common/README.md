@@ -60,8 +60,8 @@ gulp bump --patch : bump patch version
 To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
 singleton state in `global.app` object instead of closure of a module.
 
-## Installing vendor JavaScript libraries
-- Install vendor library with npm.
+## Installing JavaScript libraries
+- Install libraries with npm.
 
 ## Installing JavaScript libraries with broken module style
 - If new installed library doesn't work properly with webpack read more about shimming modules
