@@ -49,7 +49,7 @@ gulp build        : build for development
 gulp watch        : watch for changes and rebuild updated file
 gulp              : default task runs 'gulp watch'
 gulp build --dist : build for production
-gulp connect      : create http server for testing
+gulp browser-sync : create http server for testing
 gulp bump --major : bump major version
 gulp bump --minor : bump minor version
 gulp bump --patch : bump patch version

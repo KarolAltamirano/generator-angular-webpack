@@ -6,44 +6,44 @@
  *      gulp watch        - build and watch files for change
  *      gulp              - default task [watch]
  *      gulp build --dist - build for production
- *      gulp connect      - create http server for testing production version
+ *      gulp browser-sync - create http server for testing
  *      gulp bump --major - bump major version
  *      gulp bump --minor - bump minor version
  *      gulp bump --patch - bump patch version
  *
  */
 
-var del           = require('del'),
-    path          = require('path'),
-    gulp          = require('gulp'),
-    gutil         = require('gulp-util'),
-    concat        = require('gulp-concat'),
-    connect       = require('gulp-connect'),
-    modRewrite    = require('connect-modrewrite'),
-    uglify        = require('gulp-uglify'),
-    sass          = require('gulp-sass'),
-    postcss       = require('gulp-postcss'),
-    assets        = require('postcss-assets'),
-    autoprefixer  = require('autoprefixer'),
-    cssnano       = require('cssnano'),
-    file          = require('gulp-file'),
-    modernizr     = require('modernizr'),
-    sourcemaps    = require('gulp-sourcemaps'),
-    notify        = require('gulp-notify'),
-    notifier      = require('node-notifier'),
-    extend        = require('gulp-extend'),
-    jsonlint      = require('gulp-jsonlint'),
-    minimist      = require('minimist'),
-    gulpif        = require('gulp-if'),
-    runSequence   = require('run-sequence'),
-    eslint        = require('gulp-eslint'),
-    webpack       = require('webpack'),
-    bump          = require('gulp-bump'),
-    jeditor       = require('gulp-json-editor'),
-    moment        = require('moment'),
-    modernConfig  = require('./modernizr-config.json'),
-    webpackConfig = require('./webpack.config.js'),
-    myConfig      = Object.create(webpackConfig),
+var del                = require('del'),
+    path               = require('path'),
+    gulp               = require('gulp'),
+    gutil              = require('gulp-util'),
+    concat             = require('gulp-concat'),
+    browserSync        = require('browser-sync').create(),
+    historyApiFallback = require('connect-history-api-fallback'),
+    uglify             = require('gulp-uglify'),
+    sass               = require('gulp-sass'),
+    postcss            = require('gulp-postcss'),
+    assets             = require('postcss-assets'),
+    autoprefixer       = require('autoprefixer'),
+    cssnano            = require('cssnano'),
+    file               = require('gulp-file'),
+    modernizr          = require('modernizr'),
+    sourcemaps         = require('gulp-sourcemaps'),
+    notify             = require('gulp-notify'),
+    notifier           = require('node-notifier'),
+    extend             = require('gulp-extend'),
+    jsonlint           = require('gulp-jsonlint'),
+    minimist           = require('minimist'),
+    gulpif             = require('gulp-if'),
+    runSequence        = require('run-sequence'),
+    eslint             = require('gulp-eslint'),
+    webpack            = require('webpack'),
+    bump               = require('gulp-bump'),
+    jeditor            = require('gulp-json-editor'),
+    moment             = require('moment'),
+    modernConfig       = require('./modernizr-config.json'),
+    webpackConfig      = require('./webpack.config.js'),
+    myConfig           = Object.create(webpackConfig),
 
     // get configuration
     config           = require('./config.json'),
@@ -95,21 +95,15 @@ if (argv.dist) {
 
 /**
  *
- *   Http and livereaload server
+ *  Server
  *
  */
 
-gulp.task('connect', function () {
-    connect.server({
-        root: [__dirname + '/' + BUILD_DIR],
-        port: 8080,
-        livereload: true,
-        middleware: function () {
-            return [
-                modRewrite([
-                    '^[^\.]*$ /index.html [L]'
-                ])
-            ];
+gulp.task('browser-sync', function () {
+    browserSync.init({
+        server: {
+            baseDir: './' + BUILD_DIR,
+            middleware: [historyApiFallback()]
         }
     });
 });
@@ -190,7 +184,7 @@ gulp.task('_css-build', function () {
         ])))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+        .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'CSS build completed.', onLast: true })));
 });
 
@@ -208,7 +202,7 @@ gulp.task('_css-vendor-build', function () {
         ])))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+        .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Vendor CSS build completed.', onLast: true })));
 });
 
@@ -244,7 +238,7 @@ var _jsBuild = function (cb) {
             }
 
             if (LIVE_RELOAD) {
-                file('noop.js', '', { src: true }).pipe(gulpif(LIVE_RELOAD, connect.reload()));
+                browserSync.reload();
             }
         }
 
@@ -276,7 +270,7 @@ gulp.task('_modernizr-build', ['_modernizr-generate'], function () {
 gulp.task('_tpls-build', function () {
     return gulp.src('src/tpls/**/*.html')
         .pipe(gulp.dest(BUILD_DIR + '/tpls/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+        .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Template build completed.', onLast: true })));
 });
 
@@ -284,7 +278,7 @@ gulp.task('_tpls-build', function () {
 gulp.task('_root-files-build', function () {
     return gulp.src(rootFiles)
         .pipe(gulp.dest(BUILD_DIR + '/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+        .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Root files build completed.', onLast: true })));
 });
 
@@ -297,7 +291,7 @@ gulp.task('_data-build', function () {
         .on('error', notify.onError('JSON data build error.'))
         .pipe(extend('data.json'))
         .pipe(gulp.dest(BUILD_DIR + '/data/'))
-        .pipe(gulpif(LIVE_RELOAD, connect.reload()))
+        .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Data build completed.', onLast: true })));
 });
 
@@ -312,14 +306,16 @@ gulp.task('_lint', function () {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.results(function (results) {
-            if (results.errorCount !== 0 || results.warningCount !== 0) {
-                notifier.notify({
-                    title: 'Error running Gulp',
-                    message: 'JavaScript ESLint error.',
-                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp-error.png'),
-                    sound: 'Frog'
-                });
+            if (results.errorCount === 0 && results.warningCount === 0) {
+                return;
             }
+
+            notifier.notify({
+                title: 'Error running Gulp',
+                message: 'JavaScript ESLint error.',
+                icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp-error.png'),
+                sound: 'Frog'
+            });
         }));
 });
 
@@ -372,7 +368,7 @@ gulp.task('_watch', function () {
 });
 
 gulp.task('watch', function (cb) {
-    runSequence('build', '_watch', 'connect', cb);
+    runSequence('build', '_watch', 'browser-sync', cb);
 });
 
 /**
