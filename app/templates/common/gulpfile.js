@@ -14,6 +14,7 @@
  */
 
 var del           = require('del'),
+    path          = require('path'),
     gulp          = require('gulp'),
     gutil         = require('gulp-util'),
     concat        = require('gulp-concat'),
@@ -29,6 +30,7 @@ var del           = require('del'),
     modernizr     = require('modernizr'),
     sourcemaps    = require('gulp-sourcemaps'),
     notify        = require('gulp-notify'),
+    notifier      = require('node-notifier'),
     extend        = require('gulp-extend'),
     jsonlint      = require('gulp-jsonlint'),
     minimist      = require('minimist'),
@@ -39,7 +41,6 @@ var del           = require('del'),
     bump          = require('gulp-bump'),
     jeditor       = require('gulp-json-editor'),
     moment        = require('moment'),
-    through       = require('through'),
     modernConfig  = require('./modernizr-config.json'),
     webpackConfig = require('./webpack.config.js'),
     myConfig      = Object.create(webpackConfig),
@@ -226,18 +227,25 @@ var _jsBuild = function (cb) {
             if (!TASK_NOTIFICATION) {
                 throw new gutil.PluginError('_js-build', new Error('JavaScript build error.'));
             } else {
-                file('noop.js', '', { src: true })
-                    .pipe(through(function () {
-                        this.emit('error', new Error()); // eslint-disable-line no-invalid-this
-                    }))
-                    .on('error', notify.onError('JavaScript build error.'));
+                notifier.notify({
+                    title: 'Error running Gulp',
+                    message: 'JavaScript build error.',
+                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp-error.png'),
+                    sound: 'Frog'
+                });
             }
         } else {
-            file('noop.js', '', { src: true })
-                .pipe(gulpif(LIVE_RELOAD, connect.reload()))
-                .pipe(gulpif(TASK_NOTIFICATION, notify({
-                    message: 'JavaScript build completed.', onLast: true
-                })));
+            if (TASK_NOTIFICATION) {
+                notifier.notify({
+                    title: 'Gulp notification',
+                    message: 'JavaScript build completed.',
+                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
+                });
+            }
+
+            if (LIVE_RELOAD) {
+                file('noop.js', '', { src: true }).pipe(gulpif(LIVE_RELOAD, connect.reload()));
+            }
         }
 
         cb();
@@ -253,6 +261,7 @@ gulp.task('_js-watch', function (cb) {
 gulp.task('_modernizr-generate', function (cb) {
     modernizr.build(modernConfig, function (result) {
         MODERNIZR_LIB = result;
+
         cb();
     });
 });
@@ -302,13 +311,14 @@ gulp.task('_lint', function () {
     return gulp.src(['src/scripts/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(through(function (data) {
-            if (data.eslint.errorCount !== 0 || data.eslint.warningCount !== 0) {
-                file('noop.js', '', { src: true })
-                    .pipe(through(function () {
-                        this.emit('error', new Error()); // eslint-disable-line no-invalid-this
-                    }))
-                    .on('error', notify.onError('JavaScript ESLint error.'));
+        .pipe(eslint.results(function (results) {
+            if (results.errorCount !== 0 || results.warningCount !== 0) {
+                notifier.notify({
+                    title: 'Error running Gulp',
+                    message: 'JavaScript ESLint error.',
+                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp-error.png'),
+                    sound: 'Frog'
+                });
             }
         }));
 });
@@ -324,7 +334,12 @@ gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-buil
     // HACK: Webpack watch build doesn't work on first file change
     // Run the build again to solve the issue
     runSequence('_js-build', function () {
-        file('noop.js', '', { src: true }).pipe(notify('Build completed.'));
+        notifier.notify({
+            title: 'Gulp notification',
+            message: 'Build completed.',
+            icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
+        });
+
         cb();
     });
 });
@@ -333,6 +348,7 @@ gulp.task('build', function (cb) {
     runSequence('_lint', '_clean', '_build', function () {
         TASK_NOTIFICATION = true;
         LIVE_RELOAD = true;
+
         cb();
     });
 });
