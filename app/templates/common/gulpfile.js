@@ -302,11 +302,14 @@ gulp.task('_lint', function () {
     return gulp.src(['src/scripts/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(notify(function (f) {
-            if (f.eslint.errorCount === 0 && f.eslint.warningCount === 0) {
-                return false;
+        .pipe(through(function (data) {
+            if (data.eslint.errorCount !== 0 || data.eslint.warningCount !== 0) {
+                file('noop.js', '', { src: true })
+                    .pipe(through(function () {
+                        this.emit('error', new Error()); // eslint-disable-line no-invalid-this
+                    }))
+                    .on('error', notify.onError('JavaScript ESLint error.'));
             }
-            return 'ESLint error';
         }));
 });
 
