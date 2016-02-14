@@ -24,6 +24,7 @@ function progressCb(e) {
 }
 
 function completeCb() {
+    // create new chunk
     require.ensure([], function (require) {
         var angular = require('angular');
 
