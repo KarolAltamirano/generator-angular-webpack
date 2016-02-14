@@ -213,17 +213,17 @@ gulp.task('_css-vendor-build', function () {
 // Build js files
 var compiler = webpack(myConfig);
 
-var _jsBuild = function (cb) {
+gulp.task('_js-webpack-build', function (cb) {
     compiler.run(function (err, stats) {
         if (err) {
-            throw new gutil.PluginError('_js-build', err);
+            throw new gutil.PluginError('_js-webpack-build', err);
         }
 
-        gutil.log('[_js-build]', stats.toString({ colors: true }));
+        gutil.log('[_js-webpack-build]', stats.toString({ colors: true }));
 
         if (stats.hasErrors()) {
             if (!TASK_NOTIFICATION) {
-                throw new gutil.PluginError('_js-build', new Error('JavaScript build error.'));
+                throw new gutil.PluginError('_js-webpack-build', new Error('JavaScript build error.'));
             } else {
                 notifier.notify({
                     title: 'Error running Gulp',
@@ -232,25 +232,31 @@ var _jsBuild = function (cb) {
                     sound: 'Frog'
                 });
             }
-        } else {
-            if (TASK_NOTIFICATION) {
-                notifier.notify({
-                    title: 'Gulp notification',
-                    message: 'JavaScript build completed.',
-                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
-                });
-            }
-
-            if (LIVE_RELOAD) {
-                browserSync.reload();
-            }
         }
 
         cb();
     });
-};
+});
 
-gulp.task('_js-build', _jsBuild);
+gulp.task('_js-build', function (cb) {
+    // HACK: Webpack build doesn't always work on first build when caching is used
+    // Run the build again to solve the issue
+    runSequence('_js-webpack-build', '_js-webpack-build', function () {
+        if (TASK_NOTIFICATION) {
+            notifier.notify({
+                title: 'Gulp notification',
+                message: 'JavaScript build completed.',
+                icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
+            });
+        }
+
+        if (LIVE_RELOAD) {
+            browserSync.reload();
+        }
+        cb();
+    });
+});
+
 gulp.task('_js-watch', function (cb) {
     runSequence('_lint', '_js-build', cb);
 });
@@ -330,17 +336,11 @@ gulp.task('_lint', function () {
  */
 
 gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-build', '_modernizr-build',
-'_root-files-build', '_data-build'], function (cb) {
-    // HACK: Webpack watch build doesn't work on first file change
-    // Run the build again to solve the issue
-    runSequence('_js-build', function () {
-        notifier.notify({
-            title: 'Gulp notification',
-            message: 'Build completed.',
-            icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
-        });
-
-        cb();
+'_root-files-build', '_data-build'], function () {
+    notifier.notify({
+        title: 'Gulp notification',
+        message: 'Build completed.',
+        icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
     });
 });
 
