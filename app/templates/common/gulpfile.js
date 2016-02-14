@@ -71,7 +71,8 @@ var BUILD_DIR = 'website',
 
 var TASK_NOTIFICATION = false,
     LIVE_RELOAD = false,
-    MODERNIZR_LIB;
+    MODERNIZR_LIB,
+    BUMP_TYPE;
 
 /**
  *
@@ -114,34 +115,37 @@ gulp.task('browser-sync', function () {
  *
  */
 
-gulp.task('bump', ['_version-timestamp'], function () {
-    var bumpType;
-
+gulp.task('bump', function (cb) {
     if (argv.major) {
-        bumpType = 'major';
+        BUMP_TYPE = 'major';
     } else if (argv.minor) {
-        bumpType = 'minor';
+        BUMP_TYPE = 'minor';
     } else if (argv.patch) {
-        bumpType = 'patch';
+        BUMP_TYPE = 'patch';
     } else {
+        cb();
         gutil.log(gutil.colors.blue('Specify valid semver version type to bump!'));
         return;
     }
 
-    gulp.src([
-        './bower.json',
-        './package.json',
-        './test/package.json',
-        './src/scripts/data/version.json'
-    ], { base: './' })
-        .pipe(bump({ type: bumpType }))
-        .pipe(gulp.dest('./'));
+    runSequence('_version-timestamp', '_version-bump', cb);
 });
 
 gulp.task('_version-timestamp', function () {
     return gulp.src('./src/scripts/data/version.json')
         .pipe(jeditor({ 'time': moment().format('DD.MM.YYYY HH:mm:ss (ZZ)') }))
         .pipe(gulp.dest('./src/scripts/data/'));
+});
+
+gulp.task('_version-bump', function () {
+    return gulp.src([
+        './bower.json',
+        './package.json',
+        './test/package.json',
+        './src/scripts/data/version.json'
+    ], { base: './' })
+        .pipe(bump({ type: BUMP_TYPE }))
+        .pipe(gulp.dest('./'));
 });
 
 /**
