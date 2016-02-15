@@ -1,8 +1,9 @@
-/* globals angular, inject */
+/* globals inject */
 
 'use strict';
 
-var mCtrls = require('../../src/scripts/app/controllers/_loader'),
+var angular = require('angular'),
+    mCtrls = require('../../src/scripts/app/controllers/_loader'),
     loader = require('../../src/scripts/utilities/loader');
 
 describe('Controllers', function () {

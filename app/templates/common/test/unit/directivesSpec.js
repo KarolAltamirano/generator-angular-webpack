@@ -1,4 +1,4 @@
-/* globals angular, inject */
+/* globals inject */
 
 'use strict';
 
