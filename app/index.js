@@ -109,7 +109,11 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
 
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/karma.conf.js'), this.destinationPath('karma.conf.js'));
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/modernizr-config.json'), this.destinationPath('modernizr-config.json'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/protractor.conf.js'), this.destinationPath('protractor.conf.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
 
@@ -194,27 +198,6 @@ module.exports = generators.Base.extend({
         // test folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/e2e/**'), this.destinationPath('test/e2e/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
-
-        this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/test/_package.json'),
-            this.destinationPath('test/package.json'),
-            {
-                name: this.props.name,
-                es2015: this.es2015
-            }
-        );
-
-        this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/test/karma.conf.js'),
-            this.destinationPath('test/karma.conf.js'),
-            {
-                es2015: this.es2015,
-                soundjs: this.soundjs,
-                easeljs: this.easeljs
-            }
-        );
-
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/protractor.conf.js'), this.destinationPath('test/protractor.conf.js'));
 
         // website folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/website/**'), this.destinationPath('website/'));

@@ -6,7 +6,7 @@ exports.config = {
 
     directConnect: true,
 
-    specs: ['e2e/spec.js'],
+    specs: ['test/e2e/spec.js'],
 
     jasmineNodeOpts: {
         // If true, display spec names.
