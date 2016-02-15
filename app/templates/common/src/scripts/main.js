@@ -5,6 +5,7 @@ var incompDetect = require('./utilities/incompDetect');
 // run browser detection
 incompDetect();
 <% if (es2015) { %>
+// load babel polyfill
 require('babel-polyfill');
 <% } %>
 var $ = require('jquery'),
