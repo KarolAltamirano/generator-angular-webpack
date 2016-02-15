@@ -5,9 +5,8 @@
 @import 'base';
 @import 'fonts';
 
-@import 'modules/animation';
-@import 'modules/layout';
-@import 'modules/incompatible-browser';
-@import 'modules/version';
-@import 'modules/loader';<% if (pixijs) { %>
+@import 'modules/animation';<% if (pixijs) { %>
 @import 'modules/canvas';<% } %>
+@import 'modules/incompatible-browser';
+@import 'modules/loader';
+@import 'modules/version';

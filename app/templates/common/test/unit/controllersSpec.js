@@ -10,14 +10,14 @@ describe('Controllers', function () {
 
     loader.createSpyLoader('main', 'spy loader data');
 
-    describe('RootCtrl', function () {
+    describe('MyCtrl', function () {
         var $scope;
 
         beforeEach(angular.mock.module(mCtrls));
 
         beforeEach(inject(function ($rootScope, $controller) {
             $scope = $rootScope.$new();
-            $controller('RootCtrl', { $scope: $scope });
+            $controller('MyCtrl', { $scope: $scope });
         }));
 
         it('Placeholder', function () {
