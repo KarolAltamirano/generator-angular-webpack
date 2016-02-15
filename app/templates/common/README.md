@@ -56,10 +56,6 @@ gulp bump --patch : bump patch version
 ```
 
 # Webpack
-## Singletons (Read!)
-To prevent unexpected behavior ( [GitHub issue](https://github.com/webpack/webpack/issues/1332) ) store your
-singleton state in `global.app` object instead of closure of a module.
-
 ## Installing JavaScript libraries
 - Install libraries with npm.
 
