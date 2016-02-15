@@ -19,7 +19,7 @@ incompatible.isIncompatibleBrowser = function () {
             { browser: 'Firefox'      , version: 38 },
             { browser: 'Safari'       , version:  7 },
             { browser: 'Mobile Safari', version:  7 },
-            { browser: 'IE'           , version: 10 },
+            { browser: 'IE'           , version: 11 },
             { browser: 'Edge'         , version: 12 },
             { browser: 'IEMobile'     , version: 11 }
         ],

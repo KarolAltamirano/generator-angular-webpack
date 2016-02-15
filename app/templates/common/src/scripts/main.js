@@ -1,16 +1,17 @@
 'use strict';
+
+var incompDetect = require('./utilities/incompDetect');
+
+// run browser detection
+incompDetect();
 <% if (es2015) { %>
 require('babel-polyfill');
 <% } %>
 var $ = require('jquery'),
     loader = require('./utilities/loader'),
     version = require('./utilities/version'),
-    incompDetect = require('./utilities/incompDetect'),
     incompatible = require('./utilities/incompatible'),
     appCopy = require('./data/app-copy.json');
-
-// run browser detection
-incompDetect();
 
 // render build version if enabled
 version();
