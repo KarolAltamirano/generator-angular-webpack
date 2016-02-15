@@ -2,10 +2,7 @@
 
 var createjs = require('createjs'),
     loaderData = require('./loaderData'),
-    app = global.app || (global.app = {});
-
-// get loader object
-app.loader = app.loader || (app.loader = {});
+    _loader = {};
 <% if (soundjs) { %>
 // initialize SoundJS - use 'createjs' object to work with 'SoundJS'
 require('SoundJS');
@@ -21,19 +18,19 @@ require('EaselJS');
  * @param  {function} completeCb - callback function when loading is completed
  */
 var createLoader = function (id, progressCb, completeCb) {
-    if (app.loader[id] != null) {
+    if (_loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
     }
 
-    app.loader[id] = new createjs.LoadQueue(true);
+    _loader[id] = new createjs.LoadQueue(true);
 <% if (soundjs) { %>
     createjs.Sound.alternateExtensions = ['mp3'];
-    app.loader[id].installPlugin(createjs.Sound);
+    _loader[id].installPlugin(createjs.Sound);
 <% } %>
-    app.loader[id].addEventListener('progress', progressCb);
-    app.loader[id].addEventListener('complete', completeCb);
+    _loader[id].addEventListener('progress', progressCb);
+    _loader[id].addEventListener('complete', completeCb);
 
-    app.loader[id].loadManifest(loaderData);
+    _loader[id].loadManifest(loaderData);
 };
 
 /**
@@ -43,11 +40,11 @@ var createLoader = function (id, progressCb, completeCb) {
  * @param  {string} value - return value of the new loaderData
  */
 var createSpyLoader = function (id, value) {
-    if (app.loader[id] != null) {
+    if (_loader[id] != null) {
         throw new Error('Loader with id: ' + id + ' already exists.');
     }
 
-    app.loader[id] = {
+    _loader[id] = {
         getResult: function () { return value; }
     };
 };
@@ -58,11 +55,11 @@ var createSpyLoader = function (id, value) {
  * @param  {string} id - id of a loaderData
  */
 var getLoader = function (id) {
-    if (app.loader[id] == null) {
+    if (_loader[id] == null) {
         throw new Error('Loader with id: ' + id + ' does not exist.');
     }
 
-    return app.loader[id];
+    return _loader[id];
 };
 
 module.exports = {
