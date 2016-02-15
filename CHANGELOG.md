@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.0 - 2016-02-15
+- Bower was removed
+- All JavaScript libraries are managed with npm
+- All JavaScript files are built with webpack including libraries
+- Update to ESLint 2.0.0
+- Add json linter to data build task
+- Gulp connect was replaced with BrowserSync
+
 ## v0.4.4 - 2016-02-11
 - Change singleton pattern for webpack modules to use global object
 
