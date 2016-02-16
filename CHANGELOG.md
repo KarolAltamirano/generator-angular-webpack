@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.1 - 2016-02-16
+- Improve webpack + gulp build
+
 ## v0.5.0 - 2016-02-16
 - Bower was removed
 - All JavaScript libraries are managed with npm
