@@ -213,17 +213,18 @@ gulp.task('_css-vendor-build', function () {
 // Build js files
 var compiler = webpack(myConfig);
 
-gulp.task('_js-webpack-build', function (cb) {
+gulp.task('_js-build', function (cb) {
+    compiler.purgeInputFileSystem();
     compiler.run(function (err, stats) {
         if (err) {
-            throw new gutil.PluginError('_js-webpack-build', err);
+            throw new gutil.PluginError('_js-build', err);
         }
 
-        gutil.log('[_js-webpack-build]', stats.toString({ colors: true }));
+        gutil.log('[_js-build]', stats.toString({ colors: true }));
 
         if (stats.hasErrors()) {
             if (!TASK_NOTIFICATION) {
-                throw new gutil.PluginError('_js-webpack-build', new Error('JavaScript build error.'));
+                throw new gutil.PluginError('_js-build', new Error('JavaScript build error.'));
             } else {
                 notifier.notify({
                     title: 'Error running Gulp',
@@ -232,26 +233,18 @@ gulp.task('_js-webpack-build', function (cb) {
                     sound: 'Frog'
                 });
             }
-        }
+        } else {
+            if (TASK_NOTIFICATION) {
+                notifier.notify({
+                    title: 'Gulp notification',
+                    message: 'JavaScript build completed.',
+                    icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
+                });
+            }
 
-        cb();
-    });
-});
-
-gulp.task('_js-build', function (cb) {
-    // HACK: Webpack build doesn't always work on first build when caching is used
-    // Run the build again to solve the issue
-    runSequence('_js-webpack-build', '_js-webpack-build', function () {
-        if (TASK_NOTIFICATION) {
-            notifier.notify({
-                title: 'Gulp notification',
-                message: 'JavaScript build completed.',
-                icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
-            });
-        }
-
-        if (LIVE_RELOAD) {
-            browserSync.reload();
+            if (LIVE_RELOAD) {
+                browserSync.reload();
+            }
         }
 
         cb();
