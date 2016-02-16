@@ -1,13 +1,13 @@
 'use strict';
 
-var app = global.app || (global.app = {});
-
-app.angular = app.angular || (app.angular = {});
+var angular = require('angular'),
+    _modules = {};
 
 /**
  * Get instance of angular module. If module doesn't exist create one.
- * @param  {string} moduleId name of the module
- * @return {object}          angular module
+ *
+ * @param  {string} moduleId - name of the module
+ * @return {object}          - angular module
  */
 var getModuleInstance = function (moduleId, dependencies) {
     if (typeof moduleId !== 'string') {
@@ -20,11 +20,11 @@ var getModuleInstance = function (moduleId, dependencies) {
 
     dependencies = dependencies || [];
 
-    if (app.angular[moduleId] == null) {
-        app.angular[moduleId] = angular.module(moduleId, dependencies);
+    if (_modules[moduleId] == null) {
+        _modules[moduleId] = angular.module(moduleId, dependencies);
     }
 
-    return app.angular[moduleId];
+    return _modules[moduleId];
 };
 
 module.exports = getModuleInstance;

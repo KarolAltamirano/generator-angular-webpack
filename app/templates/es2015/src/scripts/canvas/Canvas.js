@@ -1,7 +1,13 @@
 'use strict';
 
-var Plane = require('./Plane');
+var PIXI = require('pixi.js'),
+    Plane = require('./Plane');
 
+/**
+ * Canvas class - Create canvas
+ *
+ * @param  {string} canvas - Id of <canvas> html element
+ */
 class Canvas {
     constructor(canvas) {
         var scale = window.devicePixelRatio || 1,
@@ -33,6 +39,20 @@ class Canvas {
         });
     }
 
+    /**
+     * Create canvas objects
+     */
+    createElements() {
+        this.spritePlane = new Plane(this.renderer.resolution);
+        this.spritePlane.position.x = this.width / 2;
+        this.spritePlane.position.y = this.height / 2;
+
+        this.container.addChild(this.spritePlane);
+    }
+
+    /**
+     * Canvas animation loop
+     */
     animate() {
         requestAnimationFrame(() => {
             this.animate();
@@ -41,6 +61,9 @@ class Canvas {
         this.renderer.render(this.container);
     }
 
+    /**
+     * Handle canvas resize
+     */
     onResize() {
         window.addEventListener('resize', () => {
             // resize renderer
@@ -56,14 +79,9 @@ class Canvas {
         });
     }
 
-    createElements() {
-        this.spritePlane = new Plane(this.renderer.resolution);
-        this.spritePlane.position.x = this.width / 2;
-        this.spritePlane.position.y = this.height / 2;
-
-        this.container.addChild(this.spritePlane);
-    }
-
+    /**
+     * Position objects on canvas resize
+     */
     positionElementsOnResize() {
         this.spritePlane.position.x = this.width / 2;
         this.spritePlane.position.y = this.height / 2;

@@ -2,11 +2,11 @@
 
 exports.config = {
 
-    baseUrl: 'http://localhost:8080',
+    baseUrl: 'http://localhost:3000',
 
     directConnect: true,
 
-    specs: ['e2e/spec.js'],
+    specs: ['test/e2e/spec.js'],
 
     jasmineNodeOpts: {
         // If true, display spec names.

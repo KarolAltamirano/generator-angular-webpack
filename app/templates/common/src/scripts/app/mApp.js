@@ -1,14 +1,22 @@
 'use strict';
 
-require('./animations/_loader');
-require('./controllers/_loader');
-require('./directives/_loader');
-require('./services/_loader');<% if (pixijs) { %>
-
-var Canvas = require('../canvas/Canvas');<% } %>
-
-/* register main app */
-angular.module('mApp', ['ngTouch', 'ngSanitize', 'ui.router', 'mAnimations', 'mCtrls'])
+var angular = require('angular'),
+    ngTouch = require('angular-touch'),
+    ngSanitize = require('angular-sanitize'),
+    uiRouter = require('angular-ui-router'),
+    mAnimations = require('./animations/_loader'),
+    mCtrls = require('./controllers/_loader');
+/*
+    mDirectives = require('./directives/_loader'),
+    mServices = require('./services/_loader');
+*/
+<% if (pixijs) { %>
+var Canvas = require('../canvas/Canvas');
+<% } %>
+/**
+ * Register main angular app
+ */
+angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls])
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         $stateProvider
             .state('home', {

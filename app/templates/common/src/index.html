@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="css/vendor/vendor.css">
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="scripts/lib-header.js"></script>
-    <script src="scripts/header.js"></script>
+    <script src="scripts/modernizr.js"></script>
 </head>
 
 <body>
@@ -30,16 +29,13 @@
     <!-- end: incompatible browser page -->
     <!-- begin: loader -->
     <div class="loader"></div>
-    <!-- end: iloader -->
+    <!-- end: loader -->
     <!-- begin: main app -->
-    <div class="container ng-cloak" ng-controller="RootCtrl">
-        <header ng-include=" 'tpls/partials/header.html' "></header>
-        <div class="main view-change-animate" ui-view></div>
-        <footer ng-include=" 'tpls/partials/footer.html' "></footer>
-    </div><% if (pixijs) { %>
-    <canvas id="canvas-elem" class="canvas-elem"></canvas><% } %>
+    <header class="ng-cloak" ng-include=" 'tpls/partials/header.html' "></header>
+    <div class="main view-change-animate ng-cloak" ui-view></div>
+    <footer class="ng-cloak" ng-include=" 'tpls/partials/footer.html' "></footer><% if (pixijs) { %>
+    <canvas id="canvas-elem" class="canvas-elem ng-cloak"></canvas><% } %>
     <!-- end: main app -->
-    <script src="scripts/lib.js"></script>
     <script src="scripts/main.js"></script>
 </body>
 </html>

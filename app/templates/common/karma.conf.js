@@ -1,12 +1,17 @@
 'use strict';
 
-var bowerFiles = require('main-bower-files');
+var webpackConfig = require('./webpack.config'),
+    webpackKamraConfig = {
+        devtool: '#inline-source-map',
+        resolve: webpackConfig.resolve,
+        module: webpackConfig.module
+    };
 
 module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '../',
+        basePath: './',
 
 
         // frameworks to use
@@ -15,10 +20,9 @@ module.exports = function (config) {
 
 
         // list of files / patterns to load in the browser
-        files: bowerFiles('**/*.js', { paths: '../' }).concat(
-            'bower_components/angular-mocks/angular-mocks.js',
-            'test/unit/*.js'
-        ),
+        files: [
+            'test/unit/_enterSpec.js'
+        ],
 
 
         // list of files to exclude
@@ -28,18 +32,10 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'test/unit/*.js': ['webpack', 'sourcemap']
+            'test/unit/_enterSpec.js': ['webpack', 'sourcemap']
         },
 
-        webpack: {
-            devtool: 'inline-source-map',
-            module: {
-                loaders: [
-                    { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'ng-annotate!babel?presets[]=es2015' },
-                    { test: /\.json$/, loader: 'json' }
-                ]
-            }
-        },
+        webpack: webpackKamraConfig,
 
 
         // test results reporter to use

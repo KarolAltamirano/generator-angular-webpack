@@ -1,11 +1,18 @@
 'use strict';
 
-require('./app/mApp');
+var incompDetect = require('./utilities/incompDetect');
 
-var loader = require('./utilities/loader'),
+// run browser detection
+incompDetect();
+<% if (es2015) { %>
+// load babel polyfill
+require('babel-polyfill');
+<% } %>
+var $ = require('jquery'),
+    loader = require('./utilities/loader'),
     version = require('./utilities/version'),
     incompatible = require('./utilities/incompatible'),
-    appCopy = require('./data/appCopy.json');
+    appCopy = require('./data/app-copy.json');
 
 // render build version if enabled
 version();
@@ -19,15 +26,22 @@ function progressCb(e) {
 }
 
 function completeCb() {
-    // hide loader
-    $('.loader').hide();
+    // create new chunk
+    require.ensure([], function (require) {
+        var angular = require('angular');
 
-    // run app
-    angular.bootstrap(document, ['mApp']);
+        require('./app/mApp');
+
+        // hide loader
+        $('.loader').hide();
+
+        // run app
+        angular.bootstrap(document, ['mApp']);
+    });
 }
 
-/* bootstrap application */
-angular.element(document).ready(function () {
+// bootstrap application
+$(document).ready(function () {
     if (incompatible.isIncompatibleBrowser()) {
         return;
     }

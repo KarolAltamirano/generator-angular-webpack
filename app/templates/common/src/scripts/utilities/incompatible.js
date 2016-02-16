@@ -2,18 +2,24 @@
 
 'use strict';
 
-var uaParser = new UAParser(),
+var UAParser = require('ua-parser-js'),
+    uaParser = new UAParser(),
     incompatible = {};
 
 incompatible.uaResult = uaParser.getResult();
 
+/**
+ * Check browser compatibility
+ *
+ * @return {Boolean} - for uncompatible browser return 'true', otherwise 'false'
+ */
 incompatible.isIncompatibleBrowser = function () {
     var listOfSupported = [
             { browser: 'Chrome'       , version: 43 },
             { browser: 'Firefox'      , version: 38 },
             { browser: 'Safari'       , version:  7 },
             { browser: 'Mobile Safari', version:  7 },
-            { browser: 'IE'           , version: 10 },
+            { browser: 'IE'           , version: 11 },
             { browser: 'Edge'         , version: 12 },
             { browser: 'IEMobile'     , version: 11 }
         ],

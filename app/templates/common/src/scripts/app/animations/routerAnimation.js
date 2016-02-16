@@ -1,12 +1,13 @@
 'use strict';
 
-require('./_mAnimations');
+var mAnimations = require('./_mAnimations'),
+    gsap = require('gsap');
 
-angular.module('mAnimations').animation('.view-change-animate', function () {
+mAnimations.animation('.view-change-animate', function () {
     return {
         enter: function (element, done) {
-            TweenMax.set(element, { autoAlpha: 0 });
-            TweenMax.to(element, 1, { autoAlpha: 1, onComplete: done });
+            gsap.TweenMax.set(element, { autoAlpha: 0 });
+            gsap.TweenMax.to(element, 1, { autoAlpha: 1, onComplete: done });
             /*
             return function (isCancelled) {
                 if (isCancelled) {
@@ -18,8 +19,8 @@ angular.module('mAnimations').animation('.view-change-animate', function () {
         /*
         ,
         leave: function (element, done) {
-            TweenMax.set(element, { autoAlpha: 1 });
-            TweenMax.to(element, 0.5, { autoAlpha: 0, onComplete: done });
+            gsap.TweenMax.set(element, { autoAlpha: 1 });
+            gsap.TweenMax.to(element, 0.5, { autoAlpha: 0, onComplete: done });
 
             return function (isCancelled) {
                 if (isCancelled) {

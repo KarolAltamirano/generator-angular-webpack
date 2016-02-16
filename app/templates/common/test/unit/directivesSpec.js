@@ -1,3 +1,5 @@
+/* globals inject */
+
 'use strict';
 
 describe('Directives', function () {

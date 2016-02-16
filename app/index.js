@@ -1,3 +1,10 @@
+/**
+ * @file        Main file of Yeoman generator for AngularJS with Webpack
+ * @author      Karol Altamirano <karlos.altamirano@gmail.com>
+ * @copyright   2015-2016 Karol Altamirano
+ * @license     MIT
+ */
+
 'use strict';
 
 var generators = require('yeoman-generator'),
@@ -60,11 +67,7 @@ module.exports = generators.Base.extend({
             this.statsjs = selectedPrompt('stats.js', props.optionalLibraries);
             this.datgui = selectedPrompt('dat-gui', props.optionalLibraries);
 
-            if (selectedPrompt('ECMAScript 5', props.jsVersion)) {
-                this.jsVersion = 'ES5';
-            } else {
-                this.jsVersion = 'ES2015';
-            }
+            this.es2015 = selectedPrompt('ECMAScript 2015 (with Babel compiler)', props.jsVersion);
 
             done();
         }.bind(this));
@@ -73,18 +76,19 @@ module.exports = generators.Base.extend({
         var COMMON_FOLDER = 'common',
             VERSION_FOLDER;
 
-        if (this.jsVersion === 'ES5') {
-            VERSION_FOLDER = 'es5';
-        } else {
+        if (this.es2015) {
             VERSION_FOLDER = 'es2015';
+        } else {
+            VERSION_FOLDER = 'es5';
         }
 
         // root files
         this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/_bower.json'),
-            this.destinationPath('bower.json'),
+            this.templatePath(COMMON_FOLDER + '/_package.json'),
+            this.destinationPath('package.json'),
             {
                 name: this.props.name,
+                es2015: this.es2015,
                 pixijs: this.pixijs,
                 soundjs: this.soundjs,
                 easeljs: this.easeljs,
@@ -99,23 +103,32 @@ module.exports = generators.Base.extend({
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.scss-lint.yml'), this.destinationPath('.scss-lint.yml'));
 
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/config.json'), this.destinationPath('config.json'));
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gitignore'), this.destinationPath('.gitignore'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/gulpfile.js'), this.destinationPath('gulpfile.js'));
 
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/karma.conf.js'), this.destinationPath('karma.conf.js'));
+
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/modernizr-config.json'), this.destinationPath('modernizr-config.json'));
+
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/protractor.conf.js'), this.destinationPath('protractor.conf.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/README.md'), this.destinationPath('README.md'));
 
         this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/_package.json'),
-            this.destinationPath('package.json'),
-            { name: this.props.name }
+            this.templatePath(COMMON_FOLDER + '/webpack.config.js'),
+            this.destinationPath('webpack.config.js'),
+            {
+                es2015: this.es2015,
+                pixijs: this.pixijs,
+                soundjs: this.soundjs,
+                easeljs: this.easeljs,
+                statsjs: this.statsjs,
+                datgui: this.datgui
+            }
         );
-
-        this.fs.copy(this.templatePath(VERSION_FOLDER + '/config.json'), this.destinationPath('config.json'));
-
-        this.fs.copy(this.templatePath(VERSION_FOLDER + '/webpack.config.js'), this.destinationPath('webpack.config.js'));
 
         // src folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/assets/**'), this.destinationPath('src/assets/'));
@@ -143,12 +156,15 @@ module.exports = generators.Base.extend({
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loader.js'),
             this.destinationPath('src/scripts/utilities/loader.js'),
-            { soundjs: this.soundjs }
+            { soundjs: this.soundjs, easeljs: this.easeljs }
         );
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/header.js'), this.destinationPath('src/scripts/header.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
+        this.fs.copyTpl(
+            this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'),
+            this.destinationPath('src/scripts/main.js'),
+            { es2015: this.es2015 }
+        );
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
 
@@ -157,7 +173,6 @@ module.exports = generators.Base.extend({
             this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_canvas.scss'), this.destinationPath('src/scss/modules/_canvas.scss'));
         }
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_incompatible-browser.scss'), this.destinationPath('src/scss/modules/_incompatible-browser.scss'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_layout.scss'), this.destinationPath('src/scss/modules/_layout.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_loader.scss'), this.destinationPath('src/scss/modules/_loader.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/modules/_version.scss'), this.destinationPath('src/scss/modules/_version.scss'));
 
@@ -182,20 +197,12 @@ module.exports = generators.Base.extend({
         // test folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/e2e/**'), this.destinationPath('test/e2e/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
-        this.fs.copy(this.templatePath(VERSION_FOLDER + '/test/karma.conf.js'), this.destinationPath('test/karma.conf.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/protractor.conf.js'), this.destinationPath('test/protractor.conf.js'));
-
-        this.fs.copyTpl(
-            this.templatePath(VERSION_FOLDER + '/test/_package.json'),
-            this.destinationPath('test/package.json'),
-            { name: this.props.name }
-        );
 
         // website folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/website/**'), this.destinationPath('website/'));
 
     },
     install: function () {
-        this.installDependencies();
+        this.npmInstall();
     }
 });

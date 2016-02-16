@@ -1,8 +1,0 @@
-{
-    "loader": {
-        "start": "0%",
-        "progress": "%",
-        "spy": "Loader was not created. Using spy loader instead.",
-        "spyValue": "spy-data-string"
-    }
-}

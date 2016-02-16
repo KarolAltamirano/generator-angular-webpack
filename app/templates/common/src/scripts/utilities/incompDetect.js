@@ -1,9 +1,12 @@
 'use strict';
 
-var incompatilble = require('./incompatible');
+var incompatible = require('./incompatible');
 
+/**
+ * Add 'incompatible' class to documentElement in unsupported browsers
+ */
 var incompDetect = function () {
-    if (incompatilble.isIncompatibleBrowser()) {
+    if (incompatible.isIncompatibleBrowser()) {
         // if browser is incompatible
         document.documentElement.className = 'incompatible ' + document.documentElement.className;
     }
