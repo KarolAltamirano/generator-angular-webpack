@@ -38,6 +38,7 @@ var del                = require('del'),
     runSequence        = require('run-sequence'),
     eslint             = require('gulp-eslint'),
     webpack            = require('webpack'),
+    ProgressBarPlugin  = require('progress-bar-webpack-plugin'),
     bump               = require('gulp-bump'),
     jeditor            = require('gulp-json-editor'),
     moment             = require('moment'),
@@ -87,8 +88,12 @@ myConfig.output = {
     sourceMapFilename: 'maps/[file].map'
 };
 
+myConfig.plugins = [
+    new ProgressBarPlugin()
+];
+
 if (argv.dist) {
-    myConfig.plugins = [new webpack.optimize.UglifyJsPlugin()];
+    myConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
 } else {
     myConfig.debug = true;
     myConfig.devtool = '#cheap-module-source-map';
@@ -211,20 +216,19 @@ gulp.task('_css-vendor-build', function () {
 });
 
 // Build js files
-var compiler = webpack(myConfig);
+var createWebpackCb = function (cb) {
+    var calledOnce = false;
 
-gulp.task('_js-build', function (cb) {
-    compiler.purgeInputFileSystem();
-    compiler.run(function (err, stats) {
+    var webpackCb = function (err, stats) {
         if (err) {
-            throw new gutil.PluginError('_js-build', err);
+            throw new gutil.PluginError('webpack', err);
         }
 
-        gutil.log('[_js-build]', stats.toString({ colors: true }));
+        gutil.log('[webpack]', stats.toString({ chunks: false, colors: true }));
 
         if (stats.hasErrors()) {
             if (!TASK_NOTIFICATION) {
-                throw new gutil.PluginError('_js-build', new Error('JavaScript build error.'));
+                throw new gutil.PluginError('webpack', new Error('JavaScript build error.'));
             } else {
                 notifier.notify({
                     title: 'Error running Gulp',
@@ -232,6 +236,17 @@ gulp.task('_js-build', function (cb) {
                     icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp-error.png'),
                     sound: 'Frog'
                 });
+                gutil.log(
+                    gutil.colors.cyan('gulp-notify:'),
+                    gutil.colors.blue('[Error running Gulp]'),
+                    gutil.colors.green('JavaScript build error.')
+                );
+                gutil.log(
+                    gutil.colors.white('Finished'),
+                    gutil.colors.cyan('\'_js-watch\''),
+                    gutil.colors.white('after'),
+                    gutil.colors.magenta(stats.toJson().time + ' ms')
+                );
             }
         } else {
             if (TASK_NOTIFICATION) {
@@ -240,6 +255,17 @@ gulp.task('_js-build', function (cb) {
                     message: 'JavaScript build completed.',
                     icon: path.join(__dirname, 'node_modules', 'gulp-notify', 'assets', 'gulp.png')
                 });
+                gutil.log(
+                    gutil.colors.cyan('gulp-notify:'),
+                    gutil.colors.blue('[Gulp notification]'),
+                    gutil.colors.green('JavaScript build completed.')
+                );
+                gutil.log(
+                    gutil.colors.white('Finished'),
+                    gutil.colors.cyan('\'_js-watch\''),
+                    gutil.colors.white('after'),
+                    gutil.colors.magenta(stats.toJson().time + ' ms')
+                );
             }
 
             if (LIVE_RELOAD) {
@@ -247,12 +273,27 @@ gulp.task('_js-build', function (cb) {
             }
         }
 
-        cb();
-    });
+        if (!calledOnce) {
+            calledOnce = true;
+            cb();
+        }
+    };
+
+    return function (err, stats) {
+        runSequence('_js-lint', function () {
+            webpackCb(err, stats);
+        });
+    };
+};
+
+var compiler = webpack(myConfig);
+
+gulp.task('_js-build', function (cb) {
+    compiler.run(createWebpackCb(cb));
 });
 
 gulp.task('_js-watch', function (cb) {
-    runSequence('_lint', '_js-build', cb);
+    compiler.watch({}, createWebpackCb(cb));
 });
 
 // Build modernizr js
@@ -305,7 +346,7 @@ gulp.task('_data-build', function () {
  *
  */
 
-gulp.task('_lint', function () {
+gulp.task('_js-lint', function () {
     return gulp.src(['src/scripts/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
@@ -329,7 +370,7 @@ gulp.task('_lint', function () {
  *
  */
 
-gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-build', '_modernizr-build',
+gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_modernizr-build',
 '_root-files-build', '_data-build'], function () {
     notifier.notify({
         title: 'Gulp notification',
@@ -339,12 +380,7 @@ gulp.task('_build', ['_css-build', '_css-vendor-build', '_tpls-build', '_js-buil
 });
 
 gulp.task('build', function (cb) {
-    runSequence('_lint', '_clean', '_build', function () {
-        TASK_NOTIFICATION = true;
-        LIVE_RELOAD = true;
-
-        cb();
-    });
+    runSequence('_clean', '_js-build', '_build', cb);
 });
 
 /**
@@ -356,8 +392,6 @@ gulp.task('build', function (cb) {
 gulp.task('_watch', function () {
     gulp.watch('src/scss/**/*.scss', ['_css-build']);
 
-    gulp.watch('src/scripts/**', ['_js-watch']);
-
     gulp.watch('src/tpls/**/*.html', ['_tpls-build']);
 
     gulp.watch(rootFiles, ['_root-files-build']);
@@ -366,7 +400,12 @@ gulp.task('_watch', function () {
 });
 
 gulp.task('watch', function (cb) {
-    runSequence('build', '_watch', 'browser-sync', cb);
+    runSequence('_clean', '_js-watch', '_build', '_watch', 'browser-sync', function () {
+        TASK_NOTIFICATION = true;
+        LIVE_RELOAD = true;
+
+        cb();
+    });
 });
 
 /**
