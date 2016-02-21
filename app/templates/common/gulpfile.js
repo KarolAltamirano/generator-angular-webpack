@@ -224,7 +224,7 @@ var createWebpackCb = function (cb) {
             throw new gutil.PluginError('webpack', err);
         }
 
-        gutil.log('[webpack]', stats.toString({ colors: true }));
+        gutil.log('[webpack]', stats.toString({ chunks: false, colors: true }));
 
         if (stats.hasErrors()) {
             if (!TASK_NOTIFICATION) {
