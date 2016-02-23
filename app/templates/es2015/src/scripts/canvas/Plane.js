@@ -1,14 +1,12 @@
-'use strict';
-
-var PIXI = require('pixi.js'),
-    loader = require('../utilities/loader');
+import PIXI from 'pixi.js';
+import loader from '../utilities/loader';
 
 /**
  * Plane class - Create plane object
  *
  * @param  {number} resolution - Device Pixel Ratio
  */
-class Plane extends PIXI.Sprite {
+export default class Plane extends PIXI.Sprite {
     constructor(resolution) {
         var planeImg = loader.getLoader('main').getResult('plane'),
             planeBase = new PIXI.BaseTexture(planeImg),
@@ -22,5 +20,3 @@ class Plane extends PIXI.Sprite {
         this.anchor.y = 0.5;
     }
 }
-
-module.exports = Plane;

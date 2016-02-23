@@ -97,8 +97,6 @@ module.exports = generators.Base.extend({
             }
         );
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
-
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.htmlhintrc'), this.destinationPath('.htmlhintrc'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/.scss-lint.yml'), this.destinationPath('.scss-lint.yml'));
@@ -130,17 +128,21 @@ module.exports = generators.Base.extend({
             }
         );
 
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
+
         // src folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/assets/**'), this.destinationPath('src/assets/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/data/**'), this.destinationPath('src/data/'));
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/animations/**'), this.destinationPath('src/scripts/app/animations/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/controllers/**'), this.destinationPath('src/scripts/app/controllers/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/directives/**'), this.destinationPath('src/scripts/app/directives/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/services/**'), this.destinationPath('src/scripts/app/services'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/app/utilities/**'), this.destinationPath('src/scripts/app/utilities'));
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/data/**'), this.destinationPath('src/scripts/data/'));
+
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/app/animations/**'), this.destinationPath('src/scripts/app/animations/'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/app/controllers/**'), this.destinationPath('src/scripts/app/controllers/'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/app/directives/**'), this.destinationPath('src/scripts/app/directives/'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/app/services/**'), this.destinationPath('src/scripts/app/services'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/app/utilities/**'), this.destinationPath('src/scripts/app/utilities'));
         this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/src/scripts/app/mApp.js'),
+            this.templatePath(VERSION_FOLDER + '/src/scripts/app/mApp.js'),
             this.destinationPath('src/scripts/app/mApp.js'),
             { pixijs: this.pixijs }
         );
@@ -149,22 +151,17 @@ module.exports = generators.Base.extend({
             this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/canvas/**'), this.destinationPath('src/scripts/canvas/'));
         }
 
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/data/**'), this.destinationPath('src/scripts/data/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/appSettings.js'), this.destinationPath('src/scripts/utilities/appSettings.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompatible.js'), this.destinationPath('src/scripts/utilities/incompatible.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/incompDetect.js'), this.destinationPath('src/scripts/utilities/incompDetect.js'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/appSettings.js'), this.destinationPath('src/scripts/utilities/appSettings.js'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/incompatible.js'), this.destinationPath('src/scripts/utilities/incompatible.js'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/incompDetect.js'), this.destinationPath('src/scripts/utilities/incompDetect.js'));
         this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loader.js'),
+            this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/loader.js'),
             this.destinationPath('src/scripts/utilities/loader.js'),
             { soundjs: this.soundjs, easeljs: this.easeljs }
         );
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
-        this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/src/scripts/main.js'),
-            this.destinationPath('src/scripts/main.js'),
-            { es2015: this.es2015 }
-        );
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/loaderData.js'), this.destinationPath('src/scripts/utilities/loaderData.js'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/utilities/version.js'), this.destinationPath('src/scripts/utilities/version.js'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/src/scripts/main.js'), this.destinationPath('src/scripts/main.js'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/assets/**'), this.destinationPath('src/scss/assets/'));
 
@@ -195,8 +192,8 @@ module.exports = generators.Base.extend({
         );
 
         // test folder
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/e2e/**'), this.destinationPath('test/e2e/'));
-        this.fs.copy(this.templatePath(COMMON_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/test/e2e/**'), this.destinationPath('test/e2e/'));
+        this.fs.copy(this.templatePath(VERSION_FOLDER + '/test/unit/**'), this.destinationPath('test/unit/'));
 
         // website folder
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/website/**'), this.destinationPath('website/'));

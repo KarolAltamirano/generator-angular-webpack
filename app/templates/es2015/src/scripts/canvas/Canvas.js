@@ -1,14 +1,12 @@
-'use strict';
-
-var PIXI = require('pixi.js'),
-    Plane = require('./Plane');
+import PIXI from 'pixi.js';
+import Plane from './Plane';
 
 /**
  * Canvas class - Create canvas
  *
  * @param  {string} canvas - Id of <canvas> html element
  */
-class Canvas {
+export default class Canvas {
     constructor(canvas) {
         var scale = window.devicePixelRatio || 1,
             canvasElement = document.getElementById(canvas);
@@ -87,5 +85,3 @@ class Canvas {
         this.spritePlane.position.y = this.height / 2;
     }
 }
-
-module.exports = Canvas;
