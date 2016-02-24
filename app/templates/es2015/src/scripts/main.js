@@ -1,18 +1,14 @@
-'use strict';
-
-var incompDetect = require('./utilities/incompDetect');
+import incompDetect from './utilities/incompDetect';
 
 // run browser detection
 incompDetect();
-<% if (es2015) { %>
-// load babel polyfill
-require('babel-polyfill');
-<% } %>
-var $ = require('jquery'),
-    loader = require('./utilities/loader'),
-    version = require('./utilities/version'),
-    incompatible = require('./utilities/incompatible'),
-    appCopy = require('./data/app-copy.json');
+
+import 'babel-polyfill';
+import $ from 'jquery';
+import loader from './utilities/loader';
+import version from './utilities/version';
+import incompatible from './utilities/incompatible';
+import appCopy from './data/app-copy.json';
 
 // render build version if enabled
 version();
