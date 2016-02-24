@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.4 - 2016-02-24
+- Fix ng-annotate not working in ES2015
+- Turn on angular strict DI mode
+
 ## v0.5.3 - 2016-02-24
 - Use import / export syntax for ES2015 modules
 
