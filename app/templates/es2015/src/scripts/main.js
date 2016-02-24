@@ -32,7 +32,7 @@ function completeCb() {
         $('.loader').hide();
 
         // run app
-        angular.bootstrap(document, ['mApp']);
+        angular.bootstrap(document, ['mApp'], { strictDi: true });
     });
 }
 
