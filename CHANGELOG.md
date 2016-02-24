@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.3 - 2016-02-24
+- Use import / export syntax for ES2015 modules
+
 ## v0.5.2 - 2016-02-21
 - Use webpack watch instead of gulp watching
 - Simplify webpack console logs
