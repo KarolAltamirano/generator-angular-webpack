@@ -83,6 +83,8 @@ module.exports = generators.Base.extend({
         }
 
         // root files
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/.editorconfig'), this.destinationPath('.editorconfig'));
+
         this.fs.copyTpl(
             this.templatePath(COMMON_FOLDER + '/_package.json'),
             this.destinationPath('package.json'),

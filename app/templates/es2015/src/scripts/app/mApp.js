@@ -18,6 +18,7 @@ import Canvas from '../canvas/Canvas';
 angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls])
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         'ngInject';
+
         $stateProvider
             .state('home', {
                 url: '/',
