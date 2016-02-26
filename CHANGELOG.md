@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.5 - 2016-02-26
+- Add .editorconfig file
+
 ## v0.5.4 - 2016-02-24
 - Fix ng-annotate not working in ES2015
 - Turn on angular strict DI mode
@@ -9,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Use import / export syntax for ES2015 modules
 
 ## v0.5.2 - 2016-02-21
-- Use webpack watch instead of gulp watching
+- Use webpack watch instead of gulp watch
 - Simplify webpack console logs
 
 ## v0.5.1 - 2016-02-16
