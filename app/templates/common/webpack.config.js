@@ -14,8 +14,8 @@ module.exports = {
     }<% } %>,
     module: {
         loaders: [<% if (es2015) { %>
-            { test: /\.js$/, exclude: /(node_modules)/, loader: 'ng-annotate!babel?presets[]=es2015' }<% } else { %>
-            { test: /\.js$/, exclude: /(node_modules)/, loader: 'ng-annotate' }<% } %>,
+            { test: /\.js$/, exclude: /node_modules/, loader: 'ng-annotate!babel' }<% } else { %>
+            { test: /\.js$/, exclude: /node_modules/, loader: 'ng-annotate' }<% } %>,
             { test: /\.json$/, loader: 'json' },
             { test: /.*gsap.*/, loader: 'imports?gs=>window.GreenSockGlobals={}!exports?gs' },
             { test: /.*PreloadJS.*/, loader: 'imports?this=>global!exports?window.createjs' }<% if (soundjs) { %>,
