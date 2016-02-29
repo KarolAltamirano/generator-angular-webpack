@@ -130,6 +130,10 @@ module.exports = generators.Base.extend({
             }
         );
 
+        if (this.es2015) {
+            this.fs.copy(this.templatePath(VERSION_FOLDER + '/.babelrc'), this.destinationPath('.babelrc'));
+        }
+
         this.fs.copy(this.templatePath(VERSION_FOLDER + '/.eslintrc'), this.destinationPath('.eslintrc'));
 
         // src folder

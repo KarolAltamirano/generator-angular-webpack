@@ -144,9 +144,7 @@ gulp.task('_version-timestamp', function () {
 
 gulp.task('_version-bump', function () {
     return gulp.src([
-        './bower.json',
         './package.json',
-        './test/package.json',
         './src/scripts/data/version.json'
     ], { base: './' })
         .pipe(bump({ type: BUMP_TYPE }))
