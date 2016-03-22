@@ -1,6 +1,6 @@
 {
     "parserOptions": {
-        "ecmaVersion": 6
+        "ecmaVersion": 5
     },
     "rules": {
         "no-console": 0,
@@ -9,7 +9,7 @@
         "indent": [2, 4],
         "quotes": [2, "single"],
         "semi": [2, "always"],
-        "strict": [2, "global"],
+        "strict": 2,
         "curly": 2,
         "camelcase": [2, {"properties": "always"}],
         "eqeqeq": [2, "smart"],

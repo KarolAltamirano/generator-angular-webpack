@@ -1,4 +1,5 @@
 linters:
+
     Indentation:
         width: 4
 
@@ -7,3 +8,7 @@ linters:
 
     NestingDepth:
         enabled: false
+
+    LeadingZero:
+        enabled: true
+        style: 'include_zero'

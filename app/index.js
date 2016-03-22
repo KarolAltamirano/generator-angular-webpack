@@ -182,11 +182,7 @@ module.exports = generators.Base.extend({
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/_base.scss'), this.destinationPath('src/scss/_base.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/_fonts.scss'), this.destinationPath('src/scss/_fonts.scss'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/_shared.scss'), this.destinationPath('src/scss/_shared.scss'));
-        this.fs.copyTpl(
-            this.templatePath(COMMON_FOLDER + '/src/scss/style.scss'),
-            this.destinationPath('src/scss/style.scss'),
-            { pixijs: this.pixijs }
-        );
+        this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/scss/style.scss'), this.destinationPath('src/scss/style.scss'));
 
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/tpls/**'), this.destinationPath('src/tpls/'));
         this.fs.copy(this.templatePath(COMMON_FOLDER + '/src/.htaccess'), this.destinationPath('src/.htaccess'));

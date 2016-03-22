@@ -22,6 +22,7 @@ var del                = require('del'),
     historyApiFallback = require('connect-history-api-fallback'),
     uglify             = require('gulp-uglify'),
     sass               = require('gulp-sass'),
+    sassGlob           = require('gulp-sass-glob'),
     postcss            = require('gulp-postcss'),
     assets             = require('postcss-assets'),
     autoprefixer       = require('autoprefixer'),
@@ -177,6 +178,7 @@ gulp.task('_clean', function () {
 // Build main css
 gulp.task('_css-build', function () {
     return gulp.src('src/scss/**/*.scss')
+        .pipe(sassGlob())
         .pipe(gulpif(!argv.dist, sourcemaps.init()))
         .pipe(sass({ includePaths: scssIncludePaths })
         .on('error', notify.onError('Error: <%= error.message %>')))
