@@ -1,10 +1,3 @@
-/**
- * How to enable / disable logs in console logged with debug.js
- *
- * enable  - run in console -> debug.enable('*');
- * disable - run in console -> debug.disable();
- */
-
 var appSettings = {};
 
 /**
