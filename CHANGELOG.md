@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.7 - 2016-03-23
+- Add gulp-sass-glob
+- Update scss linter rules
+
 ## v0.5.6 - 2016-02-29
 - Put babel configuration to .babelrc file
 - Clean gulp bump task
