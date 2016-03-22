@@ -5,8 +5,4 @@
 @import 'base';
 @import 'fonts';
 
-@import 'modules/animation';<% if (pixijs) { %>
-@import 'modules/canvas';<% } %>
-@import 'modules/incompatible-browser';
-@import 'modules/loader';
-@import 'modules/version';
+@import 'modules/**/*';
