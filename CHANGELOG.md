@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.8 - 2016-03-23
+- Add template directive
+- Add template service
+
 ## v0.5.7 - 2016-03-23
 - Add gulp-sass-glob
 - Update scss linter rules
