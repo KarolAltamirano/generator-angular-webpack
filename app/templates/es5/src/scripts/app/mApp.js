@@ -5,18 +5,17 @@ var angular = require('angular'),
     ngSanitize = require('angular-sanitize'),
     uiRouter = require('angular-ui-router'),
     mAnimations = require('./animations/_loader'),
-    mCtrls = require('./controllers/_loader');
-/*
+    mCtrls = require('./controllers/_loader'),
     mDirectives = require('./directives/_loader'),
     mServices = require('./services/_loader');
-*/
+
 <% if (pixijs) { %>
 var Canvas = require('../canvas/Canvas');
 <% } %>
 /**
  * Register main angular app
  */
-angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls])
+angular.module('mApp', [ngTouch, ngSanitize, uiRouter, mAnimations, mCtrls, mDirectives, mServices])
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         'ngInject';
 
