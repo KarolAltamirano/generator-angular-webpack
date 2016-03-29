@@ -50,6 +50,7 @@ gulp watch        : watch for changes and rebuild updated file
 gulp              : default task runs 'gulp watch'
 gulp build --dist : build for production
 gulp browser-sync : create http server for testing
+gulp data         : build json data from 'src/data/' directory
 gulp bump --major : bump major version
 gulp bump --minor : bump minor version
 gulp bump --patch : bump patch version
