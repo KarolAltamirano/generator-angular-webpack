@@ -7,6 +7,7 @@
  *      gulp              - default task [watch]
  *      gulp build --dist - build for production
  *      gulp browser-sync - create http server for testing
+ *      gulp data         - build json data from 'src/data/' directory
  *      gulp bump --major - bump major version
  *      gulp bump --minor - bump minor version
  *      gulp bump --patch - bump patch version
@@ -185,12 +186,14 @@ gulp.task('_css-build', function () {
         .pipe(gulpif(!argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
             autoprefixer({ browsers: AUTO_PREFIXER_RULES })
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
             autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
             cssnano
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/'))
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
@@ -204,11 +207,13 @@ gulp.task('_css-vendor-build', function () {
         .pipe(concat('vendor.css'))
         .pipe(gulpif(!argv.dist, postcss([
             autoprefixer({ browsers: AUTO_PREFIXER_RULES })
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(argv.dist, postcss([
             autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
             cssnano
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'))
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
@@ -339,6 +344,8 @@ gulp.task('_data-build', function () {
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
         .pipe(gulpif(TASK_NOTIFICATION, notify({ message: 'Data build completed.', onLast: true })));
 });
+
+gulp.task('data', ['_data-build']);
 
 /**
  *

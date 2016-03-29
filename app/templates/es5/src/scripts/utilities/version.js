@@ -1,13 +1,14 @@
 'use strict';
 
-var $ = require('jquery'),
-    versionJson = require('../data/version.json'),
+var versionJson = require('../data/version.json'),
     appSettings = require('./appSettings');
 
 /**
  * Print version info
  */
 var version = function () {
+    var el;
+
     if (!appSettings.renderVersionInfo) {
         return;
     }
@@ -24,11 +25,15 @@ var version = function () {
     }
 
     // print version to page
-    $('body').append(
+    el = document.createElement('div');
+    el.className = 'version';
+    el.innerHTML = (
         '<div class="version">' +
             'v' + versionJson.version + ' <span>| ' + versionJson.time + '</span>' +
         '</div>'
     );
+
+    document.body.appendChild(el);
 };
 
 module.exports = version;
