@@ -5,8 +5,7 @@ var incompDetect = require('./utilities/incompDetect');
 // run browser detection
 incompDetect();
 
-var $ = require('jquery'),
-    loader = require('./utilities/loader'),
+var loader = require('./utilities/loader'),
     version = require('./utilities/version'),
     incompatible = require('./utilities/incompatible'),
     appCopy = require('./data/app-copy.json');
@@ -19,7 +18,7 @@ function progressCb(e) {
     var p = Math.round(100 * e.progress);
 
     // show progress in loader
-    $('.loader').text(p + appCopy.loader.progress);
+    document.querySelector('.loader').innerHTML = p + appCopy.loader.progress;
 }
 
 function completeCb() {
@@ -30,7 +29,7 @@ function completeCb() {
         require('./app/mApp');
 
         // hide loader
-        $('.loader').hide();
+        document.querySelector('.loader').style.display = 'none';
 
         // run app
         angular.bootstrap(document, ['mApp'], { strictDi: true });
@@ -38,14 +37,12 @@ function completeCb() {
 }
 
 // bootstrap application
-$(document).ready(function () {
-    if (incompatible.isIncompatibleBrowser()) {
-        return;
-    }
 
+if (!incompatible.isIncompatibleBrowser()) {
     // show loader
-    $('.loader').text(appCopy.loader.start).show();
+    document.querySelector('.loader').innerHTML = appCopy.loader.start;
+    document.querySelector('.loader').style.display = 'block';
 
     // start loader
     loader.createLoader('main', progressCb, completeCb);
-});
+}

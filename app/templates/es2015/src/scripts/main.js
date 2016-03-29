@@ -4,7 +4,6 @@ import incompDetect from './utilities/incompDetect';
 incompDetect();
 
 import 'babel-polyfill';
-import $ from 'jquery';
 import loader from './utilities/loader';
 import version from './utilities/version';
 import incompatible from './utilities/incompatible';
@@ -18,7 +17,7 @@ function progressCb(e) {
     var p = Math.round(100 * e.progress);
 
     // show progress in loader
-    $('.loader').text(p + appCopy.loader.progress);
+    document.querySelector('.loader').innerHTML = p + appCopy.loader.progress;
 }
 
 function completeCb() {
@@ -29,7 +28,7 @@ function completeCb() {
         require('./app/mApp');
 
         // hide loader
-        $('.loader').hide();
+        document.querySelector('.loader').style.display = 'none';
 
         // run app
         angular.bootstrap(document, ['mApp'], { strictDi: true });
@@ -37,14 +36,11 @@ function completeCb() {
 }
 
 // bootstrap application
-$(document).ready(function () {
-    if (incompatible.isIncompatibleBrowser()) {
-        return;
-    }
-
+if (incompatible.isIncompatibleBrowser()) {
     // show loader
-    $('.loader').text(appCopy.loader.start).show();
+    document.querySelector('.loader').innerHTML = appCopy.loader.start;
+    document.querySelector('.loader').style.display = 'block';
 
     // start loader
     loader.createLoader('main', progressCb, completeCb);
-});
+}
