@@ -186,12 +186,14 @@ gulp.task('_css-build', function () {
         .pipe(gulpif(!argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
             autoprefixer({ browsers: AUTO_PREFIXER_RULES })
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(argv.dist, postcss([
             assets({ basePath: BUILD_DIR }),
             autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
             cssnano
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/'))
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
@@ -205,11 +207,13 @@ gulp.task('_css-vendor-build', function () {
         .pipe(concat('vendor.css'))
         .pipe(gulpif(!argv.dist, postcss([
             autoprefixer({ browsers: AUTO_PREFIXER_RULES })
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(argv.dist, postcss([
             autoprefixer({ browsers: AUTO_PREFIXER_RULES }),
             cssnano
-        ])))
+        ])
+        .on('error', notify.onError('Error: <%= error.message %>'))))
         .pipe(gulpif(!argv.dist, sourcemaps.write('./')))
         .pipe(gulp.dest(BUILD_DIR + '/css/vendor/'))
         .pipe(gulpif(LIVE_RELOAD, browserSync.stream()))
