@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.5.9 - 2016-03-29
+- Remove jQuery from dependencies
+- Handle postCSS errors
+- Add gulp data task
+
 ## v0.5.8 - 2016-03-23
 - Add template directive
 - Add template service
