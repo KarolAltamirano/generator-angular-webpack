@@ -36,7 +36,7 @@ function completeCb() {
 }
 
 // bootstrap application
-if (incompatible.isIncompatibleBrowser()) {
+if (!incompatible.isIncompatibleBrowser()) {
     // show loader
     document.querySelector('.loader').innerHTML = appCopy.loader.start;
     document.querySelector('.loader').style.display = 'block';
